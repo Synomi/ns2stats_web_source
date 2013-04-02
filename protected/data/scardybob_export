@@ -1,0 +1,43 @@
+SELECT id, build, ended, length, server, ip, server_id, map, winner,
+SUM(marine_seconds_played), SUM(marine_score), SUM(marine_kills), SUM(marine_deaths),
+SUM(alien_seconds_played), SUM(alien_score), SUM(alien_kills), SUM(alien_deaths)
+FROM (
+SELECT round.id, build, FROM_UNIXTIME(round.end) AS ended, round.end - round.start AS length, server.name AS server, server.ip, server.id AS server_id, map.name AS map, IF(round.winner = 1, 'Marines', 'Aliens') AS winner, 
+SUM(player_round.end - player_round.start) AS marine_seconds_played, 
+SUM(player_round.score) AS marine_score,
+COUNT(kills.id) AS marine_kills,
+COUNT(deaths.id) AS marine_deaths,
+0 AS alien_seconds_played, 
+0 AS alien_score,
+0 AS alien_kills,
+0 AS alien_deaths
+FROM round
+LEFT JOIN server ON round.server_id = server.id
+LEFT JOIN map ON round.map_id = map.id
+LEFT JOIN player_round ON round.id = player_round.round_id
+LEFT JOIN death AS kills ON kills.attacker_id = player_round.id
+LEFT JOIN death AS deaths ON deaths.target_id = player_round.id
+WHERE player_round.team = 1
+GROUP BY round.id
+
+UNION
+
+SELECT round.id, build, FROM_UNIXTIME(round.end) AS ended, round.end - round.start AS length, server.name AS server, server.ip, server.id AS server_id, map.name AS map, IF(round.winner = 1, 'Marines', 'Aliens') AS winner, 
+0 AS marine_seconds_played, 
+0 AS marine_score,
+0 AS marine_kills,
+0 AS marine_deaths,
+SUM(player_round.end - player_round.start) AS alien_seconds_played, 
+SUM(player_round.score) AS alien_score,
+COUNT(kills.id) AS alien_kills,
+COUNT(deaths.id) AS alien_deaths
+FROM round
+LEFT JOIN server ON round.server_id = server.id
+LEFT JOIN map ON round.map_id = map.id
+LEFT JOIN player_round ON round.id = player_round.round_id
+LEFT JOIN death AS kills ON kills.attacker_id = player_round.id
+LEFT JOIN death AS deaths ON deaths.target_id = player_round.id
+WHERE player_round.team = 2
+GROUP BY round.id
+) AS data
+GROUP BY id

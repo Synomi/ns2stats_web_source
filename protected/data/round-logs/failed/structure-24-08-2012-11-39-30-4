@@ -1,0 +1,75 @@
+Array
+(
+    [key] => b4e0cf01678538da7cbc6ead111faabf
+    [roundlog1] => { "gametime": 49.265380859375, "time": 1345944620, "action": "game_reset" }
+{ "gametime": 0, "time": 1345944626, "action": "game_start" }
+{ "steamId": 0, "name": "Relic25 (bot)", "gametime": 0, "time": 1345944626, "lifeform": "marine", "action": "lifeform_change" }
+{ "steamId": 0, "action": "weapon_change", "name": "Relic25 (bot)", "time": 1345944626, "gametime": 0, "weapon": "rifle" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 0, "time": 1345944626, "lifeform": "skulk", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944626, "gametime": 0, "weapon": "bite" }
+{ "gametime": 0, "time": 1345944626, "action": "player_list_start", "list": [ { "score": 0, "x2": 0, "y2": 0, "z2": 0, "steamId": 0, "isbot": true, "dc": false, "ping": 0, "ipaddress": "0.0.0.0", "lastCommand": 0, "total_constructed": 0, "y": 2.5400002002716, "x": 41.327342987061, "name": "Relic25 (bot)", "z": 124.59954833984, "teamnumber": 1, "index": 0, "lifeform": "marine", "weapon": "rifle" }, { "score": 0, "x2": 0, "y2": 0, "z2": 0, "steamId": 224830, "isbot": false, "dc": false, "ping": 9, "ipaddress": "192.168.10.100", "lastCommand": 0, "total_constructed": 0, "y": -1.9303996562958, "x": -23.98752784729, "name": "exertus\\Synomi.fi", "z": -13.41427230835, "teamnumber": 2, "index": 0, "lifeform": "skulk", "weapon": "bite" } ] }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 1.036865234375, "time": 1345944627, "lifeform": "alien_commander", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944627, "gametime": 1.036865234375, "weapon": "none" }
+{ "action": "structure_dropped", "id": 385, "structure_x": "-24.4772", "structure_z": "-10.7096", "steamId": 224830, "structure_y": "-1.9304", "team": 2, "time": 1345944628, "gametime": 2.2744140625, "structure_name": "Whip" }
+{ "action": "structure_dropped", "id": 391, "structure_x": "-8.5981", "structure_z": "-5.4153", "steamId": 224830, "structure_y": "-1.9304", "team": 2, "time": 1345944631, "gametime": 4.81640625, "structure_name": "Cyst" }
+{ "action": "structure_dropped", "id": 394, "structure_x": "-9.0216", "structure_z": "6.3664", "steamId": 224830, "structure_y": "-1.9304", "team": 2, "time": 1345944632, "gametime": 6.08740234375, "structure_name": "Cyst" }
+{ "action": "structure_dropped", "id": 397, "structure_x": "-2.3845", "structure_z": "-1.9397", "steamId": 224830, "structure_y": "-2.5517", "team": 2, "time": 1345944634, "gametime": 8.6962890625, "structure_name": "Cyst" }
+{ "structure_cost": 1, "builder_name": "", "id": 391, "structure_x": "-8.5981", "structure_z": "-5.4153", "steamId": 0, "structure_y": "-1.9304", "action": "structure_built", "team": 2, "time": 1345944636, "gametime": 9.866943359375, "structure_name": "Cyst" }
+{ "action": "structure_dropped", "id": 418, "structure_x": "8.7087", "structure_z": "-4.8675", "steamId": 224830, "structure_y": "-2.4384", "team": 2, "time": 1345944637, "gametime": 11.775146484375, "structure_name": "Cyst" }
+{ "action": "structure_dropped", "id": 421, "structure_x": "22.3367", "structure_z": "-3.8783", "steamId": 224830, "structure_y": "0.2032", "team": 2, "time": 1345944639, "gametime": 13.312255859375, "structure_name": "Cyst" }
+{ "structure_cost": 1, "builder_name": "", "id": 394, "structure_x": "-9.0216", "structure_z": "6.3664", "steamId": 0, "structure_y": "-1.9304", "action": "structure_built", "team": 2, "time": 1345944641, "gametime": 14.88525390625, "structure_name": "Cyst" }
+{ "action": "structure_dropped", "id": 434, "structure_x": "19.9208", "structure_z": "10.6993", "steamId": 224830, "structure_y": "0.2032", "team": 2, "time": 1345944641, "gametime": 15.6533203125, "structure_name": "Cyst" }
+{ "action": "structure_dropped", "id": 437, "structure_x": "14.6056", "structure_z": "12.8527", "steamId": 224830, "structure_y": "0.1854", "team": 2, "time": 1345944643, "gametime": 17.492919921875, "structure_name": "Cyst" }
+{ "structure_cost": 1, "builder_name": "", "id": 397, "structure_x": "-2.3845", "structure_z": "-1.9397", "steamId": 0, "structure_y": "-2.5517", "action": "structure_built", "team": 2, "time": 1345944646, "gametime": 19.86767578125, "structure_name": "Cyst" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 22.108642578125, "time": 1345944648, "lifeform": "skulk", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944648, "gametime": 22.108642578125, "weapon": "bite" }
+{ "structure_cost": 1, "builder_name": "", "id": 418, "structure_x": "8.7087", "structure_z": "-4.8675", "steamId": 0, "structure_y": "-2.4384", "action": "structure_built", "team": 2, "time": 1345944651, "gametime": 24.851806640625, "structure_name": "Cyst" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 26.122314453125, "time": 1345944652, "lifeform": "alien_commander", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944652, "gametime": 26.122314453125, "weapon": "none" }
+{ "upgrade_name": "GorgeEgg", "action": "upgrade_started", "cost": 10, "team": 2, "commander_steamid": 224830, "gametime": 27.393310546875, "time": 1345944653 }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 29.132568359375, "time": 1345944655, "lifeform": "skulk", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944655, "gametime": 29.132568359375, "weapon": "bite" }
+{ "structure_cost": 1, "builder_name": "", "id": 421, "structure_x": "22.3367", "structure_z": "-3.8783", "steamId": 0, "structure_y": "0.2032", "action": "structure_built", "team": 2, "time": 1345944656, "gametime": 29.8349609375, "structure_name": "Cyst" }
+{ "steamId": 224830, "action": "player_join_team", "score": 0, "team": 0, "time": 1345944656, "gametime": 30.738037109375, "name": "exertus\\Synomi.fi" }
+{ "steamId": 224830, "action": "player_join_team", "score": 0, "team": 1, "time": 1345944657, "gametime": 31.039306640625, "name": "exertus\\Synomi.fi" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 31.1396484375, "time": 1345944657, "lifeform": "marine", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944657, "gametime": 31.1396484375, "weapon": "rifle" }
+{ "structure_cost": 15, "builder_name": "", "id": 385, "structure_x": "-24.4766", "structure_z": "-10.7109", "steamId": 0, "structure_y": "-1.9297", "action": "structure_built", "team": 2, "time": 1345944658, "gametime": 32.276611328125, "structure_name": "Whip" }
+{ "structure_cost": 1, "builder_name": "", "id": 434, "structure_x": "19.9208", "structure_z": "10.6993", "steamId": 0, "structure_y": "0.2032", "action": "structure_built", "team": 2, "time": 1345944661, "gametime": 34.818603515625, "structure_name": "Cyst" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 38.163330078125, "time": 1345944664, "lifeform": "marine_commander", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944664, "gametime": 38.163330078125, "weapon": "none" }
+{ "action": "ghost_create", "id": 507, "structure_x": "0.0000", "structure_z": "0.0000", "structure_y": "0.0000", "team": -1, "time": 1345944665, "gametime": 39.032958984375, "structure_name": "InfantryPortal" }
+{ "action": "structure_dropped", "id": 507, "structure_x": "29.0093", "structure_z": "118.9509", "steamId": 224830, "structure_y": "2.7432", "team": 1, "time": 1345944665, "gametime": 39.032958984375, "structure_name": "InfantryPortal" }
+{ "structure_cost": 1, "builder_name": "", "id": 437, "structure_x": "14.6056", "structure_z": "12.8527", "steamId": 0, "structure_y": "0.1854", "action": "structure_built", "team": 2, "time": 1345944665, "gametime": 39.80224609375, "structure_name": "Cyst" }
+{ "action": "ghost_create", "id": 524, "structure_x": "0.0000", "structure_z": "0.0000", "structure_y": "0.0000", "team": -1, "time": 1345944666, "gametime": 40.06982421875, "structure_name": "Armory" }
+{ "action": "structure_dropped", "id": 524, "structure_x": "27.1403", "structure_z": "110.1337", "steamId": 224830, "structure_y": "1.0679", "team": 1, "time": 1345944666, "gametime": 40.06982421875, "structure_name": "Armory" }
+{ "action": "ghost_create", "id": 530, "structure_x": "0.0000", "structure_z": "0.0000", "structure_y": "0.0000", "team": -1, "time": 1345944681, "gametime": 54.869728088379, "structure_name": "Armory" }
+{ "action": "structure_dropped", "id": 530, "structure_x": "-23.3162", "structure_z": "-2.9581", "steamId": 224830, "structure_y": "-3.0480", "team": 1, "time": 1345944681, "gametime": 54.9873046875, "structure_name": "Armory" }
+{ "action": "ghost_create", "id": 533, "structure_x": "0.0000", "structure_z": "0.0000", "structure_y": "0.0000", "team": -1, "time": 1345944689, "gametime": 62.853614807129, "structure_name": "Observatory" }
+{ "action": "structure_dropped", "id": 533, "structure_x": "-22.8142", "structure_z": "11.3905", "steamId": 224830, "structure_y": "-3.0480", "team": 1, "time": 1345944689, "gametime": 62.981201171875, "structure_name": "Observatory" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 65.255615234375, "time": 1345944691, "lifeform": "marine", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944691, "gametime": 65.255615234375, "weapon": "rifle" }
+{ "action": "ghost_remove", "id": 507, "structure_x": "29.0078", "structure_z": "118.9531", "structure_y": "2.7422", "team": 1, "time": 1345944693, "gametime": 66.863815307617, "structure_name": "InfantryPortal" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944693, "gametime": 67.263916015625, "weapon": "builder" }
+{ "structure_cost": 15, "builder_name": "exertus\\Synomi.fi", "id": 507, "structure_x": "29.0078", "structure_z": "118.9531", "steamId": 224830, "structure_y": "2.7422", "action": "structure_built", "team": 1, "time": 1345944700, "gametime": 74.273742675781, "structure_name": "InfantryPortal" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944701, "gametime": 75.290283203125, "weapon": "rifle" }
+{ "action": "ghost_remove", "id": 524, "structure_x": "27.1403", "structure_z": "110.1337", "structure_y": "1.0679", "team": 1, "time": 1345944703, "gametime": 77.3583984375, "structure_name": "Armory" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944704, "gametime": 78.300048828125, "weapon": "builder" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944706, "gametime": 80.306884765625, "weapon": "rifle" }
+{ "steamId": 224830, "action": "player_join_team", "score": 5, "team": 0, "time": 1345944706, "gametime": 80.60986328125, "name": "exertus\\Synomi.fi" }
+{ "steamId": 224830, "action": "player_join_team", "score": 5, "team": 2, "time": 1345944707, "gametime": 80.975830078125, "name": "exertus\\Synomi.fi" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 81.310302734375, "time": 1345944707, "lifeform": "dead", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944707, "gametime": 81.310302734375, "weapon": "none" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 93.390625, "time": 1345944719, "lifeform": "gorge", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944719, "gametime": 93.390625, "weapon": "spitspray" }
+{ "action": "ghost_destroy", "id": 530, "structure_x": "-23.3162", "structure_z": "-2.9581", "structure_y": "-3.0480", "team": 1, "time": 1345944721, "gametime": 95.224365234375, "structure_name": "Armory" }
+{ "action": "ghost_destroy", "id": 533, "structure_x": "-22.8142", "structure_z": "11.3905", "structure_y": "-3.0480", "team": 1, "time": 1345944724, "gametime": 98.368408203125, "structure_name": "Observatory" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 105.45922851563, "time": 1345944731, "lifeform": "alien_commander", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944731, "gametime": 105.45922851563, "weapon": "none" }
+{ "action": "structure_dropped", "id": 581, "structure_x": "16.4592", "structure_z": "12.9067", "steamId": 224830, "structure_y": "0.2032", "team": 2, "time": 1345944733, "gametime": 107.4326171875, "structure_name": "Harvester" }
+{ "steamId": 224830, "name": "exertus\\Synomi.fi", "gametime": 109.47290039063, "time": 1345944735, "lifeform": "gorge", "action": "lifeform_change" }
+{ "steamId": 224830, "action": "weapon_change", "name": "exertus\\Synomi.fi", "time": 1345944735, "gametime": 109.47290039063, "weapon": "spitspray" }
+{ "gametime": 116.19580078125, "time": 1345944742, "action": "player_list_end", "list": [ { "score": 0, "x2": 0, "y2": 0, "z2": 0, "steamId": 0, "isbot": true, "dc": false, "ping": 0, "ipaddress": "0.0.0.0", "lastCommand": 0, "total_constructed": 0, "y": 0.046891413629055, "x": 3.0384662151337, "name": "Relic25 (bot)", "z": 100.67779541016, "teamnumber": 1, "index": 0, "lifeform": "marine", "weapon": "rifle" }, { "score": 5, "x2": 0, "y2": 0, "z2": 0, "steamId": 224830, "isbot": false, "dc": false, "ping": 23, "ipaddress": "192.168.10.100", "lastCommand": 1345944707, "total_constructed": 95, "y": -1.9304001331329, "x": -17.121160507202, "name": "exertus\\Synomi.fi", "z": -11.020170211792, "teamnumber": 2, "index": 0, "lifeform": "gorge", "weapon": "spitspray" } ] }
+{ "map": "ns2_tram", "start_path_distance": 190.75403550267, "action": "game_ended", "start_location2": "Repair Room", "statsVersion": "0.26b", "length": "116.20", "time": 1345944742, "version": "216", "start_location1": "Server Room", "serverName": "NS2 Dedicated Server", "winner": "2", "gametime": 116.19580078125, "start_hive_tech": "None" }
+
+)

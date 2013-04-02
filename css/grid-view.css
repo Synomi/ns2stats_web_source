@@ -1,0 +1,97 @@
+
+.grid-view-loading {
+    background: url("loading.gif") no-repeat scroll 0 0 transparent;
+}
+.grid-view {
+    padding: 10px 0;
+}
+.grid-view table.items {
+    border: 2px solid #294754;
+    border-collapse: collapse;
+    width: 100%;
+}
+.grid-view table.items th, .grid-view table.items td {
+    border: 2px solid #294754;
+    font-size: 0.9em;
+    padding: 0.3em;
+}
+.grid-view table.items thead tr {
+    background: url("../images/bar_texture.jpg") repeat-x scroll left bottom white;
+    height: 10px;
+}
+.grid-view table.items th {
+    color: white;
+    text-align: center;
+}
+
+.grid-view table.items th a {
+    color: #EEEEEE;
+    font-weight: bold;
+    text-decoration: none;
+}
+.grid-view table.items th a:hover {
+    color: #FFFFFF;
+}
+.grid-view table.items th a.asc {
+    background: url("up.gif") no-repeat scroll right center transparent;
+    padding-right: 10px;
+}
+.grid-view table.items th a.desc {
+    background: url("down.gif") no-repeat scroll right center transparent;
+    padding-right: 10px;
+}
+.grid-view table.items tr.even {
+    background: none repeat scroll 0 0 #0C2336;
+}
+.grid-view table.items tr.odd {
+    background: none repeat scroll 0 0 #080A12;
+}
+.grid-view table.items tr.selected {
+    background: none repeat scroll 0 0 #3CB7FE;
+}
+.grid-view table.items tr.totals {
+    background: none repeat scroll 0 0 #295756;
+}
+.grid-view table.items tr.totals td{    
+    font-weight: bold;
+}
+/*.grid-view table.items tbody tr:hover {
+    background: none repeat scroll 0 0 #3CB7FE;
+}*/
+
+
+.grid-view .link-column img {
+    border: 0 none;
+}
+.grid-view .button-column {
+    text-align: center;
+    width: 60px;
+}
+.grid-view .button-column img {
+    border: 0 none;
+}
+.grid-view .checkbox-column {
+    width: 15px;
+}
+.grid-view .summary {
+    margin: 0 0 5px;
+    text-align: right;
+}
+.grid-view .pager {
+    margin: 5px 0 0;
+    text-align: right;
+}
+.grid-view .empty {
+    background: none repeat scroll 0 0 #080A12;
+    font-style: italic;
+}
+.grid-view .filters input, .grid-view .filters select {
+    border: 1px solid #3CB7FE;
+    width: 100%;
+    background: none repeat scroll 0 0 #080A12;
+    color: white;
+}
+
+.grid-view .filters {
+    background: none repeat scroll 0 0 #080A12;
+}
