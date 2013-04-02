@@ -1,4 +1,4 @@
-ns2stats_web_source - http://ns2stats.org - http://unknownworlds.com/ns2/
+ns2stats_web_source - http://ns2stats.org
 ===================
 
 NS2Stats - Statistics for Natural Selection 2 PC Game, website source code
