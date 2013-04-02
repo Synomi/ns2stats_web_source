@@ -7,7 +7,7 @@ ini_set('memory_limit', '-1');
 // change the following paths if necessary
 $yii = dirname(__FILE__) . '/../framework/yii.php';
 
-$config = dirname(__FILE__) . '/protected/config/dev.php';
+$config = dirname(__FILE__) . '/protected/config/development.php';
 
 // remove the following lines when in production mode
 
