@@ -10,4 +10,13 @@ More info: http://forums.unknownworlds.com/discussion/129495/ns2stats-statistics
 
 ns2stats.org uses http://www.yiiframework.com/
 
-We are planning to release public database which is copy from original with some restrictions to use for testing.
+Development database is now available:
+
+http://85.23.174.141/
+user: ns2dev
+passwd: ns2devstats
+
+Database is copy of live database taken 2.4.2013. (Player ips and servers keys nullified thou)
+Users are only allowed to use select queries. If you require more, please contact me with email(synomi66@gmail.com) or private message. Database should be available remotely. Address might change.
+
+
