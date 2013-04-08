@@ -710,7 +710,7 @@ class ApiController extends Controller
         $connection = Yii::app()->db;
         $command = $connection->createCommand( 
                         'SELECT * FROM death
-                         INNER JOIN player_round ON player_round.player_id = death.target_id
+                         INNER JOIN player_round ON player_round.id = death.target_id
                          INNER JOIN round ON round.id = player_round.round_id
                          WHERE round.map_id = ' . $map->id . '
                          AND round.build = ' . intval($build) . '
