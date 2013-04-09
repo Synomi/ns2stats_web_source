@@ -120,5 +120,5 @@ $this->widget('FilterForm', array(
                     'map' => $map,
                     'deaths' => Death::getLatestsDeathsForMap($map->name),
                     'type' => 2,
-                ));
+                ));        
 ?>

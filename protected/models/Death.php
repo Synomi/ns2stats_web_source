@@ -152,25 +152,22 @@ class Death extends CActiveRecord
         ));
     }
 
-    public static function getLatestsDeathsForMap($mapName, $offset = 0)
+    public static function getLatestsDeathsForMap($mapName, $limit = 3000)
     {
         //error_reporting(0);        
 
         $map = Map::model()->findByAttributes(array('name' => $mapName));
         if (!isset($map))
             throw new CHttpException(404, "Unable to find map.");
-
-        if (!is_numeric($offset))
-            throw new CHttpException(401, "Invalid offset");
+        
 
         $connection = Yii::app()->db;
         $command = $connection->createCommand(
                         'SELECT * FROM death
-                         INNER JOIN player_round ON player_round.player_id = death.target_id
+                         INNER JOIN player_round ON player_round.id = death.target_id
                          INNER JOIN round ON round.id = player_round.round_id
-                         WHERE round.map_id = ' . $map->id . '                         
-                         ORDER BY round.end DESC LIMIT ' . intval($offset) . ', 8000;
-           ');
+                         WHERE round.map_id = ' . $map->id . ' ' .  Filter::addFilterConditions(true) . '                          
+                         ORDER BY round.end DESC LIMIT ' . $limit);
 
         $deaths = $command->queryAll();
 //        foreach ($deaths as $key => $value)

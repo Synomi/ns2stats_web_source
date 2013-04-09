@@ -161,3 +161,8 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+# configs
+protected/config/production.php
+protected/config/devsite.php
+

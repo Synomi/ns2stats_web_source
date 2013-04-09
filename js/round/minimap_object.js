@@ -55,9 +55,9 @@ function Minimap_object(canvasElement, map, data)
 
     this.drawDeath = function(death)
     {
-        self.ctx.fillStyle    = "#ff0000";
+        self.ctx.fillStyle    = 'rgba(255,0,0,0.2)';
         self.ctx.beginPath();
-        self.ctx.arc(this.convOriginZtoCvsX(death.target_z),this.convOriginXtoCvsY(death.target_x),4,0,2*Math.PI);
+        self.ctx.arc(this.convZtoCvsX(death.target_z),this.convXtoCvsY(death.target_x),8,0,2*Math.PI);
         self.ctx.closePath();
         self.ctx.fill();
 
