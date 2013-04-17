@@ -1,4 +1,5 @@
-<div class="minimap" style="width:1024px;height:1024px;margin-left: auto;margin-right:auto;padding-top:5px;display: block;clear:both;z-index:1000">
+<div class="minimap" style="width:1024px;height:1054px;margin-left: auto;margin-right:auto;padding-top:10px;display: block;clear:both;z-index:1000">
+    <h4>Latest deaths for <?php echo $map->name?></h4>
     <canvas width="1024" height="1024" id="minimap">
         Your browser does not support canvas element. Please get newer browser if you want to view minimap stats.
     </canvas>

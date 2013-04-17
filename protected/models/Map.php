@@ -234,7 +234,7 @@ class Map extends CActiveRecord {
             LEFT JOIN round ON round.server_id = server.id
             LEFT JOIN player_round ON round.id = player_round.round_id
             LEFT JOIN player ON player_round.player_id = player.id
-            WHERE round.map_id = :id';
+            WHERE round.map_id = :id AND round.build>240';
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         $command->bindParam(':id', $id);
