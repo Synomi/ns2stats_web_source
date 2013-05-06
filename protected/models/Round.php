@@ -25,28 +25,32 @@
  * @property Server $server
  * @property Map $map
  */
-class Round extends CActiveRecord {
+class Round extends CActiveRecord
+{
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Round the static model class
      */
-    public static function model($className=__CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'round';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -65,7 +69,8 @@ class Round extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -78,7 +83,8 @@ class Round extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'server_id' => 'Server',
@@ -97,7 +103,8 @@ class Round extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -114,11 +121,12 @@ class Round extends CActiveRecord {
         $criteria->compare('build', $this->build, true);
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
+            'criteria' => $criteria,
+        ));
     }
 
-    public static function getPlayersFromRound($id, $team) {
+    public static function getPlayersFromRound($id, $team)
+    {
 
         $connection = Yii::app()->db; //,COUNT(death.id) AS kills
         $command = $connection->createCommand(
@@ -136,7 +144,8 @@ class Round extends CActiveRecord {
            country,
            COUNT(DISTINCT kills.id) AS kills,
            COUNT(DISTINCT deaths.id) AS deaths,
-           player_round.id AS prid
+           player_round.id AS prid,
+           player.hidden as hidden
            FROM player
            LEFT JOIN player_round ON player.id = player_round.player_id
            LEFT JOIN round ON player_round.round_id = round.id
@@ -151,11 +160,12 @@ class Round extends CActiveRecord {
 
         $command->bindParam(':id', $id);
         $command->bindParam(':team', $team);
-
-        return $command->queryAll();
+        
+        return $command->queryAll(); 
     }
 
-    static function getMapNameByRoundId($id) {
+    static function getMapNameByRoundId($id)
+    {
         $connection = Yii::app()->db; //,COUNT(death.id) AS kills
         $command = $connection->createCommand(
                 'SELECT map.name
@@ -172,7 +182,8 @@ class Round extends CActiveRecord {
         return $result[0]['name'];
     }
 
-    function getPlayersOnRoundForMinimap($id) {
+    function getPlayersOnRoundForMinimap($id)
+    {
         $connection = Yii::app()->db; //,COUNT(death.id) AS kills
         $command = $connection->createCommand(
                 'SELECT 
@@ -191,7 +202,8 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getRTCount($id) {
+    public static function getRTCount($id)
+    {
         $sql = '
             SELECT time, value, name, round_length FROM (
             SELECT round_structure.build AS time, SUM(1) AS value, CONCAT(structure.name, "s") AS name, round.end - round.start AS round_length FROM round_structure
@@ -215,7 +227,8 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getUpgradesByTeam($id, $team) {
+    public static function getUpgradesByTeam($id, $team)
+    {
         $sql = '
             SELECT upgrade.name, round_upgrade.time FROM round_upgrade
             LEFT JOIN upgrade ON round_upgrade.upgrade_id = upgrade.id
@@ -229,7 +242,8 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getResourcesUsedToBuildingsAndTech($id) {
+    public static function getResourcesUsedToBuildingsAndTech($id)
+    {
         $sql = '
             SELECT team AS name, value, round_length, time, symbol
             FROM (
@@ -271,7 +285,8 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getBuildingsAndUpgradesByTeam($id, $team) {
+    public static function getBuildingsAndUpgradesByTeam($id, $team)
+    {
         $sql = '
             SELECT name, time FROM (
             SELECT 1 AS ord, upgrade.name, round_upgrade.time FROM round_upgrade
@@ -292,7 +307,8 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getKillCount($id) {
+    public static function getKillCount($id)
+    {
         $sql = '
             SELECT ord, time, value, name, round_length FROM (
             SELECT 1 AS ord, death.time, 1 AS value, "Kills for Marines" AS name, round.end - round.start AS round_length FROM death
@@ -314,7 +330,8 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getResourcesCount($id) {
+    public static function getResourcesCount($id)
+    {
         $sql = '
             SELECT ord, time, value, name, round_length FROM (
             SELECT 1 AS ord, resources.time, gathered AS value, "Resources for Marines" AS name, round.end - round.start AS round_length FROM resources
@@ -334,7 +351,8 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getResourceDistributionCount($id, $team) {
+    public static function getResourceDistributionCount($id, $team)
+    {
         $sql = '
             SELECT name, time FROM (
             SELECT 1 AS ord, upgrade.name, round_upgrade.time FROM round_upgrade
@@ -355,13 +373,15 @@ class Round extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public function beforeDelete() {
+    public function beforeDelete()
+    {
         RoundUpgrade::model()->deleteAllByAttributes(array('round_id' => $this->id));
         RoundStructure::model()->deleteAllByAttributes(array('round_id' => $this->id));
         Resources::model()->deleteAllByAttributes(array('round_id' => $this->id));
         ModRound::model()->deleteAllByAttributes(array('round_id' => $this->id));
         $playerRounds = PlayerRound::model()->findAllByAttributes(array('round_id' => $this->id));
-        foreach ($playerRounds as $playerRound) {
+        foreach ($playerRounds as $playerRound)
+        {
             PlayerWeapon::model()->deleteAllByAttributes(array('player_round_id' => $playerRound->id));
             PlayerLifeform::model()->deleteAllByAttributes(array('player_round_id' => $playerRound->id));
             Death::model()->deleteAllByAttributes(array('attacker_id' => $playerRound->id));

@@ -152,7 +152,7 @@ class Death extends CActiveRecord
         ));
     }
 
-    public static function getLatestsDeathsForMap($mapName, $limit = 3000)
+    public static function getLatestsDeathsForMap($mapName, $limit = 1000)
     {
         //error_reporting(0);        
 

@@ -16,9 +16,8 @@
             foreach($this->rows as $data) {
                 echo '<tr class="' . $nextClass . '">';
                 foreach($this->columns as $column) {
-                    echo '<td>';
-                    eval('$text = ' . $column['value'] . ';');
-                    echo $text;                    
+                     echo '<td>';
+                    eval('echo ' . $column['value'] . ';');
                     echo '</td>';
                 }
                 echo '</tr>';

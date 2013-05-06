@@ -3,7 +3,7 @@
     <canvas width="1024" height="1024" id="minimap">
         Your browser does not support canvas element. Please get newer browser if you want to view minimap stats.
     </canvas>
-<p>If filters are changed, page will need to be reloaded for minimap to update. Minimap shows latest deaths, maximum of 3000.</p>
+<p>If filters are changed, page will need to be reloaded for minimap to update. Minimap shows latest deaths, maximum of 1000.</p>
 </div>
 
 <script type="text/javascript" src="/js/round/minimap_object.js?v=2"></script>

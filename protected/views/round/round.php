@@ -51,10 +51,28 @@ $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . da
                 'title' => '',
                 'value' => '""; if($data["country"]) echo CHtml::image(Yii::app()->baseUrl . "/images/flags/" . strtolower($data["country"]) . ".png", $data["country"])',
             ),
-            array(
+                 array(
                 'title' => 'Player',
-                'value' => '\'<img src="\' . $data[\'steam_image\'] . \'" style="width:14px;height:14px" />
-                        <a \'; if($data["commander"]) echo \' class="commander" \'; echo \' title="View \' . htmlspecialchars($data[\'steam_name\']) . \' profile page" href="\' . Yii::app()->baseUrl . \'/player/player/\' . $data[\'id\'] . \'">\' . htmlspecialchars($data[\'name\']) . \'</a>\''
+                'value' => '\'\';
+                    if ($data["hidden"])
+                    {
+                        echo htmlspecialchars("<hidden>");
+                    }
+                    else 
+                    {
+                        echo \'<img src="\' . $data[\'steam_image\'] . \'" style="width:14px;height:14px" /><a \'; 
+                            if($data["commander"])
+                                echo \' class="commander" \';
+
+                        echo 
+                            \' 
+                                title="View \' . htmlspecialchars($data[\'steam_name\']) . \' profile page" 
+                                href="\' . Yii::app()->baseUrl . \'/player/player/\' . $data[\'id\'] . \'">
+                                \' . htmlspecialchars($data[\'name\'])
+                            . \'
+                            </a>\';
+                    }'
+                     
             ),
             array(
                 'title' => 'Score',

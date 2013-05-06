@@ -24,6 +24,8 @@ echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('hre
                 'url' => 'player/general',
                     )
             );
+        else
+            echo "<p>This player has hidden his/hers stats from public</p>";
         ?>
     </div>
 </div>
@@ -40,15 +42,17 @@ echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('hre
 <div class="span-10 last">
     <div class="box">
         <?php
-        $this->widget('FilterPanel', array(
-            'url' => 'player/recentrounds',
-                )
-        );
+        if (!$hidden)
+            $this->widget('FilterPanel', array(
+                'url' => 'player/recentrounds',
+                    )
+            );
         ?>
     </div>
 </div>
 <?php
-if (!$hidden) {
+if (!$hidden)
+{
     ?>
     <div class="left" style="width: 100%">
         <?php

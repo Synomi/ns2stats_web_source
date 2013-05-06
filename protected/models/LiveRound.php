@@ -121,8 +121,9 @@ class LiveRound extends CActiveRecord
                         $data['player']['commander'] = true;
                     else
                         $data['player']['commander'] = false;
-
-                    $players[] = $data;
+                    
+                    if (!$data['player']['hidden'])
+                        $players[] = $data;
                 }
             }
 
