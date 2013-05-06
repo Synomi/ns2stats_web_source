@@ -28,7 +28,7 @@ class Highchart extends CWidget {
         //Load highcharts library wrapper
         Yii::app()->clientScript->registerScriptFile(
                 Yii::app()->assetManager->publish(
-                        Yii::getPathOfAlias('application.components.highcharts') . '/highchartsWrapper.js'
+                        Yii::getPathOfAlias('application.components.highcharts') . '/highchartsWrapper2.js'
                 ), CClientScript::POS_HEAD
         );
     }

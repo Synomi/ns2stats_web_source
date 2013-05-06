@@ -23,9 +23,9 @@ function loadHighcharts() {
                         if(highcharts[i].chart.defaultSeriesType == 'line' || highcharts[i].chart.defaultSeriesType == 'column')
                             highcharts[i].xAxis.categories = result.categories;
                         highcharts[i].series = result.series;
-                        console.log('draw');
-                        console.log(highcharts[i].series);
-                        console.log(result.categories);
+//                        console.log('draw');
+//                        console.log(highcharts[i].series);
+//                        console.log(result.categories);
                         new Highcharts.Chart(highcharts[i]);
                         drawImageLabels(highcharts[i]);
                     }
