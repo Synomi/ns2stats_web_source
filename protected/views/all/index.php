@@ -1,6 +1,7 @@
 <?php
 $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
 echo CHtml::tag('p', array('class' => 'notice content-box'), 'Problem should be fixed now, but there might be some issues still. Mod updated');
+ 
 ?>
 <script type="text/javascript" >
     var filterpanels = new Array();

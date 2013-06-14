@@ -88,7 +88,9 @@ class LogParser
             if ($logRow['action'] == 'game_start')
             {
                 //2013-06-14 16:32:01
-                $dateInfo = date_parse_from_format('Y-M-d H:i:s', $logRow['time']);                
+                //2013-06-14 17:08:49
+                $dateInfo = date_parse_from_format('Y-m-d H:i:s', $logRow['time']);
+                
                 $unixTimestamp = mktime(
                         $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year']
                 );
@@ -133,11 +135,12 @@ class LogParser
                 $round->server_id = $serverId;
                 $round->map_id = Map::getIdByName($logRow['map']);
 
-                $dateInfo = date_parse_from_format('Y-M-d H:i:s', $logRow['time']);                
+                $dateInfo = date_parse_from_format('Y-m-d H:i:s', $logRow['time']);
                 $unixTimestamp = mktime(
                         $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year']
                 );
-                $round->end =  $unixTimestamp;
+
+                $round->end = $unixTimestamp;
                 $round->added = strtotime(date('Y-m-d H:i:s'));
                 $round->winner = $logRow['winner'];
                 $round->team_1_start = $logRow['start_location1'];
@@ -150,7 +153,7 @@ class LogParser
         Yii::endProfile('roundEnd');
         if ($round->start == 0)
             throw new CHttpException(404, "Log is not finished");
-        
+
         if ($round->save())
         {
             //print messages
@@ -158,7 +161,7 @@ class LogParser
             $this->message->link = "/round/round/" . $id;
             echo json_encode($this->message);
             ob_flush();
-            
+
             return $id;
         }
         else
