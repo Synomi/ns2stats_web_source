@@ -1,10 +1,11 @@
 <?php
 $this->pageTitle = $player->steam_name . ' - NS2Stats';
-$this->widget('FilterForm', array(
-    'servers' => Player::getPlayedServers($player->id),
-    'builds' => Player::getPlayedBuilds($player->id),
-    'teams' => Team::getTeamsByPlayer($player->id),
-));
+if (!$hidden)
+    $this->widget('FilterForm', array(
+        'servers' => Player::getPlayedServers($player->id),
+        'builds' => Player::getPlayedBuilds($player->id),
+        'teams' => Team::getTeamsByPlayer($player->id),
+    ));
 
 echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('href' => $player->steam_url), $player->steam_name));
 ?>
@@ -32,10 +33,11 @@ echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('hre
 <div class="span-5">
     <div class="box">
         <?php
-        $this->widget('FilterPanel', array(
-            'url' => 'player/ingamenicks',
-                )
-        );
+        if (!$hidden)
+            $this->widget('FilterPanel', array(
+                'url' => 'player/ingamenicks',
+                    )
+            );
         ?>
     </div>
 </div>

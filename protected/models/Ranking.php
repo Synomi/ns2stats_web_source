@@ -20,7 +20,7 @@ class Ranking {
             GROUP BY id
             ORDER BY marine_win_elo DESC
             LIMIT 10';
-        $command = Yii::app()->db->cache(67 * 60)->createCommand($sql);
+        $command = Yii::app()->db->cache(117 * 60)->createCommand($sql);
         return $command->queryAll();
     }
 
@@ -42,7 +42,7 @@ class Ranking {
             GROUP BY id
             ORDER BY alien_win_elo DESC
             LIMIT 10';
-        $command = Yii::app()->db->cache(61 * 60)->createCommand($sql);
+        $command = Yii::app()->db->cache(161 * 60)->createCommand($sql);
         return $command->queryAll();
     }
 
@@ -64,7 +64,7 @@ class Ranking {
             GROUP BY id
             ORDER BY marine_commander_elo DESC
             LIMIT 10';
-        $command = Yii::app()->db->cache(63 * 60)->createCommand($sql);
+        $command = Yii::app()->db->cache(220 * 60)->createCommand($sql);
         return $command->queryAll();
     }
 
@@ -86,7 +86,7 @@ class Ranking {
             GROUP BY id
             ORDER BY alien_commander_elo DESC
             LIMIT 10';
-        $command = Yii::app()->db->cache(65 * 60)->createCommand($sql);
+        $command = Yii::app()->db->cache(265 * 60)->createCommand($sql);
         return $command->queryAll();
     }
 

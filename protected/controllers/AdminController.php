@@ -100,10 +100,12 @@ class AdminController extends Controller {
                 $round->delete();
             Yii::beginProfile('createRound');
             $roundId = $logParser->createRound($logDirectory, $file, $serverId);
+            
             Yii::endProfile('createRound');
             Yii::beginProfile('parse');
             unset($logParser);
             $logParser = new LogParser();
+            
             $logParser->parse($path, $serverId, $roundId);
             Yii::endProfile('parse');
 //            $logParser->startParse($file, $serverId, $roundId);

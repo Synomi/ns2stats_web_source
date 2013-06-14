@@ -11,7 +11,7 @@ class LiveController extends Controller {
 
     public function actionIndex() {
 
-        $liveRounds = LiveRound::model()->cache(120)->findAll(array(
+        $liveRounds = LiveRound::model()->cache(15*60)->findAll(array(
                     'condition' => 'now()-300<=last_updated AND players>0',
                     'order' => 'players DESC'
                 ));

@@ -49,7 +49,9 @@ $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . da
         $columns = array(
             array(
                 'title' => '',
-                'value' => '""; if($data["country"]) echo CHtml::image(Yii::app()->baseUrl . "/images/flags/" . strtolower($data["country"]) . ".png", $data["country"])',
+                'value' => '""; 
+                    if($data["country"] && $data["hidden"]==0) 
+                        echo CHtml::image(Yii::app()->baseUrl . "/images/flags/" . strtolower($data["country"]) . ".png", $data["country"])',
             ),
                  array(
                 'title' => 'Player',
