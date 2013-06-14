@@ -90,7 +90,7 @@ class LogParser
                 //2013-06-14 16:32:01
                 $dateInfo = date_parse_from_format('Y-M-d H:i:s', $logRow['time']);                
                 $unixTimestamp = mktime(
-                        $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year'], $dateInfo['is_dst']
+                        $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year']
                 );
                 $round->start = $unixTimestamp; //save as temporary time
                 break;
@@ -135,7 +135,7 @@ class LogParser
 
                 $dateInfo = date_parse_from_format('Y-M-d H:i:s', $logRow['time']);                
                 $unixTimestamp = mktime(
-                        $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year'], $dateInfo['is_dst']
+                        $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year']
                 );
                 $round->end =  $unixTimestamp;
                 $round->added = strtotime(date('Y-m-d H:i:s'));
@@ -150,7 +150,7 @@ class LogParser
         Yii::endProfile('roundEnd');
         if ($round->start == 0)
             throw new CHttpException(404, "Log is not finished");
-        die($round->start . " end: " . $round->end);
+        
         if ($round->save())
         {
             //print messages
