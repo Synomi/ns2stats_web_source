@@ -90,7 +90,7 @@ class LogParser
                 //2013-06-14 16:32:01
                 //2013-06-14 17:08:49
                 $dateInfo = date_parse_from_format('Y-m-d H:i:s', $logRow['time']);
-                
+
                 $unixTimestamp = mktime(
                         $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year']
                 );
@@ -682,9 +682,21 @@ class LogParser
 
     protected function endUpgrade($logRow)
     {
-        $roundUpgrade = $this->upgrades[$logRow['structure_id'] . '-' . $logRow['upgrade_name']];
-        $roundUpgrade->time = round($logRow['gametime']);
-        $roundUpgrade->save();
+        if ($logRow['upgrade_name'] !== 'AdvancedWeaponry') //does not have upgrade started, finishes same time with advancedarmory
+        {
+            if (!isset($this->upgrades[$logRow['structure_id'] . '-' . $logRow['upgrade_name']]))
+            {
+                //die("Undefined index on upgades: {$logRow['upgrade_name']} ({$logRow['structure_id']}) <br />" . print_r($logRow, true));
+                //
+                //!     WARNING! does not show notice if upgrade fails to save.. 
+            }
+            else
+            {
+                $roundUpgrade = $this->upgrades[$logRow['structure_id'] . '-' . $logRow['upgrade_name']];
+                $roundUpgrade->time = round($logRow['gametime']);
+                $roundUpgrade->save();
+            }
+        }
     }
 
     protected function dropStructure($logRow)
@@ -1008,10 +1020,22 @@ class LogParser
                 }
             }
         }
-        $team1EloRating = array_sum($team1EloRating) / count($team1EloRating);
-        $team2EloRating = array_sum($team2EloRating) / count($team2EloRating);
-        $marineEloRating = array_sum($marineEloRating) / count($marineEloRating);
-        $alienEloRating = array_sum($alienEloRating) / count($alienEloRating);
+
+        //avoid division by zero
+        if (count($team1EloRating) !== 0 && count($team2EloRating) !== 0 && count($marineEloRating) !== 0 && count($alienEloRating) !== 0)
+        {
+            $team1EloRating = array_sum($team1EloRating) / count($team1EloRating);
+            $team2EloRating = array_sum($team2EloRating) / count($team2EloRating);
+            $marineEloRating = array_sum($marineEloRating) / count($marineEloRating);
+            $alienEloRating = array_sum($alienEloRating) / count($alienEloRating);
+        }
+        else
+        {
+            $team1EloRating = 1500;
+            $team2EloRating = 1500;
+            $marineEloRating = 1500;
+            $alienEloRating = 1500;
+        }
 
         if (isset($team1CommanderEloRating) && isset($team2CommanderEloRating))
         {

@@ -1,7 +1,7 @@
 <?php
 /* @var $this Controller */
 $showAds = true;
-    Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statistics,games,stats,rounds,wins,weapons,loses,lifeforms,maps', 'keywords');
+Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statistics,games,stats,rounds,wins,weapons,loses,lifeforms,maps', 'keywords');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -28,9 +28,12 @@ $showAds = true;
             _gaq.push(['_setAccount', 'UA-12713891-6']);
             _gaq.push(['_trackPageview']);
             (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
                 ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
             })();
             jQuery(document).ready(function() {
                 jQuery("a.timeago").timeago();
@@ -52,8 +55,9 @@ $showAds = true;
                 <div class="border-absolute border-right">
                     <img src="<?php echo Yii::app()->baseUrl ?>/images/border_right.png" alt="border" />
                     <?php
-                    if ($showAds) {
-                    ?>
+                    if ($showAds)
+                    {
+                        ?>
                         <div id="mainos1" style="position:absolute;z-index:-1;width: 120px;height:600px;margin-left:84px;top:200px;background-color:transparent">
                             <script type="text/javascript"><!--
                                 google_ad_client = "ca-pub-5477320731266931";
@@ -68,7 +72,7 @@ $showAds = true;
                             </script>
 
                         </div>
-                    <?php
+                        <?php
                     }
                     ?>
                 </div>
@@ -102,24 +106,28 @@ $showAds = true;
                 </div><!-- header -->
             </div>
             <?php if (isset($this->breadcrumbs)): ?>
-            <?php
-                            $this->widget('zii.widgets.CBreadcrumbs', array(
-                                'links' => $this->breadcrumbs,
-                            ));
-            ?><!-- breadcrumbs -->
-<?php endif ?>
+                <?php
+                $this->widget('zii.widgets.CBreadcrumbs', array(
+                    'links' => $this->breadcrumbs,
+                ));
+                ?><!-- breadcrumbs -->
+            <?php endif ?>
 
-<?php echo $content; ?>
+            <?php echo $content; ?>
 
-                            <div class="clear"></div>
+            <div class="clear"></div>
 
-                            <div id="footer">
-                                <div>
-<?php $players = Player::getCurrentActivePlayers(); ?>
-                            <p> Currently <?php echo count($players) ?> players are playing in ns2stats enabled servers:
+            <div id="footer">
+                <div>
+                    <?php $players = Player::getCurrentActivePlayers(); ?>
+                    <p> Currently <?php echo count($players) ?> players are playing in ns2stats enabled servers:
                         <?php
-                            foreach ($players as $player) {
+                        foreach ($players as $player)
+                        {
+                            if (isset($player->last_server_id) && is_numeric($player->last_server_id))
                                 $currentServer = Server::model()->findByAttributes(array('id' => $player->last_server_id));
+                            
+                            if (isset($currentServer))
                                 echo "[<a style='text-decoration:none;color:gold' href='" . Yii::app()->baseUrl . '/player/player/' . $player->id . "' title='View profile'" .
                                 ">" . htmlspecialchars($player->steam_name) . "</a> " .
                                 CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//connect "
@@ -130,44 +138,48 @@ $showAds = true;
                                     . " is playing. ("
                                     . htmlspecialchars($currentServer->name)
                                     . ")"), "(join)") . "] ";
-                            }
+                        }
                         ?>
-                        </p>
-                    </div>
+                    </p>
+                </div>
                 <?php
-                            if ($showAds) {
-                ?>
-                                <div id="mainos2" style="z-index:-1;width: 728px;height:90px;margin-left:auto;margin-right:auto;background-color:transparent;">
-                                    <script type="text/javascript"><!--
-                                        google_ad_client = "ca-pub-5477320731266931";
-                                        /* ns2statsvaaka */
-                                        google_ad_slot = "1703007462";
-                                        google_ad_width = 728;
-                                        google_ad_height = 90;
-                                        //-->
-                                    </script>
-                                    <script type="text/javascript"
-                                            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-                                    </script>
+                if ($showAds)
+                {
+                    ?>
+                    <div id="mainos2" style="z-index:-1;width: 728px;height:90px;margin-left:auto;margin-right:auto;background-color:transparent;">
+                        <script type="text/javascript"><!--
+                            google_ad_client = "ca-pub-5477320731266931";
+                            /* ns2statsvaaka */
+                            google_ad_slot = "1703007462";
+                            google_ad_width = 728;
+                            google_ad_height = 90;
+                            //-->
+                        </script>
+                        <script type="text/javascript"
+                                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                        </script>
 
-                                </div>
-                <?php
-                            }
+                    </div>
+                    <?php
+                }
                 ?>
 
                 <?php echo CHtml::tag('p', array(), 'Many bots have been harmed during the development of this site.'); ?>
-<?php echo CHtml::tag('a', array('href' => 'http://steampowered.com'), 'Powered by Steam'); ?>
-                        </div><!-- footer -->
+                <?php echo CHtml::tag('a', array('href' => 'http://steampowered.com'), 'Powered by Steam'); ?>
+            </div><!-- footer -->
 
 
-                    </div><!-- page -->
-                    <img style="overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: -10" src="<?php echo Yii::app()->baseUrl; ?>/images/right.jpg" />
+        </div><!-- page -->
+        <img style="overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: -10" src="<?php echo Yii::app()->baseUrl; ?>/images/right.jpg" />
         <script type="text/javascript">
             var uvOptions = {};
             (function() {
-                var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+                var uv = document.createElement('script');
+                uv.type = 'text/javascript';
+                uv.async = true;
                 uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/JIfZCFvztLsVDCWWwN2FA.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(uv, s);
             })();
         </script>
     </body>
