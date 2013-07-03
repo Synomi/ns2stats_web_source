@@ -2,10 +2,10 @@
 -- version 3.4.11.1deb1
 -- http://www.phpmyadmin.net
 --
--- Palvelin: localhost
--- Luontiaika: 03.07.2013 klo 23:41
--- Palvelimen versio: 5.5.30
--- PHP:n versio: 5.4.4-14
+-- Host: localhost
+-- Generation Time: Jul 03, 2013 at 11:45 PM
+-- Server version: 5.5.30
+-- PHP Version: 5.4.4-14
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Tietokanta: `ns2stats`
+-- Database: `ns2stats`
 --
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `death`
+-- Table structure for table `death`
 --
 
 CREATE TABLE IF NOT EXISTS `death` (
@@ -53,12 +53,12 @@ CREATE TABLE IF NOT EXISTS `death` (
   KEY `fk_killinmatch_lifeform1` (`attacker_lifeform_id`),
   KEY `fk_killinmatch_lifeform2` (`target_lifeform_id`),
   KEY `fk_killinmatch_weapon2` (`target_weapon_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11906627 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11907412 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `hit`
+-- Table structure for table `hit`
 --
 
 CREATE TABLE IF NOT EXISTS `hit` (
@@ -91,12 +91,12 @@ CREATE TABLE IF NOT EXISTS `hit` (
   KEY `fk_killinmatch_lifeform2` (`target_lifeform_id`),
   KEY `fk_killinmatch_weapon2` (`target_weapon_id`),
   KEY `fk_hit_round_structure1` (`target_structure_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=173725004 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=173734118 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `lifeform`
+-- Table structure for table `lifeform`
 --
 
 CREATE TABLE IF NOT EXISTS `lifeform` (
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `lifeform` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `list`
+-- Table structure for table `list`
 --
 
 CREATE TABLE IF NOT EXISTS `list` (
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `list` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `list_admin`
+-- Table structure for table `list_admin`
 --
 
 CREATE TABLE IF NOT EXISTS `list_admin` (
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `list_admin` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `live_player`
+-- Table structure for table `live_player`
 --
 
 CREATE TABLE IF NOT EXISTS `live_player` (
@@ -150,12 +150,12 @@ CREATE TABLE IF NOT EXISTS `live_player` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`player_id`),
   KEY `live_round_id` (`live_round_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55699 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55707 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `live_round`
+-- Table structure for table `live_round`
 --
 
 CREATE TABLE IF NOT EXISTS `live_round` (
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `live_round` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `map`
+-- Table structure for table `map`
 --
 
 CREATE TABLE IF NOT EXISTS `map` (
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `map` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `mod`
+-- Table structure for table `mod`
 --
 
 CREATE TABLE IF NOT EXISTS `mod` (
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `mod` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `mod_round`
+-- Table structure for table `mod_round`
 --
 
 CREATE TABLE IF NOT EXISTS `mod_round` (
@@ -207,12 +207,12 @@ CREATE TABLE IF NOT EXISTS `mod_round` (
   PRIMARY KEY (`id`),
   KEY `fk_mod_round_mod` (`mod_id`),
   KEY `fk_mod_round_round1` (`round_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=473224 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=473259 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `pickable`
+-- Table structure for table `pickable`
 --
 
 CREATE TABLE IF NOT EXISTS `pickable` (
@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `pickable` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `player`
+-- Table structure for table `player`
 --
 
 CREATE TABLE IF NOT EXISTS `player` (
@@ -264,12 +264,12 @@ CREATE TABLE IF NOT EXISTS `player` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `steamid` (`steam_id`),
   KEY `last_server_id` (`last_server_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=141517 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=141537 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `player_lifeform`
+-- Table structure for table `player_lifeform`
 --
 
 CREATE TABLE IF NOT EXISTS `player_lifeform` (
@@ -281,12 +281,12 @@ CREATE TABLE IF NOT EXISTS `player_lifeform` (
   PRIMARY KEY (`id`),
   KEY `fk_player_in_lifeform_player_in_round1` (`player_round_id`),
   KEY `fk_player_in_lifeform_lifeform1` (`lifeform_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35683273 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35685656 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `player_round`
+-- Table structure for table `player_round`
 --
 
 CREATE TABLE IF NOT EXISTS `player_round` (
@@ -305,12 +305,12 @@ CREATE TABLE IF NOT EXISTS `player_round` (
   PRIMARY KEY (`id`),
   KEY `fk_player_round_player1` (`player_id`),
   KEY `fk_player_round_round1` (`round_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1805309 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1805430 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `player_team`
+-- Table structure for table `player_team`
 --
 
 CREATE TABLE IF NOT EXISTS `player_team` (
@@ -326,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `player_team` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `player_weapon`
+-- Table structure for table `player_weapon`
 --
 
 CREATE TABLE IF NOT EXISTS `player_weapon` (
@@ -342,12 +342,12 @@ CREATE TABLE IF NOT EXISTS `player_weapon` (
   PRIMARY KEY (`id`),
   KEY `fk_player_in_lifeform_player_in_round1` (`player_round_id`),
   KEY `fk_player_weapon_weapon1` (`weapon_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8540291 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8540908 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `resources`
+-- Table structure for table `resources`
 --
 
 CREATE TABLE IF NOT EXISTS `resources` (
@@ -358,12 +358,12 @@ CREATE TABLE IF NOT EXISTS `resources` (
   `gathered` int(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_resources_round1` (`round_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25261452 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25266320 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `round`
+-- Table structure for table `round`
 --
 
 CREATE TABLE IF NOT EXISTS `round` (
@@ -391,12 +391,12 @@ CREATE TABLE IF NOT EXISTS `round` (
   KEY `fk_round_team1` (`team_1`),
   KEY `fk_round_team2` (`team_2`),
   KEY `filter` (`end`,`server_id`,`build`(4),`private`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=103226 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=103231 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `round_structure`
+-- Table structure for table `round_structure`
 --
 
 CREATE TABLE IF NOT EXISTS `round_structure` (
@@ -426,12 +426,12 @@ CREATE TABLE IF NOT EXISTS `round_structure` (
   KEY `fk_round_structure_weapon1` (`attacker_weapon_id`),
   KEY `fk_round_structure_player_round2` (`builder_id`),
   KEY `fk_round_structure_player_round3` (`commander_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9786416 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9786955 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `round_upgrade`
+-- Table structure for table `round_upgrade`
 --
 
 CREATE TABLE IF NOT EXISTS `round_upgrade` (
@@ -446,12 +446,12 @@ CREATE TABLE IF NOT EXISTS `round_upgrade` (
   KEY `fk_round_upgrade_round1` (`round_id`),
   KEY `fk_round_upgrade_upgrade1` (`upgrade_id`),
   KEY `fk_round_upgrade_player_round1` (`commander_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1940650 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1940787 ;
 
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `server`
+-- Table structure for table `server`
 --
 
 CREATE TABLE IF NOT EXISTS `server` (
@@ -478,7 +478,7 @@ CREATE TABLE IF NOT EXISTS `server` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `structure`
+-- Table structure for table `structure`
 --
 
 CREATE TABLE IF NOT EXISTS `structure` (
@@ -490,7 +490,7 @@ CREATE TABLE IF NOT EXISTS `structure` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `team`
+-- Table structure for table `team`
 --
 
 CREATE TABLE IF NOT EXISTS `team` (
@@ -504,7 +504,7 @@ CREATE TABLE IF NOT EXISTS `team` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `upgrade`
+-- Table structure for table `upgrade`
 --
 
 CREATE TABLE IF NOT EXISTS `upgrade` (
@@ -516,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `upgrade` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `weapon`
+-- Table structure for table `weapon`
 --
 
 CREATE TABLE IF NOT EXISTS `weapon` (
@@ -528,7 +528,7 @@ CREATE TABLE IF NOT EXISTS `weapon` (
 -- --------------------------------------------------------
 
 --
--- Rakenne taululle `YiiSession`
+-- Table structure for table `YiiSession`
 --
 
 CREATE TABLE IF NOT EXISTS `YiiSession` (
@@ -539,11 +539,11 @@ CREATE TABLE IF NOT EXISTS `YiiSession` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Rajoitteet vedostauluille
+-- Constraints for dumped tables
 --
 
 --
--- Rajoitteet taululle `death`
+-- Constraints for table `death`
 --
 ALTER TABLE `death`
   ADD CONSTRAINT `fk_killinmatch_lifeform1` FOREIGN KEY (`attacker_lifeform_id`) REFERENCES `lifeform` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -554,7 +554,7 @@ ALTER TABLE `death`
   ADD CONSTRAINT `fk_killinmatch_weapon2` FOREIGN KEY (`target_weapon_id`) REFERENCES `weapon` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `hit`
+-- Constraints for table `hit`
 --
 ALTER TABLE `hit`
   ADD CONSTRAINT `fk_hit_round_structure1` FOREIGN KEY (`target_structure_id`) REFERENCES `round_structure` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -566,20 +566,20 @@ ALTER TABLE `hit`
   ADD CONSTRAINT `fk_killinmatch_weapon20` FOREIGN KEY (`target_weapon_id`) REFERENCES `weapon` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `list`
+-- Constraints for table `list`
 --
 ALTER TABLE `list`
   ADD CONSTRAINT `fk_list_player1` FOREIGN KEY (`owner_id`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `list_admin`
+-- Constraints for table `list_admin`
 --
 ALTER TABLE `list_admin`
   ADD CONSTRAINT `fk_list_has_player_list1` FOREIGN KEY (`list_id`) REFERENCES `list` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_list_has_player_player1` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `live_player`
+-- Constraints for table `live_player`
 --
 ALTER TABLE `live_player`
   ADD CONSTRAINT `live_player_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`),
@@ -587,67 +587,67 @@ ALTER TABLE `live_player`
   ADD CONSTRAINT `live_player_ibfk_3` FOREIGN KEY (`live_round_id`) REFERENCES `live_round` (`id`);
 
 --
--- Rajoitteet taululle `live_round`
+-- Constraints for table `live_round`
 --
 ALTER TABLE `live_round`
   ADD CONSTRAINT `live_round_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `server` (`id`);
 
 --
--- Rajoitteet taululle `mod_round`
+-- Constraints for table `mod_round`
 --
 ALTER TABLE `mod_round`
   ADD CONSTRAINT `fk_mod_round_mod` FOREIGN KEY (`mod_id`) REFERENCES `mod` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_mod_round_round1` FOREIGN KEY (`round_id`) REFERENCES `round` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `pickable`
+-- Constraints for table `pickable`
 --
 ALTER TABLE `pickable`
   ADD CONSTRAINT `fk_pickable_player_round1` FOREIGN KEY (`commander_id`) REFERENCES `player_round` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `player`
+-- Constraints for table `player`
 --
 ALTER TABLE `player`
   ADD CONSTRAINT `player_ibfk_1` FOREIGN KEY (`last_server_id`) REFERENCES `server` (`id`),
   ADD CONSTRAINT `player_ibfk_2` FOREIGN KEY (`last_server_id`) REFERENCES `server` (`id`);
 
 --
--- Rajoitteet taululle `player_lifeform`
+-- Constraints for table `player_lifeform`
 --
 ALTER TABLE `player_lifeform`
   ADD CONSTRAINT `fk_player_in_lifeform_lifeform1` FOREIGN KEY (`lifeform_id`) REFERENCES `lifeform` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_player_in_lifeform_player_in_round1` FOREIGN KEY (`player_round_id`) REFERENCES `player_round` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `player_round`
+-- Constraints for table `player_round`
 --
 ALTER TABLE `player_round`
   ADD CONSTRAINT `fk_player_round_player1` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_player_round_round1` FOREIGN KEY (`round_id`) REFERENCES `round` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `player_team`
+-- Constraints for table `player_team`
 --
 ALTER TABLE `player_team`
   ADD CONSTRAINT `fk_player_team_player1` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_player_team_team1` FOREIGN KEY (`team_id`) REFERENCES `team` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `player_weapon`
+-- Constraints for table `player_weapon`
 --
 ALTER TABLE `player_weapon`
   ADD CONSTRAINT `fk_player_in_lifeform_player_in_round10` FOREIGN KEY (`player_round_id`) REFERENCES `player_round` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_player_weapon_weapon1` FOREIGN KEY (`weapon_id`) REFERENCES `weapon` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `resources`
+-- Constraints for table `resources`
 --
 ALTER TABLE `resources`
   ADD CONSTRAINT `fk_resources_round1` FOREIGN KEY (`round_id`) REFERENCES `round` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `round`
+-- Constraints for table `round`
 --
 ALTER TABLE `round`
   ADD CONSTRAINT `fk_round_list1` FOREIGN KEY (`list_id`) REFERENCES `list` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -657,7 +657,7 @@ ALTER TABLE `round`
   ADD CONSTRAINT `round_ibfk_2` FOREIGN KEY (`team_2`) REFERENCES `team` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `round_structure`
+-- Constraints for table `round_structure`
 --
 ALTER TABLE `round_structure`
   ADD CONSTRAINT `fk_round_structure_lifeform1` FOREIGN KEY (`attacker_lifeform_id`) REFERENCES `lifeform` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -669,7 +669,7 @@ ALTER TABLE `round_structure`
   ADD CONSTRAINT `fk_round_structure_weapon1` FOREIGN KEY (`attacker_weapon_id`) REFERENCES `weapon` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `round_upgrade`
+-- Constraints for table `round_upgrade`
 --
 ALTER TABLE `round_upgrade`
   ADD CONSTRAINT `fk_round_upgrade_player_round1` FOREIGN KEY (`commander_id`) REFERENCES `player_round` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -677,7 +677,7 @@ ALTER TABLE `round_upgrade`
   ADD CONSTRAINT `fk_round_upgrade_upgrade1` FOREIGN KEY (`upgrade_id`) REFERENCES `upgrade` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Rajoitteet taululle `server`
+-- Constraints for table `server`
 --
 ALTER TABLE `server`
   ADD CONSTRAINT `fk_server_player1` FOREIGN KEY (`admin_id`) REFERENCES `player` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
