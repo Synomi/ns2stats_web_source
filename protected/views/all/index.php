@@ -1,6 +1,6 @@
 <?php
 $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
-//echo CHtml::tag('p', array('class' => 'notice content-box'), 'There is currently issue with round stats. Not all data is being shown.');
+//echo CHtml::tag('p', array('class' => 'notice content-box'), 'Ns2stats has been updated for build 251.');
  
 ?>
 <script type="text/javascript" >
