@@ -26,12 +26,12 @@ class LogParser
         $gentime = microtime();
         $gentime = explode(' ', $gentime);
         $gentime = $gentime[1] + $gentime[0];
-        $this->startTime = $gentime;
+        $this->startTime = $gentime;        
     }
 
     function addTimeStamp($text)
     {
-        return;
+        
         //end of your page
         $gentime = microtime();
         $gentime = explode(' ', $gentime);
@@ -40,9 +40,10 @@ class LogParser
         $totaltime = ($pg_end - $this->startTime);
         $showtime = number_format($totaltime, 4, '.', '');
         $tmp = $showtime . " s \t: " . $text . "\n";
-
+        
         $filename = Yii::app()->params['logDirectory'] . "parselogs/" . "log-" . $this->serverId . "-" . $this->logRandomId;
-
+        //DEBUG
+        echo $tmp;
         $fp = fopen($filename, "a");
         fwrite($fp, $tmp);
         fclose($fp);
@@ -161,7 +162,7 @@ class LogParser
             $this->message->link = "/round/round/" . $id;
             echo json_encode($this->message);
             ob_flush();
-
+            echo "DEBUG: round saved";
             return $id;
         }
         else
@@ -260,6 +261,7 @@ class LogParser
         }
         catch (Exception $e)
         {
+            echo "error 14123: " . $e;
             $transaction->rollback();
         }
         Yii::endProfile('firstLoop');
@@ -349,6 +351,7 @@ class LogParser
         }
         catch (Exception $e)
         {
+            echo "Error 1235d: $e";
             $transaction->rollback();
         }
         Yii::endProfile('secondLoop');
@@ -414,6 +417,7 @@ class LogParser
         }
         catch (Exception $e)
         {
+            echo "Error 1203: $e";
             $transaction->rollback();
         }
         Yii::endProfile('thirdLoop');

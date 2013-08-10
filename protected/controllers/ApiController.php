@@ -259,10 +259,7 @@ class ApiController extends Controller
     public function actionUpdatemapdata()
     {
         print_r($_POST);
-        if (!isset($_POST['secret'])
-                || !isset($_POST['mapName'])
-                || !isset($_POST['jsonvalues'])
-                || $_POST['secret'] != "jokukovasalasana")
+        if (!isset($_POST['secret']) || !isset($_POST['mapName']) || !isset($_POST['jsonvalues']) || $_POST['secret'] != "jokukovasalasana")
             throw new CHttpException(401, "Invalid data");
 
         $map = Map::model()->findByAttributes(array('name' => trim($_POST['mapName'])));
@@ -301,7 +298,12 @@ class ApiController extends Controller
         if (!isset($_POST['last_part']))
             throw new CHttpException(400, 'Last number parameter missing');
 
+        //for DEV output
+        print_r($_POST);
+        ob_flush();
+
         $server = Server::model()->findByAttributes(array('server_key' => $_POST['key']));
+        
         $server->ip = $_SERVER['REMOTE_ADDR'];
         $server->save();
         if (!isset($server))
@@ -309,9 +311,12 @@ class ApiController extends Controller
 
         //Create log file
         if ($partNumber == 1)
-            $logName = "round-log-" . date('d-m-Y-H-i-s') . '-' . $partNumber . '-' . $server->id;
-        else
         {
+            
+            $logName = "round-log-" . date('d-m-Y-H-i-s') . '-' . $partNumber . '-' . $server->id;
+        }
+        else
+        {            
             //Get log file
             $path = Yii::app()->params['logDirectory'] . 'incomplete/';
             $dir = opendir($path);
@@ -365,7 +370,7 @@ class ApiController extends Controller
 
         //Parse log
         if ($_POST['last_part'] == 1)
-        {
+        {            
             $logDirectory = Yii::app()->params['logDirectory'] . 'failed/';
             $logPath = $logName;
             rename(Yii::app()->params['logDirectory'] . 'incomplete/' . $logName, $logDirectory . $logName);
@@ -374,6 +379,7 @@ class ApiController extends Controller
         }
         else
         {
+            echo "|not last part|";
             $newLogName = "round-log-" . date('d-m-Y-H-i-s') . '-' . $partNumber . '-' . $server->id;
             rename(Yii::app()->params['logDirectory'] . 'incomplete/' . $logName, Yii::app()->params['logDirectory'] . 'incomplete/' . $newLogName);
         }
@@ -510,7 +516,7 @@ class ApiController extends Controller
     {
         $connection = Yii::app()->db;
         $command = $connection->createCommand(
-                        'SELECT
+                'SELECT
            player.steam_name,
            COUNT(death.id) as kills
            FROM player_round,player,death
@@ -598,6 +604,23 @@ class ApiController extends Controller
             throw new CHttpException(404, "Can't find you yet, please play one 5+v5+ round and try again.");
     }
 
+    public function actionServer($key)
+    {
+        $server = Server::model()->findByAttributes(array('server_key' => $key));
+        if (isset($server))
+        {
+            $response = array(
+                'id' => $server->id,
+                'name' => $server->name,
+                'ip' => $server->ip,
+                'port' => $server->port,
+                'country' => $server->country
+            );
+
+            Json::printJSON($response);
+        }
+    }
+
     public function actionPlayer()
     {
         if (isset($_GET['steam_id']))
@@ -611,9 +634,9 @@ class ApiController extends Controller
             $steamName = $_GET['steam_name'];
             $players = Player::model()->findAllByAttributes(array('steam_name' => $steamName));
         }
-        else if (isset($_GET['ns2_id'])) 
+        else if (isset($_GET['ns2_id']))
         {
-            $steamId = $_GET['ns2_id']; 
+            $steamId = $_GET['ns2_id'];
             $players = Player::model()->findByAttributes(array('steam_id' => $steamId));
         }
         else
@@ -639,6 +662,7 @@ class ApiController extends Controller
             $alienCommanderRoundResults = Player::getLifeformRoundResults($player->id, 'alien_commander');
             $response[] = array(
                 'name' => $player->steam_name,
+                'player_page_id' => $player->id,
                 'nationality' => $player->country,
                 'kills' => Player::getKillsById($player->id),
                 'deaths' => Player::getDeaths($player->id),
@@ -708,8 +732,8 @@ class ApiController extends Controller
             throw new CHttpException(401, "Invalid offset");
 
         $connection = Yii::app()->db;
-        $command = $connection->createCommand( 
-                        'SELECT * FROM death
+        $command = $connection->createCommand(
+                'SELECT * FROM death
                          INNER JOIN player_round ON player_round.id = death.target_id
                          INNER JOIN round ON round.id = player_round.round_id
                          WHERE round.map_id = ' . $map->id . '
@@ -718,7 +742,7 @@ class ApiController extends Controller
            ');
 
         $deaths = $command->queryAll();
-        foreach($deaths as $key => $value)
+        foreach ($deaths as $key => $value)
         {
             //print_r($death);
             if (isset($deaths[$key]['attacker_weapon_id']))
@@ -729,7 +753,6 @@ class ApiController extends Controller
                 $deaths[$key]['target_lifeform_name'] = Lifeform::model()->findByPk($deaths[$key]['target_lifeform_id'])->name;
             if (isset($deaths[$key]['attacker_lifeform_id']))
                 $deaths[$key]['attacker_lifeform_name'] = Lifeform::model()->findByPk($deaths[$key]['attacker_lifeform_id'])->name;
-                                    
         }
 
         Json::printJSON($deaths);

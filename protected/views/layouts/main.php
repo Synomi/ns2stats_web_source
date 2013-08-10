@@ -126,8 +126,13 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                         {
                             if (isset($player->last_server_id) && is_numeric($player->last_server_id))
                                 $currentServer = Server::model()->findByAttributes(array('id' => $player->last_server_id));
-                            
+
+
                             if (isset($currentServer))
+                            {
+                                if (!isset($currentServer->ip))
+                                    $currentServer->ip = "n/a";
+
                                 echo "[<a style='text-decoration:none;color:gold' href='" . Yii::app()->baseUrl . '/player/player/' . $player->id . "' title='View profile'" .
                                 ">" . htmlspecialchars($player->steam_name) . "</a> " .
                                 CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//connect "
@@ -138,6 +143,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                                     . " is playing. ("
                                     . htmlspecialchars($currentServer->name)
                                     . ")"), "(join)") . "] ";
+                            }
                         }
                         ?>
                     </p>

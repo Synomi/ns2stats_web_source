@@ -1,7 +1,6 @@
 <?php
 $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
 //echo CHtml::tag('p', array('class' => 'notice content-box'), 'Ns2stats has been updated for build 251.');
- 
 ?>
 <script type="text/javascript" >
     var filterpanels = new Array();
@@ -98,34 +97,34 @@ $this->widget('FilterForm', array(
 ));
 ?>
 <div class="span-10">
-<?php
-$widget = $this->widget('Highchart', array(
-    'type' => 'line',
-    'options' => array(
-        'url' => $this->createUrl('all/roundsplayedline'),
-        'title' => array(
-            'text' => 'Rounds Played',
-            'style' => array(
-                'color' => '#FFF',
-            ),
-        ),
-        'yAxis' => array(
+    <?php
+    $widget = $this->widget('Highchart', array(
+        'type' => 'line',
+        'options' => array(
+            'url' => $this->createUrl('all/roundsplayedline'),
             'title' => array(
-                'text' => 'Rounds',
+                'text' => 'Rounds Played',
                 'style' => array(
                     'color' => '#FFF',
                 ),
             ),
-        ),
-        'legend' => array(
-            'itemStyle' => array(
-                'color' => '#FFF',
+            'yAxis' => array(
+                'title' => array(
+                    'text' => 'Rounds',
+                    'style' => array(
+                        'color' => '#FFF',
+                    ),
+                ),
             ),
-        ),
-    )
-        ));
-$widget->renderContent();
-?>
+            'legend' => array(
+                'itemStyle' => array(
+                    'color' => '#FFF',
+                ),
+            ),
+        )
+    ));
+    $widget->renderContent();
+    ?>
 </div>
 <div class="span-10">
     <?php
@@ -159,41 +158,41 @@ $widget->renderContent();
 </div>
 <div class="span-10 last">
     <div class="box">
-<?php
-$this->widget('FilterPanel', array(
-    'url' => 'all/recentrounds',
-        )
-);
-?>
+        <?php
+        $this->widget('FilterPanel', array(
+            'url' => 'all/recentrounds',
+                )
+        );
+        ?>
     </div>
 </div>
 <div class="span-10 overview-chart">
-<?php
-$widget = $this->widget('Highchart', array(
-    'type' => 'column',
-    'options' => array(
-        'url' => $this->createUrl('all/roundresultslengthcolumn'),
-        'title' => array(
-            'text' => 'Wins By Round Length',
-            'style' => array(
-                'color' => '#FFF',
+    <?php
+    $widget = $this->widget('Highchart', array(
+        'type' => 'column',
+        'options' => array(
+            'url' => $this->createUrl('all/roundresultslengthcolumn'),
+            'title' => array(
+                'text' => 'Wins By Round Length',
+                'style' => array(
+                    'color' => '#FFF',
+                ),
+            ),
+            'legend' => array(
+                'itemStyle' => array(
+                    'color' => '#FFF',
+                ),
+            ),
+            'plotOptions' => array(
+                'column' => array(
+                    'stacking' => 'percent',
+                ),
             ),
         ),
-        'legend' => array(
-            'itemStyle' => array(
-                'color' => '#FFF',
-            ),
-        ),
-        'plotOptions' => array(
-            'column' => array(
-                'stacking' => 'percent',
-            ),
-        ),
-    ),
-    'tooltipFormatter' => "function() { return this.x + '<br />' + this.series.name + ' :<br />' + Math.round(this.percentage, 2) +'% (' + this.y + ')'; }",
-        ));
-$widget->renderContent();
-?>
+        'tooltipFormatter' => "function() { return this.x + '<br />' + this.series.name + ' :<br />' + Math.round(this.percentage, 2) +'% (' + this.y + ')'; }",
+    ));
+    $widget->renderContent();
+    ?>
 </div>
 <div class="span-10 overview-chart">
     <?php
@@ -292,38 +291,58 @@ $widget->renderContent();
 <div style="clear:both;width:980px;margin-left:auto;margin-right:auto;">
     <p style="color:white;font-size:11px;padding-top:20px;padding-left:10px;">
         Currently along with other data we have
-<?php
-$sql = "SELECT id as players FROM player ORDER BY id DESC limit 1";
-$command = Yii::app()->db->createCommand($sql);
-$results = $command->queryAll();
-$players = (int) $results[0]["players"];
-echo $players . " players, ";
-$sql = "SELECT id as deaths FROM death ORDER BY id DESC limit 1";
-$command = Yii::app()->db->createCommand($sql);
-$results = $command->queryAll();
-$deaths = (int) $results[0]["deaths"];
-echo $deaths . " deaths, ";
-$sql = "SELECT id as hits FROM hit ORDER BY id DESC limit 1";
-$command = Yii::app()->db->createCommand($sql);
-$results = $command->queryAll();
-$hits = (int) $results[0]["hits"];
-echo $hits . " damage trades, ";
-$sql = "SELECT id as rounds FROM round ORDER BY id DESC limit 1";
-$command = Yii::app()->db->createCommand($sql);
-$results = $command->queryAll();
-$rounds = (int) $results[0]["rounds"];
-echo $rounds . " rounds, ";
-$sql = "SELECT id as resources FROM resources ORDER BY id DESC limit 1";
-$command = Yii::app()->db->createCommand($sql);
-$results = $command->queryAll();
-$resources = (int) $results[0]["resources"];
-echo $resources . " resource gains and ";
-$sql = "SELECT id as pickups FROM pickable ORDER BY id DESC limit 1";
-$command = Yii::app()->db->createCommand($sql);
-$results = $command->queryAll();
-$pickups = (int) $results[0]["pickups"];
-echo $pickups . " dropped pick-up-ables";
-?>
+        <?php
+        $sql = "SELECT id as players FROM player ORDER BY id DESC limit 1";
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        if (isset($results) && isset($results[0]["players"]))
+        {
+            $players = (int) $results[0]["players"];
+            echo $players . " players, ";
+        }
+
+        $sql = "SELECT id as deaths FROM death ORDER BY id DESC limit 1";
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        if (isset($results[0]["deaths"]))
+        {
+            $deaths = (int) $results[0]["deaths"];
+            echo $deaths . " deaths, ";
+        }
+
+        $sql = "SELECT id as hits FROM hit ORDER BY id DESC limit 1";
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        if (isset($results[0]["hits"]))
+        {
+            $hits = (int) $results[0]["hits"];
+            echo $hits . " damage trades, ";
+        }
+        $sql = "SELECT id as rounds FROM round ORDER BY id DESC limit 1";
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        if (isset($results[0]["rounds"]))
+        {
+            $rounds = (int) $results[0]["rounds"];
+            echo $rounds . " rounds, ";
+        }
+        $sql = "SELECT id as resources FROM resources ORDER BY id DESC limit 1";
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        if (isset($results[0]["resources"]))
+        {
+            $resources = (int) $results[0]["resources"];
+            echo $resources . " resource gains and ";
+        }
+        $sql = "SELECT id as pickups FROM pickable ORDER BY id DESC limit 1";
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        if (isset($results[0]["pickups"]))
+        {
+            $pickups = (int) $results[0]["pickups"];
+            echo $pickups . " dropped pick-up-ables";
+        }
+        ?>
         in our database. 
     </p>
 </div>
