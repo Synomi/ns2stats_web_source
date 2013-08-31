@@ -378,8 +378,7 @@ class ApiController extends Controller
             $roundId = $logParser->createRound($logDirectory, $logPath, $server->id);
         }
         else
-        {
-            echo "|not last part|";
+        {            
             $newLogName = "round-log-" . date('d-m-Y-H-i-s') . '-' . $partNumber . '-' . $server->id;
             rename(Yii::app()->params['logDirectory'] . 'incomplete/' . $logName, Yii::app()->params['logDirectory'] . 'incomplete/' . $newLogName);
         }
@@ -720,7 +719,7 @@ class ApiController extends Controller
 
     public function actionGetDeathsForMapAndBuildJSON($mapName, $build, $offset = 0)
     {
-        //error_reporting(0);
+        
         if (!isset($mapName) || !isset($build) || !is_numeric($build))
             throw new CHttpException(401, "Invalid data");
 

@@ -1,6 +1,8 @@
+
 <div style="margin-left:auto;margin-right:auto;width:1000px;">
     <h1 style="font-family:Verdana;font-size:20px;color:gold;">
-        CURRENT LIVE GAMES
+        CURRENTLY DISABLED, due lag issues, will be enabled later.
+        <?php return; ?>
     </h1>    
 </div>
 

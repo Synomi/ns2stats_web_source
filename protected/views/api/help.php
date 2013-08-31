@@ -13,7 +13,7 @@ function addLine($text)
     
     return $line;
 }
-$tmp  = addLine("\n### ::NS2Stats.org::");
+$tmp  = addLine("\n### ::NS2Stats.com::");
 $tmp .= addLine("## Available commands (" . $steamId . "):");
 $tmp .= addLine("#");
 $tmp .= addLine("# stats help : This help");

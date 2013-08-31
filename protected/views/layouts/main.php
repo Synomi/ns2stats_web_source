@@ -17,7 +17,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
         <![endif]-->
 
-        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css?<?php echo time(); ?>" />
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css?v3" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
         <link rel="icon" type="image/png" href="<?php echo Yii::app()->request->baseUrl; ?>/favicon.png" />

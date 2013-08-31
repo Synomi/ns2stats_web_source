@@ -59,7 +59,7 @@ function drawImageLabels() {
                     }
                 }
 
-                url = 'http://ns2stats.org/images/icons/' + serie.data[pointNumber].text + '.png';
+                url = 'http://ns2stats.com/images/icons/' + serie.data[pointNumber].text + '.png';
                 chart.renderer.image(url, serie.data[pointNumber].iconX, serie.data[pointNumber].iconY, imageWidth, imageWidth)
                 .add();   
             }

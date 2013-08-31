@@ -621,3 +621,41 @@ div#livestatus,.featuredservers
 {
     color:inherit;
 }
+
+/*
+round chatbox
+*/
+div#chatbox
+{
+    margin: 4px;
+    border-width:4px;
+    border-radius: 8px;
+    border-color: #294754;
+    border-style:solid;
+    background-color: black;
+    
+}
+div#chatbox h3
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    
+}
+div#chatbox ul
+{
+    padding: 8px;
+}
+div#chatbox ul li
+{
+    padding-top: 10px;
+    list-style-type: none;
+}
+div#chatbox ul li span
+{
+    padding-left:6px;
+    line-height: 24px;    
+    height: 24px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+}

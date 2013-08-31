@@ -11,7 +11,7 @@ if (isset($player)) {
     echo "Best Kill Streak: " . Player::getKillStreak($player->id) . ", ";
     echo "Time Played: " . Helper::secondsToTime(Player::getTimePlayed($player->id)) . ", ";
     echo "Longest Survival: " . Helper::secondsToTime(Player::getLongestSurvival($player->id)) . "\n";
-    echo "You can find more stats at ns2stats.org";
+    echo "You can find more stats at ns2stats.com";
 }
 else
     echo "No stats found yet";

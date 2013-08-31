@@ -26,12 +26,12 @@ class LogParser
         $gentime = microtime();
         $gentime = explode(' ', $gentime);
         $gentime = $gentime[1] + $gentime[0];
-        $this->startTime = $gentime;        
+        $this->startTime = $gentime;
     }
 
     function addTimeStamp($text)
     {
-        
+
         //end of your page
         $gentime = microtime();
         $gentime = explode(' ', $gentime);
@@ -40,10 +40,8 @@ class LogParser
         $totaltime = ($pg_end - $this->startTime);
         $showtime = number_format($totaltime, 4, '.', '');
         $tmp = $showtime . " s \t: " . $text . "\n";
-        
+
         $filename = Yii::app()->params['logDirectory'] . "parselogs/" . "log-" . $this->serverId . "-" . $this->logRandomId;
-        //DEBUG
-        echo $tmp;
         $fp = fopen($filename, "a");
         fwrite($fp, $tmp);
         fclose($fp);
@@ -51,6 +49,7 @@ class LogParser
 
     protected function loadLog($logPath)
     {
+        error_reporting(0);
         $this->log = array();
         Yii::beginProfile('loadLog');
         //Load the whole log
@@ -162,7 +161,6 @@ class LogParser
             $this->message->link = "/round/round/" . $id;
             echo json_encode($this->message);
             ob_flush();
-            echo "DEBUG: round saved";
             return $id;
         }
         else
@@ -345,6 +343,11 @@ class LogParser
                     {
                         $this->resourcesGathered($logRow);
                     }
+
+                    if ($logRow['action'] == 'chat_message')
+                    {
+                        $this->chatMessage($logRow);
+                    }
                 }
             }
             $transaction->commit();
@@ -430,9 +433,15 @@ class LogParser
     protected function createPlayerRounds($playerList)
     {
         Yii::beginProfile('createPlayerRounds');
-        $this->addTimeStamp("CREATE_PLAYER_ROUNDS");
+        $this->addTimeStamp("CREATE_PLAYER_ROUNDS");        
         foreach ($playerList as $player)
         {
+//            if (!isset($player['steamId']))
+//            {
+//                echo "steamId not set: " . print_r($player,true);
+//                die();
+//            }
+
             if (is_numeric($player['steamId']) && $player['steamId'] > 0 && ($player['teamnumber'] == 1 || $player['teamnumber'] == 2))
             {
                 Yii::beginProfile('createPlayerRoundIteration');
@@ -888,6 +897,26 @@ class LogParser
         $resources->gathered = $logRow['amount'];
         $resources->round_id = $this->roundId;
         $resources->save();
+    }
+
+    protected function chatMessage($logRow)
+    {
+        if (isset($this->playerRounds[$logRow['steamid']]))
+        {
+            $playerRound = $this->playerRounds[$logRow['steamid']];
+            $chatMessage = new ChatMessage();
+            $chatMessage->message = $logRow['message'];
+            $chatMessage->team_number = $logRow['team'];
+            $chatMessage->player_round_id = $playerRound->id;
+            if ($logRow['toteam'] == false)
+                $chatMessage->to_team = 0;
+            else
+                $chatMessage->to_team = 1;
+
+            $chatMessage->player_name = $logRow['name'];
+            $chatMessage->gametime = round($logRow['gametime']);
+            $chatMessage->save();
+        }
     }
 
     /* Cache functions */

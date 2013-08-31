@@ -163,6 +163,36 @@ class Round extends CActiveRecord
         
         return $command->queryAll(); 
     }
+    public static function getChatMessagesForRound($id)
+    {
+
+        $connection = Yii::app()->db; //,COUNT(death.id) AS kills
+        $command = $connection->createCommand(
+                'SELECT 
+                    player.id as prid,
+                    player.steam_name as steam_name,
+                    player.steam_image as steam_image,
+                    player.hidden as hidden,
+                    player.country as country,
+                    chat.message as message,
+                    chat.team_number as team,
+                    chat.to_team as to_team,
+                    chat.player_name as player_name,
+                    chat.gametime as gametime
+           FROM round
+           LEFT JOIN player_round ON player_round.round_id = round.id
+           LEFT JOIN chat ON chat.player_round_id = player_round.id
+           LEFT JOIN player ON player.id = player_round.player_id           
+           WHERE 
+           round.id = :id             
+           AND message IS NOT NULL
+           ORDER BY chat.gametime ASC
+            ');
+
+        $command->bindParam(':id', $id);        
+        
+        return $command->queryAll(); 
+    }
 
     static function getMapNameByRoundId($id)
     {

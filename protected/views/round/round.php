@@ -26,36 +26,36 @@ $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . da
     ?>
 </div>
 <?php
-    if ($round->parse_status < 3 && $round->parse_status > 0)
-    {
-?>
-        <div class="loadingText">
-    <?php
+if ($round->parse_status < 3 && $round->parse_status > 0)
+{
+    ?>
+    <div class="loadingText">
+        <?php
         echo CHtml::tag('h2', array(), 'Round data is still being processed. Scoreboard will appear in few of seconds. Please wait.');
         echo CHtml::image('/images/loading.gif', 'loading');
-    ?>
+        ?>
     </div>
-<?php
-    }
-    if ($round->parse_status >= 3 || $round->parse_status == 0)
-    {
-?>
-        <div class="span-15">
-            <div class="content-box">
-        <?php
-        echo CHtml::tag('h2', array(), $marines);
+    <?php
+}
+if ($round->parse_status >= 3 || $round->parse_status == 0)
+{
+    ?>
+    <div class="span-15">
+        <div class="content-box">
+            <?php
+            echo CHtml::tag('h2', array(), $marines);
 
 
-        $columns = array(
-            array(
-                'title' => '',
-                'value' => '""; 
+            $columns = array(
+                array(
+                    'title' => '',
+                    'value' => '""; 
                     if($data["country"] && $data["hidden"]==0) 
                         echo CHtml::image(Yii::app()->baseUrl . "/images/flags/" . strtolower($data["country"]) . ".png", $data["country"])',
-            ),
-                 array(
-                'title' => 'Player',
-                'value' => '\'\';
+                ),
+                array(
+                    'title' => 'Player',
+                    'value' => '\'\';
                     if ($data["hidden"])
                     {
                         echo htmlspecialchars("<hidden>");
@@ -74,88 +74,87 @@ $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . da
                             . \'
                             </a>\';
                     }'
-                     
-            ),
-            array(
-                'title' => 'Score',
-                'value' => '$data["score"]'
-            ),
-            array(
-                'title' => 'K',
-                'value' => '$data["kills"]'
-            ),
-            array(
-                'title' => 'D',
-                'value' => '$data["deaths"]'
-            ),
-            array(
-                'title' => 'A',
-                'value' => '$data["assists"]'
-            ),
-            array(
-                'title' => 'P.dmg',
-                'value' => 'PlayerWeapon::getPlayerDamageForRound($data["prid"], 1)'
-            ),
-            array(
-                'title' => 'S.dmg',
-                'value' => 'PlayerWeapon::getPlayerDamageForRound($data["prid"], 2)'
-            ),
-            array(
-                'title' => 'Acc %',
-                'value' => 'round(PlayerWeapon::getPlayerAccuracyForRound($data["prid"]), 2)'
-            ),
-            array(
-                'title' => 'Played',
-                'value' => 'Helper::secondsToTime($data["playtime"])'
-            ),
-        );
+                ),
+                array(
+                    'title' => 'Score',
+                    'value' => '$data["score"]'
+                ),
+                array(
+                    'title' => 'K',
+                    'value' => '$data["kills"]'
+                ),
+                array(
+                    'title' => 'D',
+                    'value' => '$data["deaths"]'
+                ),
+                array(
+                    'title' => 'A',
+                    'value' => '$data["assists"]'
+                ),
+                array(
+                    'title' => 'P.dmg',
+                    'value' => 'PlayerWeapon::getPlayerDamageForRound($data["prid"], 1)'
+                ),
+                array(
+                    'title' => 'S.dmg',
+                    'value' => 'PlayerWeapon::getPlayerDamageForRound($data["prid"], 2)'
+                ),
+                array(
+                    'title' => 'Acc %',
+                    'value' => 'round(PlayerWeapon::getPlayerAccuracyForRound($data["prid"]), 2)'
+                ),
+                array(
+                    'title' => 'Played',
+                    'value' => 'Helper::secondsToTime($data["playtime"])'
+                ),
+            );
 
-        $widget = $this->widget('StatsTable', array(
-                    'columns' => $columns,
-                    'rows' => Round::getPlayersFromRound($round->id, 1),
-                ));
-        ?>
+            $widget = $this->widget('StatsTable', array(
+                'columns' => $columns,
+                'rows' => Round::getPlayersFromRound($round->id, 1),
+            ));
+            ?>
+        </div>
     </div>
-</div>
-<div class="span-15 last">
-    <div class="content-box">
-        <?php
-        echo CHtml::tag('h2', array(), $aliens);
+    <div class="span-15 last">
+        <div class="content-box">
+            <?php
+            echo CHtml::tag('h2', array(), $aliens);
 
-        $widget = $this->widget('StatsTable', array(
-                    'columns' => $columns,
-                    'rows' => Round::getPlayersFromRound($round->id, 2),
-                ));
-        ?>
+            $widget = $this->widget('StatsTable', array(
+                'columns' => $columns,
+                'rows' => Round::getPlayersFromRound($round->id, 2),
+            ));
+            ?>
 
 
+        </div>
     </div>
-</div>
-<div class="clear">
-</div>
-<?php
-    }
-    if ($round->parse_status == 3)
-    {
-?>
-        <div class="loadingText">
+    <div class="clear">
+    </div>
     <?php
+}
+if ($round->parse_status == 3)
+{
+    ?>
+    <div class="loadingText">
+        <?php
         echo CHtml::tag('h2', array(), 'Round data is still being processed. More data will appear in few minutes. Please wait.');
         echo CHtml::image('/images/loading.gif', 'loading');
-    ?>
+        ?>
     </div>
-<?php
-    }
-    if ($round->parse_status >= 4 || $round->parse_status == 0)
+    <?php
+}
+if ($round->parse_status >= 4 || $round->parse_status == 0)
+{
+    $cacheId = "roundCache1" . $round->id;
+    if ($this->beginCache($cacheId, array('duration' => 120))) //TODO CHANGE
     {
-        $cacheId = "roundCache" . $round->id;
-        if($this->beginCache($cacheId, array('duration'=>3600)))
-        {        
-?>
+        ?>
         <div class="span-30">
             <div class="content-box">
-        <?php
-        $widget = $this->widget('Highchart', array(
+                <?php
+                $widget = $this->widget('Highchart', array(
                     'type' => 'area',
                     'tooltipFormatter' => "function() { if(typeof this.point.icon != 'undefined') return '<img class=\"icon\" src=\"' + this.point.icon + '\" />' + '<div>' + secondsToTime(this.x) + ': ' + this.point.text + '</div>'; }",
                     'xAxisLabelFormatter' => "function() { return secondsToTime(this.value); }",
@@ -197,70 +196,30 @@ $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . da
                         ),
                     ),
                 ));
-        $widget->renderContent();
-        ?>
-    </div>
-</div>
-<?php
+                $widget->renderContent();
+                ?>
+            </div>
+        </div>
+        <?php
         if ($round->end > strtotime('1.9.2012'))
         {
-?>
+            ?>
             <div class="span-10">
-    <?php
-            $widget = $this->widget('Highchart', array(
-                        'type' => 'area',
-                        'xAxisLabelFormatter' => "function() { return secondsToTime(this.value); }",
-                        'options' => array(
-                            'url' => $this->createUrl('round/rtcountline', array('id' => $round->id)),
-                            'title' => array(
-                                'text' => 'Resource Towers',
-                                'style' => array(
-                                    'color' => '#FFF',
-                                ),
-                            ),
-                            'yAxis' => array(
-                                'title' => array(
-                                    'text' => 'Number of Resource Towers',
-                                    'style' => array(
-                                        'color' => '#FFF',
-                                    ),
-                                ),
-                            ),
-                            'xAxis' => array(
-                                'title' => array(
-                                    'text' => 'Round Time',
-                                    'style' => array(
-                                        'color' => '#FFF',
-                                    ),
-                                ),
-                            ),
-                            'legend' => array(
-                                'itemStyle' => array(
-                                    'color' => '#FFF',
-                                ),
-                            ),
-                        ),
-                    ));
-            $widget->renderContent();
-    ?>
-        </div>
-<?php } ?>
-        <div class="span-10">
-    <?php
-        $widget = $this->widget('Highchart', array(
+                <?php
+                $widget = $this->widget('Highchart', array(
                     'type' => 'area',
                     'xAxisLabelFormatter' => "function() { return secondsToTime(this.value); }",
                     'options' => array(
-                        'url' => $this->createUrl('round/resourcescountline', array('id' => $round->id)),
+                        'url' => $this->createUrl('round/rtcountline', array('id' => $round->id)),
                         'title' => array(
-                            'text' => 'Resources',
+                            'text' => 'Resource Towers',
                             'style' => array(
                                 'color' => '#FFF',
                             ),
                         ),
                         'yAxis' => array(
                             'title' => array(
-                                'text' => 'Resources Gathered',
+                                'text' => 'Number of Resource Towers',
                                 'style' => array(
                                     'color' => '#FFF',
                                 ),
@@ -281,57 +240,95 @@ $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . da
                         ),
                     ),
                 ));
-        $widget->renderContent();
-    ?>
-    </div>
-    <div class="span-10 last">
-    <?php
-        $widget = $this->widget('Highchart', array(
-                    'type' => 'area',
-                    'xAxisLabelFormatter' => "function() { return secondsToTime(this.value); }",
-                    'options' => array(
-                        'url' => $this->createUrl('round/killcountline', array('id' => $round->id)),
+                $widget->renderContent();
+                ?>
+            </div>
+        <?php } ?>
+        <div class="span-10">
+            <?php
+            $widget = $this->widget('Highchart', array(
+                'type' => 'area',
+                'xAxisLabelFormatter' => "function() { return secondsToTime(this.value); }",
+                'options' => array(
+                    'url' => $this->createUrl('round/resourcescountline', array('id' => $round->id)),
+                    'title' => array(
+                        'text' => 'Resources',
+                        'style' => array(
+                            'color' => '#FFF',
+                        ),
+                    ),
+                    'yAxis' => array(
+                        'title' => array(
+                            'text' => 'Resources Gathered',
+                            'style' => array(
+                                'color' => '#FFF',
+                            ),
+                        ),
+                    ),
+                    'xAxis' => array(
+                        'title' => array(
+                            'text' => 'Round Time',
+                            'style' => array(
+                                'color' => '#FFF',
+                            ),
+                        ),
+                    ),
+                    'legend' => array(
+                        'itemStyle' => array(
+                            'color' => '#FFF',
+                        ),
+                    ),
+                ),
+            ));
+            $widget->renderContent();
+            ?>
+        </div>
+        <div class="span-10 last">
+            <?php
+            $widget = $this->widget('Highchart', array(
+                'type' => 'area',
+                'xAxisLabelFormatter' => "function() { return secondsToTime(this.value); }",
+                'options' => array(
+                    'url' => $this->createUrl('round/killcountline', array('id' => $round->id)),
+                    'title' => array(
+                        'text' => 'Kills',
+                        'style' => array(
+                            'color' => '#FFF',
+                        ),
+                    ),
+                    'yAxis' => array(
                         'title' => array(
                             'text' => 'Kills',
                             'style' => array(
                                 'color' => '#FFF',
                             ),
                         ),
-                        'yAxis' => array(
-                            'title' => array(
-                                'text' => 'Kills',
-                                'style' => array(
-                                    'color' => '#FFF',
-                                ),
-                            ),
-                        ),
-                        'xAxis' => array(
-                            'title' => array(
-                                'text' => 'Round Time',
-                                'style' => array(
-                                    'color' => '#FFF',
-                                ),
-                            ),
-                        ),
-                        'legend' => array(
-                            'itemStyle' => array(
+                    ),
+                    'xAxis' => array(
+                        'title' => array(
+                            'text' => 'Round Time',
+                            'style' => array(
                                 'color' => '#FFF',
                             ),
                         ),
                     ),
-                ));
-        $widget->renderContent();
-    ?>
-    </div>
-<?php
+                    'legend' => array(
+                        'itemStyle' => array(
+                            'color' => '#FFF',
+                        ),
+                    ),
+                ),
+            ));
+            $widget->renderContent();
+            ?>
+        </div>
+        <?php
         if (isset($map) && isset($map->jsonvalues))
-        {        
+        {
             $minimap = $this->widget('Minimap', array(
-                        'map' => $map,
-                        'round' => $round,
-                    ));
-?>
-<?php
+                'map' => $map,
+                'round' => $round,
+            ));
         }
         else
         {
@@ -339,8 +336,52 @@ $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . da
         }
         $this->renderPartial('roundScript');
 
-        $this->endCache(); }
+        /*
+         * Chat messages         
+         */
+        
+        $chatMessages = Round::getChatMessagesForRound($round->id);
+        if (isset($chatMessages) && count($chatMessages)>0)
+        {
+            ?>
+            <div id="chatbox">
+                <h3>Chat</h3>
+                <ul>
+                    <?php
+                    foreach ($chatMessages as $chatMessage)
+                    {
+                        if ($chatMessage['hidden'] == 0)
+                        {
+                            echo '<li>';
+                            echo '<img title="Said in ' . $chatMessage['gametime'] . ' seconds." src="' . $chatMessage['steam_image'] . '" style="width:24px;height:24px" />';
+                            echo '<span>';
+                            //echo CHtml::image(Yii::app()->baseUrl . "/images/flags/" . strtolower($chatMessage["country"]) . ".png", $chatMessage["country"]);
+                            if ($chatMessage['team'] == 1)
+                                echo '<span style="font-weight:bold;color:#0066A4;">';
+                            else if ($chatMessage['team'] == 2)
+                                echo '<span style="font-weight:bold;color:gold;">';
+                            else
+                                echo '<span style="font-weight:bold;color:white;">';
+                            $link = '<a style="color:inherit;" title="View ' . htmlspecialchars($chatMessage['steam_name']) . ' profile page" href="' . Yii::app()->baseUrl . '/player/player/' . $chatMessage['prid'] . '">';
+                            echo $link . htmlspecialchars($chatMessage['player_name']) . '</a></span>';
+
+                            if ($chatMessage['to_team'] == 1)
+                                echo ' (teamchat)';
+
+                            echo ' : ' . htmlspecialchars($chatMessage['message']);
+                            echo '</span>';
+                            echo '</li>';
+                        }
+                    }
+                    ?>
+                </ul>
+                <p style="font-size:10px;padding-left:20px;">Mouseovering the portrait shows when message was said.</p>
+            </div>
+            <?php
+        }
+        $this->endCache();
     }
+}
 ?>
 
 
