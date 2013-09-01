@@ -147,7 +147,7 @@ if ($round->parse_status == 3)
 }
 if ($round->parse_status >= 4 || $round->parse_status == 0)
 {
-    $cacheId = "roundCache1" . $round->id;
+    $cacheId = "roundCache" . $round->id;
     if ($this->beginCache($cacheId, array('duration' => 120))) //TODO CHANGE
     {
         ?>

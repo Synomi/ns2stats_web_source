@@ -298,9 +298,7 @@ class ApiController extends Controller
         if (!isset($_POST['last_part']))
             throw new CHttpException(400, 'Last number parameter missing');
 
-        //for DEV output
-        print_r($_POST);
-        ob_flush();
+        //for DEV output        
 
         $server = Server::model()->findByAttributes(array('server_key' => $_POST['key']));
         

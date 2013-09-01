@@ -21,7 +21,16 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
         <link rel="icon" type="image/png" href="<?php echo Yii::app()->request->baseUrl; ?>/favicon.png" />
-
+        <?php
+        $curpage = Yii::app()->getController()->getAction()->controller->id;
+        $curpage .= '/' . Yii::app()->getController()->getAction()->controller->action->id;
+        if ($curpage == 'all/index')
+        {
+            ?>
+            <link rel="canonical" href="http://ns2stats.com"/>
+            <?php
+        }
+        ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <script type="text/javascript">
             var _gaq = _gaq || [];
