@@ -11,3 +11,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # otherwise forward it to index.php
 RewriteRule . index.php
+
+RedirectMatch 301 all/index(.*) /$1
