@@ -136,12 +136,12 @@ class Server extends CActiveRecord {
     }
 
     public static function getRoundsList($id) {
-        $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length
+        $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added
             FROM round
             LEFT JOIN server ON server.id = round.server_id
             LEFT JOIN player_round ON round.id = player_round.round_id
             WHERE server.id = :id ' . Filter::addFilterConditions() . '
-            ORDER BY end DESC
+            ORDER BY round.added DESC,round.id DESC
             LIMIT 10';
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);

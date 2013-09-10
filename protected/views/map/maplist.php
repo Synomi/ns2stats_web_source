@@ -11,7 +11,7 @@
                 ),
                 array(
                     'title' => 'Last Played',
-                    'value' => 'CHtml::tag("a", array("class" => "timeago", "title" => date("c", $data["round_end"]), "href" => Yii::app()->createUrl("round/round/", array("id" => $data["round_id"]))), $data["round_end"])',
+                    'value' => 'CHtml::tag("a", array("class" => "timeago", "title" => date("c", $data["round_added"]), "href" => Yii::app()->createUrl("round/round/", array("id" => $data["round_id"]))), $data["round_end"])',
                 ),
                 array(
                     'title' => 'Times Played',

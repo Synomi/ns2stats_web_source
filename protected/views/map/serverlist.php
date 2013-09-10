@@ -10,7 +10,7 @@ $this->widget('StatsTable', array(
         ),
         array(
             'title' => 'Last time played',
-            'value' => 'CHtml::tag("a", array("class" => "timeago", "title" => date("c", $data["round_end"]), "href" => Yii::app()->createUrl("round/round/", array("id" => $data["round_id"]))), $data["round_end"])',
+            'value' => 'CHtml::tag("a", array("class" => "timeago", "title" => date("c", $data["round_added"]), "href" => Yii::app()->createUrl("round/round/", array("id" => $data["round_id"]))), $data["round_end"])',
         ),
     ),
     'rows' => Map::getServerList($map->id),

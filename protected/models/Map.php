@@ -169,8 +169,8 @@ class Map extends CActiveRecord {
 
     public static function getServerList($id) {
         $sql = '
-            SELECT server_id, round_id, server_name, round_end FROM (
-            SELECT server.id AS server_id, round.id AS round_id, server.name AS server_name, round.end AS round_end
+            SELECT server_id, round_id, server_name, round_end, round_added FROM (
+            SELECT server.id AS server_id, round.id AS round_id, server.name AS server_name, round.end AS round_end, round.added AS round_added
             FROM round
             LEFT JOIN server ON server.id = round.server_id
             WHERE round.map_id = :id ' . Filter::addFilterConditions() . '
@@ -186,9 +186,9 @@ class Map extends CActiveRecord {
 
     public static function getList() {
         $sql = '
-            SELECT round_id, round_end, map_id, map_name, COUNT(round_id) AS times_played FROM (
+            SELECT round_id, round_end, round_added, map_id, map_name, COUNT(round_id) AS times_played FROM (
             SELECT 
-            round.id AS round_id, round.end AS round_end, 
+            round.id AS round_id, round.end AS round_end, round.added AS round_added,
             map.id AS map_id, map.name AS map_name
             FROM map
             LEFT JOIN round ON round.map_id = map.id

@@ -1,5 +1,5 @@
         <?php
-        echo CHtml::tag('h2', array(), 'Recent rounds');
+        echo CHtml::tag('h2', array('style' => 'margin-top:-80px;z-index:-1;'), 'All recent rounds');
 
         $this->widget('StatsTable', array(
             'columns' => array(

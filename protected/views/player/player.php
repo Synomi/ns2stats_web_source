@@ -2,9 +2,12 @@
 $this->pageTitle = $player->steam_name . ' - NS2Stats';
 if (!$hidden)
     $this->widget('FilterForm', array(
-        'servers' => Player::getPlayedServers($player->id),
-        'builds' => Player::getPlayedBuilds($player->id),
-        'teams' => Team::getTeamsByPlayer($player->id),
+//        'servers' => Player::getPlayedServers($player->id),
+//        'builds' => Player::getPlayedBuilds($player->id),
+//        'teams' => Team::getTeamsByPlayer($player->id),
+        'servers' => All::getServers(),
+        'builds' => All::getBuilds(),
+        'mods' => All::getMods(),
     ));
 
 echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('href' => $player->steam_url), $player->steam_name));

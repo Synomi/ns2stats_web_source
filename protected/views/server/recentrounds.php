@@ -6,7 +6,7 @@ echo CHtml::tag('h2', array(), 'Recent rounds');
     'columns' => array(
         array(
             'title' => 'Ended',
-            'value' => 'CHtml::tag("a", array("class" => "timeago", "title" => date("c", $data["end"]), "href" => Yii::app()->createUrl("round/round/", array("id" => $data["id"]))), $data["end"])',
+            'value' => 'CHtml::tag("a", array("class" => "timeago", "title" => date("c", $data["added"]), "href" => Yii::app()->createUrl("round/round/", array("id" => $data["id"]))), $data["end"])',
         ),
         array(
             'title' => 'Server',
