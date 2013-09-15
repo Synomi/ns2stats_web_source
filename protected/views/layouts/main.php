@@ -17,7 +17,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
         <![endif]-->
 
-        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css?v3" />
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css?v6" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
         <link rel="icon" type="image/png" href="<?php echo Yii::app()->request->baseUrl; ?>/favicon.png" />
@@ -101,7 +101,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                             'encodeLabel' => false,
                             'items' => array(
                                 array('label' => CHtml::tag('div', array('class' => 'header-button header-button-left', 'alt' => ''), 'Home'), 'url' => array('/all/index')),
-                                array('label' => CHtml::tag('div', array('class' => 'header-button header-button2', 'alt' => ''), 'Live'), 'url' => array('/live/index')),
+                                array('label' => CHtml::tag('div', array('class' => 'header-button header-button2', 'alt' => ''), 'Rounds'), 'url' => array('/round/rounds')),
                                 array('label' => CHtml::tag('div', array('class' => 'header-button header-button1', 'alt' => ''), 'Rankings'), 'url' => array('/ranking/index')),
                                 array('label' => CHtml::tag('div', array('class' => 'header-button header-button2', 'alt' => ''), 'Servers'), 'url' => array('/server/index')),
                                 array('label' => CHtml::tag('div', array('class' => 'header-button header-button1', 'alt' => ''), 'Maps'), 'url' => array('/map/index')),
@@ -128,31 +128,38 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
 
             <div id="footer">
                 <div>
-                    <?php $players = Player::getCurrentActivePlayers(); ?>
-                    <p> Currently <?php echo count($players) ?> players are playing in ns2stats enabled servers:
-                        <?php
-                        foreach ($players as $player)
-                        {
-                            if (isset($player->last_server_id) && is_numeric($player->last_server_id))
-                                $currentServer = Server::model()->findByAttributes(array('id' => $player->last_server_id));
-
-
-                            if (isset($currentServer))
+                    <?php
+                    $cacheId = "playingCache";
+                    if ($this->beginCache($cacheId, array('duration' => 200)))
+                    {
+                        $players = Player::getCurrentActivePlayers();
+                        ?>
+                        <p> Currently <?php echo count($players) ?> players are playing in ns2stats enabled servers:
+                            <?php
+                            foreach ($players as $player)
                             {
-                                if (!isset($currentServer->ip))
-                                    $currentServer->ip = "n/a";
+                                if (isset($player->last_server_id) && is_numeric($player->last_server_id))
+                                    $currentServer = Server::model()->findByAttributes(array('id' => $player->last_server_id));
 
-                                echo "[<a style='text-decoration:none;color:gold' href='" . Yii::app()->baseUrl . '/player/player/' . $player->id . "' title='View profile'" .
-                                ">" . htmlspecialchars($player->steam_name) . "</a> " .
-                                CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//connect "
-                                    . $currentServer->ip
-                                    . ":" . $currentServer->port,
-                                    "title" => "Join where "
-                                    . htmlspecialchars($player->steam_name)
-                                    . " is playing. ("
-                                    . htmlspecialchars($currentServer->name)
-                                    . ")"), "(join)") . "] ";
+
+                                if (isset($currentServer))
+                                {
+                                    if (!isset($currentServer->ip))
+                                        $currentServer->ip = "n/a";
+
+                                    echo "[<a style='text-decoration:none;color:gold' href='" . Yii::app()->baseUrl . '/player/player/' . $player->id . "' title='View profile'" .
+                                    ">" . htmlspecialchars($player->steam_name) . "</a> " .
+                                    CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//connect "
+                                        . $currentServer->ip
+                                        . ":" . $currentServer->port,
+                                        "title" => "Join where "
+                                        . htmlspecialchars($player->steam_name)
+                                        . " is playing. ("
+                                        . htmlspecialchars($currentServer->name)
+                                        . ")"), "(join)") . "] ";
+                                }
                             }
+                            $this->endCache();
                         }
                         ?>
                     </p>

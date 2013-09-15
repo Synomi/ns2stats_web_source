@@ -154,7 +154,10 @@ class HighChartData {
             }
             $current = strtotime($filter->startDate) + $groupTime;
             $i = 0;
-            while ($current < strtotime($filter->endDate)  + 2 * 86400) {
+            //2013-09-15 changed: strtotime($filter->endDate) TO strtotime($filter->endDate . ' -1 days')
+            //to hide last day
+            
+            while ($current < strtotime($filter->endDate . ' -1 days')  + 2 * 86400) {
                 if (isset($data[$i])) {
                     if ($data[$i][$key] <= $current) {
                         $rows[] = array($current * 1000, (double) $data[$i][$value]);

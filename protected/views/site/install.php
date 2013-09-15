@@ -1,4 +1,5 @@
 <?php
+$this->pageTitle = 'Installing NS2Stats';
 echo CHtml::tag('h1', array(), 'Installing NS2Stats to your server');
 
 echo CHtml::tag('h2', array(), 'To be able to see the stats from your server in ns2stats.com follow these instructions:');

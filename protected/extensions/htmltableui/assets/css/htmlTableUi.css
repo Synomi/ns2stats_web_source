@@ -1,0 +1,295 @@
+/*
+ * Main Div used to set the overall container of the table
+ */
+
+div.htmltabledivui{
+	clear:both;
+	width: 100%;
+	margin: 10px auto;
+}	
+
+div.htmltabledivui div.body{
+	border-top: 0px;
+	clear:both;
+	margin:0px auto;
+	text-align: center;		
+}
+
+div.htmltabledivui div.header div.header-container{
+	position:relative;
+	float: left;
+	width: 100%;
+	text-align: center;
+	display: inline;
+}
+
+div.htmltabledivui div.header div.header-container span{
+	font-weight: bold;
+}
+
+div.htmltabledivui div.header,
+div.htmltabledivui div.body{
+	width: 100%;
+}
+
+
+div.htmltabledivui div.header table.header-table, 
+div.htmltabledivui div.body table.body-table {
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ui-widget-header{
+	/*background-image: url("../img/bg.png");/* repeat-x scroll 50% 50%;
+	background-color: #B7D6E7;*/
+}
+
+div.htmltabledivui div.header table.header-table tbody tr td{
+	padding: 5px 2px;
+}
+
+div.htmltabledivui div.header div.header-container div.controls{
+	position: absolute;
+	left:0px;
+	top:0px;
+}
+
+div.htmltabledivui div.header div.header-container div.extra{
+	float: right;
+	vertical-align: sub;
+}
+
+div.htmltabledivui div.header div.header-container div.extra span{
+	font-size: 75%;
+	font-weight: normal;
+}
+
+
+div.htmltabledivui div.header table.header-table tr td.header-mode{
+	clear: both;
+	padding-right: 5px;
+	text-align: center;
+}
+
+div.htmltabledivui div.header table.header-table tr td.header-mode div.header-mode-button,
+div.htmltabledivui div.header table.header-table tr td.header-mode div.header-send-button,
+div.htmltabledivui div.header table.header-table tr td.header-mode div.header-export-button{
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	float: right;
+}
+
+
+/*
+ * IMAGES
+ */
+
+div.htmltabledivui div.header table.header-table tr td.header-mode div.header-mode-button{
+	background-image: url("../img/editmode.png");
+}
+
+div.htmltabledivui div.header table.header-table tr td.header-mode div.editmode{
+	background-image: url("../img/viewmode.png");
+}
+
+div.htmltabledivui div.header table.header-table tr td.header-mode div.header-send-button{
+	background-image: url("../img/send.png");
+}
+
+div.htmltabledivui div.header table.header-table tr td.header-mode div.header-export-button{
+	background-image: url("../img/csvexport.png");
+}
+
+div.htmltabledivui div.header table.header-table tr td.header-mode div.ajaxLoading{
+	background-image: url("../img/ajax-comets.gif");
+}
+/*
+div.htmltabledivui div.ui-icon-close{
+	background-image: url("../img/ajax-comets.gif");
+}
+*/
+/*
+ * TABLE CELLS
+ */
+
+div.htmltabledivui div.header table.header-table,
+div.htmltabledivui div.body table.body-table{
+	margin-top:0px;
+	margin-bottom:0px;
+	/*text-align: center;*/
+	width: 100%;
+}
+
+div.htmltabledivui div.body table.body-table tr.body-header td,
+div.htmltabledivui div.body table.body-table tr.body-header th,
+div.htmltabledivui div.body table.body-table tbody tr td,
+div.htmltabledivui div.body table.body-table tfoot tr td{
+	/*border: 1px solid #0E509E;*/
+	text-align: center;
+}
+
+div.htmltabledivui div.body table.body-table thead tr.body-subtitle td{
+	text-align: center;
+}
+
+div.htmltabledivui div.body table.body-table tbody tr td{
+	font-size: 80%;
+	border: 1px solid;
+}
+
+div.htmltabledivui div.body table.body-table tbody tr td:first-child{
+	border-left: 0px;
+}
+
+div.htmltabledivui div.body table.body-table tbody tr td:last-child{
+	border-right: 0px;
+}
+
+div.htmltabledivui div.body table.body-table tr.body-header, 
+div.htmltabledivui div.body table.body-table tr.body-header th{
+	text-align: center;
+}
+
+div.htmltabledivui div.body table.body-table tr.body-header th:first-child{
+	border-left: 0px;
+}
+
+div.htmltabledivui div.body table.body-table tr.body-header th:last-child{
+	border-right: 0px;
+}
+
+
+
+/*
+ * STRIPING
+ */
+div.htmltabledivui div.body table.body-table thead tr td,
+div.htmltabledivui div.body table.body-table tfoot tr td{
+    /*background: none repeat scroll 0 0 #EFF4FA;*/
+   border-bottom: 0px solid;
+}
+
+div.htmltabledivui div.body table.body-table tr:nth-child(2n) td{
+   /*background: none repeat scroll 0 0 #EFF4FA;*/
+   /*border-bottom: 1px solid;*/
+}	
+
+
+/*
+ * Row editing styles
+ */
+div.htmltabledivui div.body table.body-table tbody tr.editrow td{
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: black;
+}
+
+div.htmltabledivui div.body table.body-table tbody tr.editrow:hover td{
+    background: none repeat scroll 0 0 #FFC3C3;
+}
+
+div.htmltabledivui div.body table.body-table tbody tr.modified td{
+    background: none repeat scroll 0 0 #C3FFC3;
+}
+
+div.htmltabledivui div.body table.body-table tr.visiblerow{
+    display: table-row;
+}
+
+div.htmltabledivui div.body table.body-table tr.hiddenrow{
+    display: none;
+}
+
+/**
+ * 	Sorter CSS
+ */
+div.htmltabledivui div.column-data{
+	clear: both;
+	width: 100%;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	vertical-align: middle;
+}
+
+div.htmltabledivui div.column-name{
+	display: inline;		
+	text-align: center;
+}
+
+div.htmltabledivui div.column-sort-image{
+	margin-top: 2px;
+	padding: 0px;
+	width: 9px;height:10px;
+	/*background-image: url("../img/nosort.png");*/
+	display: inline;
+	float:right;
+	vertical-align: middle;
+}
+
+div.htmltabledivui div.body table.body-table tr.body-header th.headerSortDown div.column-sort-image{
+	background-image: url("../img/sortup.png");
+}
+div.htmltabledivui div.body table.body-table tr.body-header th.headerSortUp div.column-sort-image{
+	background-image: url("../img/sortdown.png");
+}
+
+
+/**
+ * 	FORM
+ */
+#edit-form{
+	position: absolute;
+	top: 50px;
+	left: 50px;
+	z-index: 1000;
+}
+
+#edit-form .ui-widget-header{
+	font-weight: bold;
+	text-align: center;
+	padding: 5px 0;
+}
+
+#edit-form div.edit-table-row,#edit-form table{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#edit-form .ui-widget-content{
+	padding: 10px;
+}
+
+#edit-form td{
+	text-align: right;
+	padding: 0px;
+}
+
+#edit-form td.edit-form-title{
+	text-align: center;
+	padding: 0px;
+	width: 90%;
+}
+
+#edit-form td.edit-form-buttons{
+	text-align: right;
+	padding: 0px;
+	cursor: pointer;
+}
+
+#edit-form label{
+	text-align: left;
+}
+
+#edit-form input.text{
+
+}
+
+#edit-form-header-icon-close{
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	float: right;
+}

@@ -25,7 +25,7 @@ class All
         $sql = '
             SELECT "Marines" AS name, COUNT(DISTINCT round.id) AS count FROM round 
             LEFT JOIN mod_round ON mod_round.round_id = round.id
-            WHERE (round.winner = 1 OR round.winner = 2) ' . Filter::addFilterConditions() . '
+            WHERE round.winner = 1 ' . Filter::addFilterConditions() . '
             UNION
             SELECT "Aliens" AS name, COUNT(DISTINCT round.id) AS count FROM round 
             LEFT JOIN mod_round ON mod_round.round_id = round.id
@@ -84,6 +84,41 @@ class All
             LIMIT 16';
 
         $command = Yii::app()->db->cache(1 * 60)->createCommand($sql);
+        return $command->queryAll();
+    }
+
+    /* round / rounds */
+
+    public static function getFullRoundsList()
+    {
+        if (isset($_GET['searchTags']) && strlen($_GET['searchTags']) > 1)
+        {            
+            $tagsString = '%' . $_GET['searchTags'] . '%';
+            $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added, round.tags
+            FROM round
+            LEFT JOIN server ON server.id = round.server_id
+            LEFT JOIN mod_round ON mod_round.round_id = round.id            
+            WHERE round.tags IS NOT NULL AND round.tags LIKE :tags AND
+            1=1 ' . Filter::addFilterConditions() .
+                    ' ORDER BY round.added DESC,round.id DESC
+            LIMIT 100';
+            $command = Yii::app()->db->cache(1 * 60)->createCommand($sql);
+            $command->bindParam(':tags', $tagsString);
+             //$command->bindParam(':id', $id); $id was ununsed
+        }
+        else
+        {
+            $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added,round.tags
+            FROM round
+            LEFT JOIN server ON server.id = round.server_id
+            LEFT JOIN mod_round ON mod_round.round_id = round.id
+            WHERE 1=1 ' . Filter::addFilterConditions() .
+                    ' ORDER BY round.added DESC,round.id DESC
+            LIMIT 100';
+            $command = Yii::app()->db->cache(1 * 60)->createCommand($sql);
+        }
+
+
         return $command->queryAll();
     }
 

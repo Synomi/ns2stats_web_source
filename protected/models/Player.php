@@ -28,7 +28,8 @@
  * @property PlayerRound[] $playerRounds
  * @property Server[] $servers
  */
-class Player extends CActiveRecord {
+class Player extends CActiveRecord
+{
 
     public $score;
     public $rounds_played;
@@ -41,21 +42,24 @@ class Player extends CActiveRecord {
      * @param string $className active record class name.
      * @return Player the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'player';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
 // NOTE: you should only define rules for those attributes that
 // will receive user inputs.
         return array(
@@ -78,7 +82,8 @@ class Player extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
 // NOTE: you may need to adjust the relation name and the related
 // class name for the relations automatically generated below.
         return array(
@@ -90,7 +95,8 @@ class Player extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'steam_id' => 'Steam',
@@ -110,7 +116,8 @@ class Player extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
 // Warning: Please modify the following code to remove attributes that
 // should not be searched.
 
@@ -129,12 +136,14 @@ class Player extends CActiveRecord {
         $criteria->compare('rating', $this->rating, true);
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
+            'criteria' => $criteria,
+        ));
     }
 
-    public static function getGroupName($group) {
-        switch ($group) {
+    public static function getGroupName($group)
+    {
+        switch ($group)
+        {
             case 0:
                 return "Player";
                 break;
@@ -159,14 +168,16 @@ class Player extends CActiveRecord {
         }
     }
 
-    public static function getIdBySteamId($steamId, $ip = null) {
+    public static function getIdBySteamId($steamId, $ip = null)
+    {
         $steamId = round($steamId);
         if (!is_numeric($steamId))
             return false;
         $player = Player::model()->findByAttributes(array('steam_id' => $steamId));
         if (isset($player))
             return $player->id;
-        else {
+        else
+        {
             $player = new Player();
             $player->steam_id = $steamId;
             $player->getSteamApiData();
@@ -175,14 +186,17 @@ class Player extends CActiveRecord {
         return Yii::app()->db->getLastInsertID();
     }
 
-    public function getSteamApiData() {
+    public function getSteamApiData()
+    {
         $steamData = SteamApi::getPlayerSummary($this->steam_id);
         $this->steam_name = $steamData['personaname'];
         $this->steam_url = $steamData['profileurl'];
         $this->steam_image = $steamData['avatarfull'];
     }
-    public static function getPlayers($namePhrase) {
-        if (!$namePhrase)
+
+    public static function getPlayers($namePhrase)
+    {
+        if (!isset($namePhrase) || $namePhrase == '')
             return array();
         $sql = '
             SELECT 
@@ -194,7 +208,7 @@ class Player extends CActiveRecord {
             WHERE player.steam_name LIKE :namePhrase2 OR player_round.name LIKE :namePhrase2
             GROUP BY player.id
             ORDER BY name DESC
-            LIMIT 35';
+            LIMIT 10';
         /* kestää yli 5 sekuntia pitkään tää kysely:
           $sql = '
           SELECT
@@ -223,7 +237,8 @@ class Player extends CActiveRecord {
         return $rows;
     }
 
-    public static function getMaxRank() {
+    public static function getMaxRank()
+    {
         $sql = 'SELECT max(ranking) as m FROM player';
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
@@ -231,7 +246,8 @@ class Player extends CActiveRecord {
         return $result[0]["m"];
     }
 
-    public static function getMaps($id) {
+    public static function getMaps($id)
+    {
         $sql = 'SELECT map.id, map.name, COUNT(map.id) AS count FROM player
             LEFT JOIN player_round ON player.id = player_round.player_id
             LEFT JOIN round ON player_round.round_id = round.id
@@ -245,7 +261,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getRoundResults($id, $team = null) {
+    public static function getRoundResults($id, $team = null)
+    {
         $sql = '
             SELECT "Wins" as name, COUNT(count) AS count FROM (
             SELECT COUNT(round.id) AS count, 
@@ -282,7 +299,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getTimePlayedByAlienLifeform($id, $includeCommander = false) {
+    public static function getTimePlayedByAlienLifeform($id, $includeCommander = false)
+    {
         $sql = 'SELECT lifeform.name, SUM(player_lifeform.end - player_lifeform.start) AS count FROM lifeform
             LEFT JOIN player_lifeform ON player_lifeform.lifeform_id = lifeform.id
             LEFT JOIN player_round ON player_lifeform.player_round_id = player_round.id
@@ -301,7 +319,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getTimePlayedByMarineLifeform($id, $includeCommander = false) {
+    public static function getTimePlayedByMarineLifeform($id, $includeCommander = false)
+    {
         $sql = 'SELECT lifeform.name, SUM(DISTINCT player_lifeform.end - player_lifeform.start) AS count FROM lifeform
             LEFT JOIN player_lifeform ON player_lifeform.lifeform_id = lifeform.id
             LEFT JOIN player_round ON player_lifeform.player_round_id = player_round.id
@@ -321,7 +340,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getWeapons($id, $team) {
+    public static function getWeapons($id, $team)
+    {
         $sql = 'SELECT weapon.name, SUM(player_weapon.time) AS count FROM weapon
             LEFT JOIN player_weapon ON player_weapon.weapon_id =weapon.id
             LEFT JOIN player_round ON player_weapon.player_round_id = player_round.id
@@ -338,7 +358,8 @@ class Player extends CActiveRecord {
         return array();
     }
 
-    public static function getKillsByWeapon($id, $team) {
+    public static function getKillsByWeapon($id, $team)
+    {
         $sql = 'SELECT weapon.name, COUNT(DISTINCT death.id) AS count FROM death
             LEFT JOIN player_round ON death.attacker_id = player_round.id
             LEFT JOIN player_weapon ON player_weapon.player_round_id = player_round.id
@@ -355,7 +376,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getTeams($id) {
+    public static function getTeams($id)
+    {
         $sql = '            
             SELECT "Marines" as name, COUNT(id) AS count FROM (
             SELECT round.id, SUM(player_round.end - player_round.start) AS playertime,
@@ -382,7 +404,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getTeamsTime($id) {
+    public static function getTeamsTime($id)
+    {
         $sql = 'SELECT "Marines" AS name, SUM(player_round.end - player_round.start) AS count FROM player_round
             LEFT JOIN player ON player.id = player_round.player_id
             LEFT JOIN round ON player_round.round_id = round.id
@@ -400,7 +423,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getRoundsPlayedPerDay($id) {
+    public static function getRoundsPlayedPerDay($id)
+    {
         $filter = new Filter();
         $filter->loadFromSession();
         $filter->loadDefaults();
@@ -419,7 +443,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getRoundsList($id) {
+    public static function getRoundsList($id)
+    {
         $sql = 'SELECT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length, round.added
             FROM round
             LEFT JOIN server ON server.id = round.server_id
@@ -439,7 +464,8 @@ class Player extends CActiveRecord {
      * @param type $lifeform
      * @return type 
      */
-    public static function getLifeformRoundResults($id, $lifeform) {
+    public static function getLifeformRoundResults($id, $lifeform)
+    {
         $sql = '
             SELECT "Wins" as name, COUNT(count) AS count FROM (
             SELECT 1 AS count, SUM(player_lifeform.end - player_lifeform.start) AS lifeformtime,
@@ -473,7 +499,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getRoundsPlayed($id) {
+    public static function getRoundsPlayed($id)
+    {
         $sql = 'SELECT COUNT(DISTINCT id) AS count FROM (
             SELECT round.id, SUM(player_round.end - player_round.start) AS playertime,
             round.end - round.start AS roundtime
@@ -491,7 +518,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getScore($id) {
+    public static function getScore($id)
+    {
         $sql = 'SELECT SUM(DISTINCT player_round.score) AS count FROM player
             LEFT JOIN player_round ON player.id = player_round.player_id
             LEFT JOIN round ON player_round.round_id = round.id
@@ -502,7 +530,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getKillsById($id, $team = null) {
+    public static function getKillsById($id, $team = null)
+    {
         $sql = 'SELECT COUNT(death.id) AS count
             FROM death          
             LEFT JOIN player_round ON death.attacker_id = player_round.id    
@@ -521,7 +550,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getKillsByPlayerIdAndRoundId($id, $roundId) {
+    public static function getKillsByPlayerIdAndRoundId($id, $roundId)
+    {
         $sql = 'SELECT COUNT(death.id) AS count
             FROM death
             LEFT JOIN player_round ON death.attacker_id = player_round.id
@@ -537,7 +567,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getDeaths($id, $team = null) {
+    public static function getDeaths($id, $team = null)
+    {
         $sql = 'SELECT COUNT(death.id) AS count
             FROM death          
             LEFT JOIN player_round ON death.target_id = player_round.id    
@@ -555,7 +586,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getDeathsByPlayerIdAndRoundId($id, $roundId) {
+    public static function getDeathsByPlayerIdAndRoundId($id, $roundId)
+    {
         $sql = 'SELECT COUNT(death.id) AS count
             FROM death
             LEFT JOIN player_round ON death.target_id = player_round.id
@@ -570,7 +602,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getKD($id) {
+    public static function getKD($id)
+    {
         $sql = '
             SELECT SUM(kills) / SUM(deaths) AS kd FROM (
             SELECT COUNT(death.id) AS kills, 0 AS deaths
@@ -593,7 +626,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getSD($id) {
+    public static function getSD($id)
+    {
         $sql = '
             SELECT SUM(score) / SUM(deaths) AS sd FROM (
             SELECT SUM(DISTINCT player_round.score) AS score, 0 AS deaths
@@ -614,7 +648,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getSM($id) {
+    public static function getSM($id)
+    {
         $sql = '
             SELECT SUM(DISTINCT score) / SUM(player_round.end - player_round.start) * 60
             FROM player_round  
@@ -627,7 +662,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getTimesPlayedByAlienLifeform($id) {
+    public static function getTimesPlayedByAlienLifeform($id)
+    {
         $sql = 'SELECT lifeform.name AS name, COUNT(player_round.id) AS count FROM player
             LEFT JOIN player_round ON player.id = player_round.player_id
             LEFT JOIN player_lifeform ON player_lifeform.player_round_id = player_round.id
@@ -654,7 +690,8 @@ class Player extends CActiveRecord {
 //        return self::toAssociativeArray($command->queryAll());
 //    }
 
-    public static function getKillsByLifeform($id) {
+    public static function getKillsByLifeform($id)
+    {
         $sql = 'SELECT lifeform.name AS name, COUNT(DISTINCT death.id) AS count
             FROM death          
             LEFT JOIN player_round ON death.attacker_id = player_round.id
@@ -671,7 +708,8 @@ class Player extends CActiveRecord {
         return self::toAssociativeArray($command->queryAll());
     }
 
-    public static function getDeathsByLifeform($id) {
+    public static function getDeathsByLifeform($id)
+    {
         $sql = 'SELECT lifeform.name AS name, COUNT(DISTINCT death.id) AS count
             FROM death          
             LEFT JOIN player_round ON death.target_id = player_round.id 
@@ -687,7 +725,8 @@ class Player extends CActiveRecord {
         return self::toAssociativeArray($command->queryAll());
     }
 
-    public static function getKDByLifeform($id) {
+    public static function getKDByLifeform($id)
+    {
         $sql = '
             SELECT name AS name, SUM(kills) / SUM(deaths) AS count FROM (
             SELECT lifeform.name AS name, COUNT(DISTINCT death.id) AS kills, 0 AS deaths
@@ -757,7 +796,8 @@ class Player extends CActiveRecord {
 //        return self::toAssociativeArray($command->queryAll());
 //    }
 
-    public static function getNickList($id) {
+    public static function getNickList($id)
+    {
         $sql = 'SELECT DISTINCT player_round.name
             FROM player_round
             LEFT JOIN player ON player.id = player_round.player_id
@@ -768,16 +808,16 @@ class Player extends CActiveRecord {
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         $command->bindParam(':id', $id);
-        $nicks =  $command->queryAll();
-        foreach($nicks as &$nick)
+        $nicks = $command->queryAll();
+        foreach ($nicks as &$nick)
         {
             $nick['name'] = htmlspecialchars($nick['name']);
-
         }
         return $nicks;
     }
 
-    public static function getTimePlayed($id) {
+    public static function getTimePlayed($id)
+    {
         $sql = 'SELECT SUM(player_round.end - player_round.start) AS count FROM player_round
             LEFT JOIN player ON player.id = player_round.player_id
             LEFT JOIN round ON player_round.round_id = round.id
@@ -789,7 +829,8 @@ class Player extends CActiveRecord {
         return $command->queryScalar();
     }
 
-    public static function getKillStreak($id) {
+    public static function getKillStreak($id)
+    {
         $sql = '
             SELECT * FROM (            
             SELECT death.id AS player_id, player_round.id, death.target_id, death.time
@@ -813,11 +854,13 @@ class Player extends CActiveRecord {
         $command = $connection->createCommand($sql);
         $command->bindParam(':id', $id);
         $deaths = $command->queryAll();
-        if (isset($deaths[0])) {
+        if (isset($deaths[0]))
+        {
             $playerRound = $deaths[0]['id'];
             $streak = 0;
             $longestStreak = 0;
-            foreach ($deaths as $death) {
+            foreach ($deaths as $death)
+            {
                 if ($death['id'] == $playerRound && $death['target_id'] != $death['id'])
                     $streak++;
                 else
@@ -832,7 +875,8 @@ class Player extends CActiveRecord {
             return 0;
     }
 
-    public static function getLongestSurvival($id) {
+    public static function getLongestSurvival($id)
+    {
         $sql = '
             SELECT id, died, born, comm_start, comm_end, player_round_start, player_round_end FROM (
             SELECT player_lifeform.id AS player_lifeform_id, player_round.id, player_lifeform.start AS died, player_lifeform.end AS born, 0 as comm_start, 0 as comm_end, player_round.start AS player_round_start, player_round.end AS player_round_end
@@ -859,19 +903,25 @@ class Player extends CActiveRecord {
         $survival = 0;
         $longestSurvival = 0;
         $born = 0;
-        foreach ($deaths as $death) {
+        foreach ($deaths as $death)
+        {
             //Same round
 //            echo '<pre>';
-            if ($death['id'] == $playerRound) {
-                if ($death['born']) {
+            if ($death['id'] == $playerRound)
+            {
+                if ($death['born'])
+                {
                     $survival = $survival + $death['died'] - $born;
                     $born = $death['born'];
-                } else if ($death['comm_start']) {
+                }
+                else if ($death['comm_start'])
+                {
                     $survival = $survival - ($death['comm_end'] - $death['comm_start']);
                 }
             }
             //New round
-            else {
+            else
+            {
                 $playerRound = $death['id'];
                 if ($death['player_round_start'] == 0)
                     $survival = $death['died'];
@@ -887,7 +937,8 @@ class Player extends CActiveRecord {
         return $longestSurvival;
     }
 
-    public static function getHiveUpgrades($id) {
+    public static function getHiveUpgrades($id)
+    {
 
         $sql = '
             SELECT name, COUNT(round_id) AS count FROM (
@@ -915,7 +966,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getKilledLifeforms($id, $team) {
+    public static function getKilledLifeforms($id, $team)
+    {
         $sql = 'SELECT lifeform.name AS name, COUNT(DISTINCT death.id) AS count
             FROM death          
             LEFT JOIN player_round ON death.attacker_id = player_round.id
@@ -931,7 +983,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getPlayedBuilds($id) {
+    public static function getPlayedBuilds($id)
+    {
         $sql = 'SELECT round.build FROM round
             LEFT JOIN player_round ON round.id = player_round.round_id
             LEFT JOIN player ON player_round.player_id = player.id
@@ -944,7 +997,8 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    public static function getPlayedServers($id) {
+    public static function getPlayedServers($id)
+    {
         $sql = 'SELECT server.id, server.name FROM server
             LEFT JOIN round ON round.server_id = server.id
             LEFT JOIN player_round ON round.id = player_round.round_id
@@ -956,15 +1010,18 @@ class Player extends CActiveRecord {
         return $command->queryAll();
     }
 
-    private static function toAssociativeArray($rows, $keyName = 'name', $valueName = 'count') {
+    private static function toAssociativeArray($rows, $keyName = 'name', $valueName = 'count')
+    {
         $array = array();
-        foreach ($rows as $row) {
+        foreach ($rows as $row)
+        {
             $array[$row[$keyName]] = $row[$valueName];
         }
         return $array;
     }
 
-    public static function getAlienLifeforms() {
+    public static function getAlienLifeforms()
+    {
         return '(
                 lifeform.name = "Skulk" OR 
                 lifeform.name = "Gorge" OR
@@ -974,18 +1031,21 @@ class Player extends CActiveRecord {
             )';
     }
 
-    public static function getMarineLifeforms() {
+    public static function getMarineLifeforms()
+    {
         return '(
                 lifeform.name = "marine" OR 
                 lifeform.name = "jetpackmarine" 
             )';
     }
 
-    public function beforeSave() {
+    public function beforeSave()
+    {
         return true;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return htmlspecialchars($this->name);
     }
 
@@ -994,25 +1054,29 @@ class Player extends CActiveRecord {
         $players = Player::model()->findAll(array(
             'condition' => 'now()-300<=last_seen and hidden=0',
             'order' => 'steam_name ASC'
-            ));
+        ));
 
         return $players;
     }
 
-    public function getRanking($attribute) {
+    public function getRanking($attribute)
+    {
         Yii::beginProfile('getRanking');
         if ($this->$attribute == 1500)
             return '-';
         $rank = Yii::app()->cache->get('rank-' . $this->id . '-' . $attribute);
         if ($rank)
             return $rank;
-        if (isset($this->$attribute)) {
+        if (isset($this->$attribute))
+        {
             $criteria = new CDbCriteria();
             $sql = 'SELECT ' . $attribute . ' AS rating FROM player WHERE ' . $attribute . ' != 1500 ORDER BY rating DESC';
             $players = Yii::app()->db->createCommand($sql)->queryAll();
             $rank = 1;
-            foreach ($players as $player) {
-                if ($player['rating'] == $this->$attribute) {
+            foreach ($players as $player)
+            {
+                if ($player['rating'] == $this->$attribute)
+                {
                     Yii::app()->cache->set('rank-' . $this->id . '-' . $attribute, $rank);
                     return $rank;
                 }

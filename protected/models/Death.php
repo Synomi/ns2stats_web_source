@@ -153,9 +153,7 @@ class Death extends CActiveRecord
     }
 
     public static function getLatestsDeathsForMap($mapName, $limit = 1000)
-    {
-        //error_reporting(0);        
-
+    {        
         $map = Map::model()->findByAttributes(array('name' => $mapName));
         if (!isset($map))
             throw new CHttpException(404, "Unable to find map.");

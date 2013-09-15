@@ -19,6 +19,7 @@
  * @property integer $parse_status
  * @property string $log_file
  * @property string $added
+ * @property string tags
  * 
  * The followings are the available model relations:
  * @property PlayerRound[] $playerRounds
@@ -59,10 +60,11 @@ class Round extends CActiveRecord
             array('map_id', 'length', 'max' => 10),
             array('team_1_start, team_2_start', 'length', 'max' => 128),
             array('build', 'length', 'max' => 64),
+            array('tags', 'length', 'max' => 512),
             array('parse_status', 'length', 'max' => 1),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, server_id, map_id, end, start, winner, team_1_start, team_2_start, build', 'safe', 'on' => 'search'),
+            array('id, server_id, map_id, end, start, winner, team_1_start, team_2_start, build, tags', 'safe', 'on' => 'search'),
         );
     }
 
@@ -96,6 +98,7 @@ class Round extends CActiveRecord
             'team_1_start' => 'Team 1 Start',
             'team_2_start' => 'Team 2 Start',
             'build' => 'Build',
+            'tags' => 'Tags',
         );
     }
 
@@ -119,6 +122,7 @@ class Round extends CActiveRecord
         $criteria->compare('team_1_start', $this->team_1_start, true);
         $criteria->compare('team_2_start', $this->team_2_start, true);
         $criteria->compare('build', $this->build, true);
+        $criteria->compare('tags', $this->tags, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

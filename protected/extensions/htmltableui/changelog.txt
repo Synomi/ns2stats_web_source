@@ -1,0 +1,5 @@
+2012-05-06
+Fixed trailing commas in htmlTableUi.js
+Added close button at edit form header.
+- Learned that using echo CHtml::tag('div',array('class'=>'ui-icon ui-icon-close'),'&nbsp');
+requires the white space (&nbsp) or the code breaks by not writing a trailing </div>

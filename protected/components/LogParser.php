@@ -49,7 +49,6 @@ class LogParser
 
     protected function loadLog($logPath)
     {
-        error_reporting(0);
         $this->log = array();
         Yii::beginProfile('loadLog');
         //Load the whole log
@@ -59,7 +58,7 @@ class LogParser
         {
 //            $start_memory = memory_get_usage();
 
-                        $regex = <<<'END'
+            $regex = <<<'END'
 /
   (
     (?: [\x00-\x7F]                 # single-byte sequences   0xxxxxxx
@@ -74,8 +73,8 @@ END;
             while (($buffer = fgets($handle)) !== false)
             {
                 //$this->log[] = json_decode($buffer, true);
-                $this->log[] = json_decode(preg_replace($regex, '$1', $buffer), true);    
-                
+                $this->log[] = json_decode(preg_replace($regex, '$1', $buffer), true);
+
 //                if (!is_array($this->log[count($this->log)-1]))
 //                    die("Not array: " . print_r($this->log[count($this->log)-1],true));
 //                echo "mem usage: " . ((memory_get_usage() - $start_memory)/1024/1024) . " M<br />";
@@ -123,9 +122,6 @@ END;
                 $server = Server::model()->findByPk($serverId);
                 $server->name = $logRow['serverName'];
 
-                if (isset($logRow['tags']) && $logRow['tags'] != null)
-                    $server->tags = json_encode($logRow['tags']);
-
                 $server->stats_version = $logRow['statsVersion'];
 
                 if ($logRow['private'] == true) //change in b227, tournament mode is now set in game/config
@@ -148,6 +144,8 @@ END;
                 $round->private = $server->private;
                 $round->server_id = $serverId;
                 $round->map_id = Map::getIdByName($logRow['map']);
+                if (isset($logRow['tags']) && $logRow['tags'] != null)
+                    $round->tags = implode(' | ', $logRow['tags']);
 
                 $dateInfo = date_parse_from_format('Y-m-d H:i:s', $logRow['time']);
                 $unixTimestamp = mktime(
@@ -447,7 +445,7 @@ END;
     protected function createPlayerRounds($playerList)
     {
         Yii::beginProfile('createPlayerRounds');
-        $this->addTimeStamp("CREATE_PLAYER_ROUNDS");        
+        $this->addTimeStamp("CREATE_PLAYER_ROUNDS");
         foreach ($playerList as $player)
         {
 //            if (!isset($player['steamId']))
@@ -1185,7 +1183,12 @@ END;
 
     protected function saveMods($mods)
     {
-        $mods = explode(',', $mods);
+        if (!is_array($mods))
+            $mods = explode(',', $mods);
+
+        if (!is_array($mods))
+            return;
+
         foreach ($mods as $modName)
         {
             $modName = trim($modName);
