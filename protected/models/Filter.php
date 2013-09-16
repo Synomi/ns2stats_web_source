@@ -1,6 +1,7 @@
 <?php
 
-class Filter extends CModel {
+class Filter extends CModel
+{
 
     public $build;
     public $startDate;
@@ -12,7 +13,8 @@ class Filter extends CModel {
     public $team;
     public $mod;
 
-    public function attributeNames() {
+    public function attributeNames()
+    {
         return array(
             'build' => 'Build',
             'startDate' => 'Start Date',
@@ -24,7 +26,8 @@ class Filter extends CModel {
         );
     }
 
-    public function loadDefaults() {
+    public function loadDefaults()
+    {
         if (!$this->private)
             $this->private = array(0);
 //        if (!$this->build)
@@ -35,7 +38,8 @@ class Filter extends CModel {
             $this->endDate = date('d.m.Y', strtotime('now'));
     }
 
-    public function loadFromSession() {
+    public function loadFromSession()
+    {
         $filters = Yii::app()->user->getState('filter');
         if ($filters['build'])
             $this->build = $filters['build'];
@@ -54,12 +58,14 @@ class Filter extends CModel {
         if ($filters['team'])
             $this->team = $filters['team'];
         if (isset($filters['mod']))
-            if ($filters['mod']) {
+            if ($filters['mod'])
+            {
                 $this->mod = $filters['mod'];
             }
     }
 
-    public function saveToSession() {
+    public function saveToSession()
+    {
         Yii::app()->user->setState('filter', array(
             'build' => $this->build,
             'startDate' => $this->startDate,
@@ -73,19 +79,23 @@ class Filter extends CModel {
         ));
     }
 
-    public static function getFilterStringForCache() {
+    public static function getFilterStringForCache()
+    {
         $filterString = Filter::addFilterConditions();
         $filterString = preg_replace('#\W#', '', $filterString);
         return $filterString;
     }
 
-    public static function addFilterConditions($teamFilterEnabled = false, $buildFilterEnabled = true) {
-        if (Yii::app()->controller->id != 'api') {
+    public static function addFilterConditions($teamFilterEnabled = false, $buildFilterEnabled = true)
+    {
+        if (Yii::app()->controller->id != 'api')
+        {
             $filter = new Filter();
             $filter->loadFromSession();
             $filter->loadDefaults();
             $filterInput = Yii::app()->request->getPost('Filter');
-            if (isset($filterInput)) {
+            if (isset($filterInput))
+            {
 //            if (!isset($_POST['Filter_server_all']))
                 if (isset($filterInput['server']))
                     $filter->server = $filterInput['server'];

@@ -75,13 +75,18 @@ class All
 
     public static function getRoundsList()
     {
-        $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added
+        $sql = 'SELECT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added
             FROM round
-            LEFT JOIN server ON server.id = round.server_id
-            LEFT JOIN mod_round ON mod_round.round_id = round.id
-            WHERE 1=1 ' . //Filter::addFilterConditions() . '
-                'ORDER BY round.added DESC,round.id DESC
+            LEFT JOIN server ON server.id = round.server_id            
+            ORDER BY round.added DESC
             LIMIT 16';
+//        $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added
+//            FROM round
+//            LEFT JOIN server ON server.id = round.server_id
+//            LEFT JOIN mod_round ON mod_round.round_id = round.id
+//            WHERE 1=1 ' . //Filter::addFilterConditions() . '
+//                'ORDER BY round.added DESC,round.id DESC
+//            LIMIT 16';
 
         $command = Yii::app()->db->cache(1 * 60)->createCommand($sql);
         return $command->queryAll();

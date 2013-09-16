@@ -12,28 +12,32 @@
  * @property Death[] $deaths1
  * @property PlayerWeapon[] $playerWeapons
  */
-class Weapon extends CActiveRecord {
+class Weapon extends CActiveRecord
+{
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Weapon the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'weapon';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -48,7 +52,8 @@ class Weapon extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -61,7 +66,8 @@ class Weapon extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'name' => 'Name',
@@ -72,7 +78,8 @@ class Weapon extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -82,15 +89,17 @@ class Weapon extends CActiveRecord {
         $criteria->compare('name', $this->name, true);
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
+            'criteria' => $criteria,
+        ));
     }
 
-    public static function getIdByName($name) {
+    public static function getIdByName($name)
+    {
         $weapon = Weapon::model()->findByAttributes(array('name' => $name));
         if (isset($weapon))
             return $weapon->id;
-        else {
+        else
+        {
             $weapon = new Weapon();
             $weapon->name = $name;
         }
@@ -98,20 +107,41 @@ class Weapon extends CActiveRecord {
             return Yii::app()->db->getLastInsertID();
     }
 
-    public static function getAccuracyWeapons() {
-        return '(
-                weapon.name = "rifle" OR 
-                weapon.name = "pistol" OR
-                weapon.name = "shotgun" OR
-                weapon.name = "axe" OR
-                weapon.name = "minigun" OR 
-                weapon.name = "bite" OR
-                weapon.name = "parasite" OR
-                weapon.name = "lerkbite" OR
-                weapon.name = "spikes" OR 
-                weapon.name = "gore" OR
-                weapon.name = "swipe" OR
-                weapon.name = "spit" 
-            )';
+    public static function getAccuracyWeapons()
+    {
+        $weapons = self::getWeaponsForAccuracy();
+        $weaponString = '(';
+        foreach ($weapons as $weapon)
+        {
+            $weaponString .='weapon.name = "';
+            $weaponString .= $weapon;
+            $weaponString .='" OR ';
+        }
+
+        $weaponString .= '1=2)';
+     
+        return $weaponString;
     }
+
+    public static function getWeaponsForAccuracy()
+    {
+        return array(
+            'rifle',
+            'pistol',
+            'shotgun',
+            'axe',
+            'minigun',
+            'bite',
+            'parasite',
+            'lerkbite',
+            'spikes',
+            'gore',
+            'swipe',
+            'spit',
+            'railgun',  
+            'stabblink',
+            'swipeblink',
+        );
+    }
+
 }

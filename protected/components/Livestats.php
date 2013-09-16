@@ -5,15 +5,23 @@
  * Usage:
  *
  */
-class Livestats extends CWidget {
+class Livestats extends CWidget
+{
 
     public $server;
+    public $view = null;
+
     public function run()
     {
-        $this->render('livestats',array("server" => $this->server));
+        if ($this->view == null)
+            $this->render('livestats', array("server" => $this->server));
+        else
+            $this->render($this->view, array("server" => $this->server));
     }
-     public function init()
-     {
-         
-     }
+
+    public function init()
+    {
+        
+    }
+
 }

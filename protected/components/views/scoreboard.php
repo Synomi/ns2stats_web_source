@@ -1,10 +1,10 @@
 <?php
 
 $liveRound = LiveRound::model()->find(array(
-    'condition' => 'server_id=:serverId and now()-300<=last_updated AND players>0',
-    'params' => array(
-        'serverId' => $server->id,
-    ),
+            'condition' => 'server_id=:serverId',
+            'params' => array(
+                'serverId' => $server->id,
+            ),
         ));
 
 if ($server->country)
@@ -12,9 +12,7 @@ if ($server->country)
 else
     $img = '';
 
-if (isset($liveRound))
-{
-    echo "<h2>$img " . CHtml::tag("a", array("title" => "View server livestats.", "href" => Yii::app()->createUrl("server/server/", array("id" => $server->id))), $server->name) . " (" . $liveRound->players . ") players " . CHtml::tag("a", array("href" => "steam://run/4920//connect " . $server->ip . ":" . $server->port, "title" => "Connect to " . $server->name), "join server") . "</h2>";
+if (isset($liveRound)) {    
     echo "<p>Gametime: " . $liveRound->gametime . " seconds.</p>";
     $columns = array(
         array(
@@ -45,7 +43,7 @@ if (isset($liveRound))
         array(
             'title' => 'D',
             'value' => '$data["deaths"]'
-        ),
+        ),        
         array(
             'title' => 'P.dmg',
             'value' => 'LivePlayer::getPlayerDamage($data["weapons"])'
@@ -73,23 +71,20 @@ if (isset($liveRound))
     );
     echo "<h3>Marines</h3>";
     $widget = $this->widget('StatsTable', array(
-        'columns' => $columns,
-        'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 1),
-    ));
+                'columns' => $columns,
+                'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 1),
+            ));
     echo "<h3>Aliens</h3>";
     $widget = $this->widget('StatsTable', array(
-        'columns' => $columns,
-        'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 2),
-    ));
+                'columns' => $columns,
+                'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 2),
+            ));
     echo "<h3>Ready room / spectating</h3>";
     $widget = $this->widget('StatsTable', array(
-        'columns' => $columns,
-        'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 5),
-    ));
-}
-else
-{
-    echo "<h2>$img " . CHtml::tag("a", array("title" => "View server livestats.", "href" => Yii::app()->createUrl("server/server/", array("id" => $server->id))), $server->name) . " " . CHtml::tag("a", array("href" => "steam://run/4920//connect " . $server->ip . ":" . $server->port, "title" => "Connect to " . $server->name), "join server") . "</h2>";
+                'columns' => $columns,
+                'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 5),
+            ));
+} else {  
     echo "<p>No live stats for server</p>";
 }
 ?>

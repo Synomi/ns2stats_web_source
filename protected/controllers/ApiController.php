@@ -112,7 +112,7 @@ class ApiController extends Controller
         {
             foreach ($players as $player)
             {
-                $dbplayer = Player::model()->findByAttributes(array('steam_id' => $player->steamId));
+                $dbplayer = Player::model()->findByAttributes(array('steam_id' => '' . $player->steamId));
                 if (isset($dbplayer) && $player->dc == false)
                 {
                     $playerCount++;
@@ -207,7 +207,7 @@ class ApiController extends Controller
             {
                 foreach ($players as $player)
                 {
-                    $dbplayer = Player::model()->findByAttributes(array('steam_id' => $player->steamId));
+                    $dbplayer = Player::model()->findByAttributes(array('steam_id' => '' . $player->steamId));
                     if (isset($dbplayer))
                     {
                         $playerCount++;
@@ -451,7 +451,7 @@ class ApiController extends Controller
             return;
 
         if (isset($id))
-            $player = Player::model()->findByAttributes(array('steam_id' => $id));
+            $player = Player::model()->findByAttributes(array('steam_id' => '' . $id));
 
         if (!isset($player))
         {
@@ -489,7 +489,7 @@ class ApiController extends Controller
 
     public function actionRank($id)
     {
-        $player = Player::model()->findByAttributes(array('steam_id' => $id));
+        $player = Player::model()->findByAttributes(array('steam_id' => '' . $id));
         if (!isset($player))
         {
             echo "Can't find you.";
@@ -503,7 +503,7 @@ class ApiController extends Controller
 
     public function actionStats($id)
     {
-        $player = Player::model()->findByAttributes(array('steam_id' => $id));
+        $player = Player::model()->findByAttributes(array('steam_id' => '' . $id));
         $this->renderPartial('stats', array(
             'player' => $player,
         ));
@@ -546,7 +546,7 @@ class ApiController extends Controller
         if (!is_numeric($id))
             return false;
 
-        $player = Player::model()->findByAttributes(array('steam_id' => $id));
+        $player = Player::model()->findByAttributes(array('steam_id' => '' . $id));
 
 
         if (isset($player))
@@ -572,7 +572,7 @@ class ApiController extends Controller
         if (!is_numeric($id))
             return false;
 
-        $player = Player::model()->findByAttributes(array('steam_id' => $id));
+        $player = Player::model()->findByAttributes(array('steam_id' => '' . $id));
 
 
         if (isset($player))
@@ -624,7 +624,7 @@ class ApiController extends Controller
         {
             $steamId = $_GET['steam_id'];
             $steamId = SteamApi::PublicIdToSteamId($steamId);
-            $players = Player::model()->findByAttributes(array('steam_id' => $steamId));
+            $players = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
         }
         else if (isset($_GET['steam_name']))
         {
@@ -634,7 +634,7 @@ class ApiController extends Controller
         else if (isset($_GET['ns2_id']))
         {
             $steamId = $_GET['ns2_id'];
-            $players = Player::model()->findByAttributes(array('steam_id' => $steamId));
+            $players = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
         }
         else
             throw new CHttpException(401, "Missing player name or id.");
@@ -762,6 +762,9 @@ class ApiController extends Controller
         if (isset($_REQUEST['players']))
         {
             $steamIds = explode(",", $_REQUEST['players']);
+            foreach($steamIds as &$steamId)
+                $steamId = '' . $steamId;
+            
             $players = Player::model()->findAllByAttributes(array('steam_id' => $steamIds));
             foreach ($players as $player)
             {

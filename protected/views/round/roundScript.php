@@ -83,6 +83,7 @@
         var values = {}
     
         values.score = 0;
+        values.kd = 0;
         values.kills = 0;
         values.deaths = 0;
         values.assists = 0;
@@ -115,20 +116,22 @@
             {
                 if (!isNaN(parseInt($($(this).find("td")[2]).html())))
                     totals.marine.score += parseInt($($(this).find("td")[2]).html())
-                if (!isNaN(parseInt($($(this).find("td")[3]).html())))
-                    totals.marine.kills += parseInt($($(this).find("td")[3]).html())
+                if (!isNaN(parseInt($($(this).find("td")[3]).html())))                                                               
+                    totals.marine.kd += parseFloat(($($(this).find("td")[3]).html()))                                        
                 if (!isNaN(parseInt($($(this).find("td")[4]).html())))
-                    totals.marine.deaths += parseInt($($(this).find("td")[4]).html())
+                    totals.marine.kills += parseInt($($(this).find("td")[4]).html())
                 if (!isNaN(parseInt($($(this).find("td")[5]).html())))
                     totals.marine.assists += parseInt($($(this).find("td")[5]).html())
                 if (!isNaN(parseInt($($(this).find("td")[6]).html())))
-                    totals.marine.pdmg += parseInt($($(this).find("td")[6]).html())
+                    totals.marine.deaths += parseInt($($(this).find("td")[6]).html())
                 if (!isNaN(parseInt($($(this).find("td")[7]).html())))
-                    totals.marine.sdmg += parseInt($($(this).find("td")[7]).html())
+                    totals.marine.pdmg += parseInt($($(this).find("td")[7]).html())
                 if (!isNaN(parseInt($($(this).find("td")[8]).html())))
-                    totals.marine.accuracy += parseInt($($(this).find("td")[8]).html())
+                    totals.marine.sdmg += parseInt($($(this).find("td")[8]).html())
                 if (!isNaN(parseInt($($(this).find("td")[9]).html())))
-                    totals.marine.played += getSeconds($($(this).find("td")[9]).html())
+                    totals.marine.accuracy += parseInt($($(this).find("td")[9]).html())
+                if (!isNaN(parseInt($($(this).find("td")[10]).html())))
+                    totals.marine.played += getSeconds($($(this).find("td")[10]).html())
 
                 totals.marine.count += 1
 
@@ -148,19 +151,21 @@
                 if (!isNaN(parseInt($($(this).find("td")[2]).html())))
                     totals.alien.score += parseInt($($(this).find("td")[2]).html())
                 if (!isNaN(parseInt($($(this).find("td")[3]).html())))
-                    totals.alien.kills += parseInt($($(this).find("td")[3]).html())
+                    totals.alien.kd += parseFloat($($(this).find("td")[3]).html())
                 if (!isNaN(parseInt($($(this).find("td")[4]).html())))
-                    totals.alien.deaths += parseInt($($(this).find("td")[4]).html())
+                    totals.alien.kills += parseInt($($(this).find("td")[4]).html())
                 if (!isNaN(parseInt($($(this).find("td")[5]).html())))
-                    totals.alien.assists += parseInt($($(this).find("td")[5]).html())
+                    totals.alien.deaths += parseInt($($(this).find("td")[5]).html())
                 if (!isNaN(parseInt($($(this).find("td")[6]).html())))
-                    totals.alien.pdmg += parseInt($($(this).find("td")[6]).html())
+                    totals.alien.assists += parseInt($($(this).find("td")[6]).html())
                 if (!isNaN(parseInt($($(this).find("td")[7]).html())))
-                    totals.alien.sdmg += parseInt($($(this).find("td")[7]).html())
+                    totals.alien.pdmg += parseInt($($(this).find("td")[7]).html())
                 if (!isNaN(parseInt($($(this).find("td")[8]).html())))
-                    totals.alien.accuracy += parseInt($($(this).find("td")[8]).html())
+                    totals.alien.sdmg += parseInt($($(this).find("td")[8]).html())
                 if (!isNaN(parseInt($($(this).find("td")[9]).html())))
-                    totals.alien.played += getSeconds($($(this).find("td")[9]).html())
+                    totals.alien.accuracy += parseInt($($(this).find("td")[9]).html())
+                if (!isNaN(parseInt($($(this).find("td")[10]).html())))
+                    totals.alien.played += getSeconds($($(this).find("td")[10]).html())
 
                 totals.alien.count += 1
             }
@@ -173,9 +178,10 @@
         tmp +="<tr class='totals'>";
         tmp +="<td colspan='2'>Totals</td>";
         tmp +="<td>" + totals.marine.score + "</td>";
+        tmp +="<td>" + Math.round((totals.marine.kd/totals.marine.count) * 100) / 100 + "</td>";
         tmp +="<td>" + totals.marine.kills + "</td>";
-        tmp +="<td>" + totals.marine.deaths + "</td>";
         tmp +="<td>" + totals.marine.assists + "</td>";
+        tmp +="<td>" + totals.marine.deaths + "</td>";
         tmp +="<td>" + totals.marine.pdmg + "</td>";
         tmp +="<td>" + totals.marine.sdmg + "</td>";
         tmp +="<td>~ " + parseInt(totals.marine.accuracy/totals.marine.count) + "</td>";
@@ -189,9 +195,10 @@
         tmp +="<tr class='totals'>";
         tmp +="<td colspan='2'>Totals</td>";
         tmp +="<td>" + totals.alien.score + "</td>";
+        tmp +="<td>" + Math.round((totals.alien.kd/totals.alien.count) * 100) / 100 + "</td>";
         tmp +="<td>" + totals.alien.kills + "</td>";
-        tmp +="<td>" + totals.alien.deaths + "</td>";
         tmp +="<td>" + totals.alien.assists + "</td>";
+        tmp +="<td>" + totals.alien.deaths + "</td>";
         tmp +="<td>" + totals.alien.pdmg + "</td>";
         tmp +="<td>" + totals.alien.sdmg + "</td>";
         tmp +="<td>~ " + parseInt(totals.alien.accuracy/totals.alien.count) + "</td>";
@@ -203,9 +210,4 @@
     }
     //]]>
 
-
-    //minimap
-    
-    //    var minimap = new Minimap_object($('#minimap')[0],'<?php //echo Yii::app()->baseUrl . "/images/minimaps/" . $mapname          ?>',null);
-    //    var t = setInterval("minimap.draw()",1000)
 </script>

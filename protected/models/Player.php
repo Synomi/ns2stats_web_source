@@ -173,7 +173,7 @@ class Player extends CActiveRecord
         $steamId = round($steamId);
         if (!is_numeric($steamId))
             return false;
-        $player = Player::model()->findByAttributes(array('steam_id' => $steamId));
+        $player = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
         if (isset($player))
             return $player->id;
         else

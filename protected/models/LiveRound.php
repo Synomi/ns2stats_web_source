@@ -19,7 +19,7 @@ class LiveRound extends CActiveRecord
      * @param string $className active record class name.
      * @return LiveRound the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -97,14 +97,14 @@ class LiveRound extends CActiveRecord
 
         $cacheId = "liveplayers$id.$team";
         $players = Yii::app()->cache->get($cacheId);
-        
+
         if ($players === false)
         {
             $livePlayers = LivePlayer::model()->findAll(array(
-                        'condition' => 'now()-300<=last_updated AND live_round_id=:id',
-                        'order' => 'id DESC',
-                        'params' => array('id' => $id), 
-                    ));
+                'condition' => 'now()-240<=last_updated AND live_round_id=:id',
+                'order' => 'id DESC',
+                'params' => array('id' => $id),
+            ));
 
             $players = null;
             foreach ($livePlayers as $livePlayer)
@@ -115,15 +115,19 @@ class LiveRound extends CActiveRecord
 
                 if ($data['teamnumber'] == $team || ($team == 5 && $data['teamnumber'] != 1 && $data['teamnumber'] != 2))
                 {
-                    $data['player'] = Player::model()->findByAttributes(array('steam_id' => $data['steamId']));
+                    $data['player'] = Player::model()->findByAttributes(array('steam_id' => '' . $data['steamId']));
 
                     if ($data['isCommander'] == true)
                         $data['player']['commander'] = true;
                     else
                         $data['player']['commander'] = false;
+
+                    if (!isset($data['assists']))
+                        $data['assists'] = 0;
                     
                     if (!$data['player']['hidden'])
                         $players[] = $data;
+                    
                 }
             }
 
@@ -142,7 +146,7 @@ class LiveRound extends CActiveRecord
             else
                 $players = array();
 
-            Yii::app()->cache->set($cacheId, $players, 300);
+            Yii::app()->cache->set($cacheId, $players, 30);
         }
 
         return $players;

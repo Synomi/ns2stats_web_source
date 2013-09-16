@@ -5,7 +5,6 @@
 </script>
 <?php
 $this->pageTitle = 'Game played in server ' . $round->server->name . ' in ' . date('d.m.Y H:i:s', $round->added) . ' (GMT+2) - NS2Stats';
-
 ?>
 <div style="padding-left:1em;padding-top:0.5em">
     <?php
@@ -80,17 +79,21 @@ if ($round->parse_status >= 3 || $round->parse_status == 0)
                     'value' => '$data["score"]'
                 ),
                 array(
-                    'title' => 'K',
-                    'value' => '$data["kills"]'
+                    'title' => 'K/D',
+                    'value' => 'LivePlayer::getKD($data["kills"], $data["deaths"])'
                 ),
                 array(
-                    'title' => 'D',
-                    'value' => '$data["deaths"]'
+                    'title' => 'K',
+                    'value' => '$data["kills"]'
                 ),
                 array(
                     'title' => 'A',
                     'value' => '$data["assists"]'
                 ),
+                array(
+                    'title' => 'D',
+                    'value' => '$data["deaths"]'
+                ),                
                 array(
                     'title' => 'P.dmg',
                     'value' => 'PlayerWeapon::getPlayerDamageForRound($data["prid"], 1)'
@@ -152,22 +155,22 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
     if ($this->beginCache($cacheId, array('duration' => 1))) //TODO CHANGE
     {
         ?>
-<!--        <div class="wide">
-            <div class="marine_commander half">
-                <?php
-                $columnsArray = array('id', 'name', 'lastname', 'tel', 'email');
-                $rowsArray = array(
-                    array(1, 'Jose', 'Rullan', '123-123-1234', 'jose@email.com'),
-                    array(2, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-                    array(3, 'Paul', 'Horstmann', '123-123-1234', 'phor@email.com'),
-                    array(4, 'Kim', 'Guptha', '123-123-1234', 'kgup@email.com'),
-                    array(5, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-                    array(6, 'Querty', 'Uiop', '123-123-1234', 'querty@email.com'),
-                    array(7, 'Albert', 'Febensburg', '123-123-1234', 'a@email.com'),
-                    array(8, 'Dan', 'Sieg', '123-123-1234', 'da@email.com'),
-                    array(9, 'Janice', 'Breyfogle', '123-123-1234', 'janice@email.com'),
-                    array(10, 'Cornelious', 'Ape', '123-123-1234', 'potapes@email.com'),
-                );
+        <!--        <div class="wide">
+                    <div class="marine_commander half">
+        <?php
+        $columnsArray = array('id', 'name', 'lastname', 'tel', 'email');
+        $rowsArray = array(
+            array(1, 'Jose', 'Rullan', '123-123-1234', 'jose@email.com'),
+            array(2, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
+            array(3, 'Paul', 'Horstmann', '123-123-1234', 'phor@email.com'),
+            array(4, 'Kim', 'Guptha', '123-123-1234', 'kgup@email.com'),
+            array(5, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
+            array(6, 'Querty', 'Uiop', '123-123-1234', 'querty@email.com'),
+            array(7, 'Albert', 'Febensburg', '123-123-1234', 'a@email.com'),
+            array(8, 'Dan', 'Sieg', '123-123-1234', 'da@email.com'),
+            array(9, 'Janice', 'Breyfogle', '123-123-1234', 'janice@email.com'),
+            array(10, 'Cornelious', 'Ape', '123-123-1234', 'potapes@email.com'),
+        );
 
 //                $this->widget('ext.htmltableui.htmlTableUi', array(
 //                    'collapsed' => true,
@@ -178,23 +181,23 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
 //                    'rows' => $rowsArray,
 //                    'footer' => 'Total rows: ' . count($rowsArray) . ' By: José Rullán'
 //                ));
-                ?>
-            </div>
-            <div class="alien_commander half">
-                <?php
-                $columnsArray = array('id', 'name', 'lastname', 'tel', 'email');
-                $rowsArray = array(
-                    array(1, 'Jose', 'Rullan', '123-123-1234', 'jose@email.com'),
-                    array(2, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-                    array(3, 'Paul', 'Horstmann', '123-123-1234', 'phor@email.com'),
-                    array(4, 'Kim', 'Guptha', '123-123-1234', 'kgup@email.com'),
-                    array(5, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-                    array(6, 'Querty', 'Uiop', '123-123-1234', 'querty@email.com'),
-                    array(7, 'Albert', 'Febensburg', '123-123-1234', 'a@email.com'),
-                    array(8, 'Dan', 'Sieg', '123-123-1234', 'da@email.com'),
-                    array(9, 'Janice', 'Breyfogle', '123-123-1234', 'janice@email.com'),
-                    array(10, 'Cornelious', 'Ape', '123-123-1234', 'potapes@email.com'),
-                );
+        ?>
+                    </div>
+                    <div class="alien_commander half">
+        <?php
+        $columnsArray = array('id', 'name', 'lastname', 'tel', 'email');
+        $rowsArray = array(
+            array(1, 'Jose', 'Rullan', '123-123-1234', 'jose@email.com'),
+            array(2, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
+            array(3, 'Paul', 'Horstmann', '123-123-1234', 'phor@email.com'),
+            array(4, 'Kim', 'Guptha', '123-123-1234', 'kgup@email.com'),
+            array(5, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
+            array(6, 'Querty', 'Uiop', '123-123-1234', 'querty@email.com'),
+            array(7, 'Albert', 'Febensburg', '123-123-1234', 'a@email.com'),
+            array(8, 'Dan', 'Sieg', '123-123-1234', 'da@email.com'),
+            array(9, 'Janice', 'Breyfogle', '123-123-1234', 'janice@email.com'),
+            array(10, 'Cornelious', 'Ape', '123-123-1234', 'potapes@email.com'),
+        );
 
 //                $this->widget('ext.htmltableui.htmlTableUi', array(
 //                    'collapsed' => true,
@@ -205,9 +208,9 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
 //                    'rows' => $rowsArray,
 //                    'footer' => 'Total rows: ' . count($rowsArray) . ' By: José Rullán'
 //                ));
-                ?>
-            </div>
-        </div>-->
+        ?>
+                    </div>
+                </div>-->
         <div class="span-30">
             <div class="content-box">
                 <?php
