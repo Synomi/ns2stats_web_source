@@ -77,7 +77,8 @@ class All
     {
         $sql = 'SELECT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added
             FROM round
-            LEFT JOIN server ON server.id = round.server_id            
+            LEFT JOIN server ON server.id = round.server_id   
+            WHERE parse_status IN(0,1,3,4)
             ORDER BY round.added DESC
             LIMIT 16';
 //        $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added
@@ -103,11 +104,12 @@ class All
             FROM round
             LEFT JOIN server ON server.id = round.server_id
             LEFT JOIN mod_round ON mod_round.round_id = round.id            
-            WHERE round.tags IS NOT NULL AND round.tags LIKE :tags AND
+            WHERE parse_status IN(0,1,3,4) AND
+            round.tags IS NOT NULL AND round.tags LIKE :tags AND
             1=1 ' . Filter::addFilterConditions() .
                     ' ORDER BY round.added DESC,round.id DESC
             LIMIT 100';
-            $command = Yii::app()->db->cache(1 * 60)->createCommand($sql);
+            $command = Yii::app()->db->createCommand($sql);
             $command->bindParam(':tags', $tagsString);
              //$command->bindParam(':id', $id); $id was ununsed
         }
@@ -117,7 +119,7 @@ class All
             FROM round
             LEFT JOIN server ON server.id = round.server_id
             LEFT JOIN mod_round ON mod_round.round_id = round.id
-            WHERE 1=1 ' . Filter::addFilterConditions() .
+            WHERE parse_status IN(0,1,3,4) AND 1=1 ' . Filter::addFilterConditions() .
                     ' ORDER BY round.added DESC,round.id DESC
             LIMIT 100';
             $command = Yii::app()->db->cache(1 * 60)->createCommand($sql);

@@ -8,6 +8,7 @@
             'items' => array(
                 array('label' => CHtml::tag('div', array('class' => 'menu-button-top', 'alt' => ''), 'Home'), 'url' => array('/admin/index')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Completed Logs'), 'url' => array('/admin/logs', 'directory' => 'completed')),
+                array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Other Logs'), 'url' => array('/admin/logs', 'directory' => 'other')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Failed Logs'), 'url' => array('/admin/logs', 'directory' => 'failed')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Parse info Logs'), 'url' => array('/admin/logs', 'directory' => 'parselogs')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Incomplete Logs'), 'url' => array('/admin/logs', 'directory' => 'incomplete')),

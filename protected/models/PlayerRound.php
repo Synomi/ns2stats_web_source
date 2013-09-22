@@ -25,28 +25,32 @@
  * @property Round $round
  * @property PlayerWeapon[] $playerWeapons
  */
-class PlayerRound extends CActiveRecord {
+class PlayerRound extends CActiveRecord
+{
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return PlayerRound the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'player_round';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
@@ -64,7 +68,8 @@ class PlayerRound extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -80,7 +85,8 @@ class PlayerRound extends CActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'id' => 'ID',
             'player_id' => 'Player',
@@ -100,7 +106,8 @@ class PlayerRound extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -119,11 +126,12 @@ class PlayerRound extends CActiveRecord {
         $criteria->compare('finished', $this->finished, true);
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
+            'criteria' => $criteria,
+        ));
     }
 
-    public function isCommander() {
+    public function isCommander()
+    {
         //Check if commander
         $sql = 'SELECT player.id, SUM(player_lifeform.end - player_lifeform.start) AS commandertime, round.end - round.start AS roundtime
         FROM lifeform
@@ -131,14 +139,25 @@ class PlayerRound extends CActiveRecord {
         LEFT JOIN player_round ON player_lifeform.player_round_id = player_round.id    
         LEFT JOIN player ON player_round.player_id = player.id
         LEFT JOIN round ON round.id = player_round.round_id
-        WHERE player.id = ' . $this->player_id . ' AND round.id = ' . $this->round_id . ' AND 
+        WHERE player_lifeform.end > player_lifeform.start AND
+        player.id = ' . $this->player_id . ' AND round.id = ' . $this->round_id . ' AND 
         (lifeform.name = "alien_commander" OR lifeform.name = "marine_commander")';
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $commanderInfo = $command->queryAll();
-        $commanderInfo = $commanderInfo[0];
-        if ($commanderInfo['commandertime'] > $commanderInfo['roundtime'] * 0.5)
-            return true;
+        
+        try
+        {
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+            $commanderInfo = $command->queryAll();
+            $commanderInfo = $commanderInfo[0];
+            if ($commanderInfo['commandertime'] > $commanderInfo['roundtime'] * 0.5)
+                return true;
+        }
+        catch (Exception $ex)
+        {            
+            error_log('PlayerRound: isCommander(): ' . $ex . ' SQL: ' . $sql);
+        }
+        
         return false;
     }
+
 }

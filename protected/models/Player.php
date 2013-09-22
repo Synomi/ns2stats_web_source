@@ -449,7 +449,7 @@ class Player extends CActiveRecord
             FROM round
             LEFT JOIN server ON server.id = round.server_id
             LEFT JOIN player_round ON round.id = player_round.round_id
-            WHERE player_round.player_id = :id ' . Filter::addFilterConditions(true) . '
+            WHERE parse_status IN(0,1,3,4) AND player_round.player_id = :id ' . Filter::addFilterConditions(true) . '
             ORDER BY round.added DESC,round.id DESC
             LIMIT 10';
         $connection = Yii::app()->db;

@@ -93,7 +93,7 @@ if ($round->parse_status >= 3 || $round->parse_status == 0)
                 array(
                     'title' => 'D',
                     'value' => '$data["deaths"]'
-                ),                
+                ),
                 array(
                     'title' => 'P.dmg',
                     'value' => 'PlayerWeapon::getPlayerDamageForRound($data["prid"], 1)'
@@ -155,62 +155,63 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
     if ($this->beginCache($cacheId, array('duration' => 1))) //TODO CHANGE
     {
         ?>
-        <!--        <div class="wide">
-                    <div class="marine_commander half">
-        <?php
-        $columnsArray = array('id', 'name', 'lastname', 'tel', 'email');
-        $rowsArray = array(
-            array(1, 'Jose', 'Rullan', '123-123-1234', 'jose@email.com'),
-            array(2, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-            array(3, 'Paul', 'Horstmann', '123-123-1234', 'phor@email.com'),
-            array(4, 'Kim', 'Guptha', '123-123-1234', 'kgup@email.com'),
-            array(5, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-            array(6, 'Querty', 'Uiop', '123-123-1234', 'querty@email.com'),
-            array(7, 'Albert', 'Febensburg', '123-123-1234', 'a@email.com'),
-            array(8, 'Dan', 'Sieg', '123-123-1234', 'da@email.com'),
-            array(9, 'Janice', 'Breyfogle', '123-123-1234', 'janice@email.com'),
-            array(10, 'Cornelious', 'Ape', '123-123-1234', 'potapes@email.com'),
-        );
+        <div class="wide">
+            <div class="marine_commander half">
+                <?php
+                $columnsArray = array('','');
+                $rowsArray = array(
+                    array('(Lifeform) Fades killed', '3'),
+                    array('(Lifeform) Onoes killed', '2'),
+                    array('(Lifeform) Skulks killed', '62'),
+                    array('(Structure) Hydras killed', '12'),
+                    array('(Lifeform) Gorges pissed off', '4'),
+                    array('(Player) Resources spent', '2134'),
+                    array('(Player) Resources lost', '4'), 
+                    array('(Player) Personal resources used', '4323'),                    
+                    array('(Player) Personal resources lost', '4122'),                    
+                    array('(Commander) Medpacks picked up(instant)', '4'),
+                    array('(Commander) Medpacks picked picked up', '4'),
+                    array('(Commander) Medpacks wasted', '2'),
+                    array('(Commander) Catpacks picked up(instant)', '4'),
+                    array('(Commander) Catpacks picked picked up', '4'),
+                    array('(Commander) Catpacks wasted', '2'),
+                    array('(Commander) Ammopacks picked up(instant)', '4'),
+                    array('(Commander) Ammopacks picked picked up', '4'),
+                    array('(Commander) Ammopacks wasted', '2'),
+                    
+                    
+                );
 
-//                $this->widget('ext.htmltableui.htmlTableUi', array(
-//                    'collapsed' => true,
-//                    'enableSort' => true,
-//                    'title' => 'View marine commander statistics',
-//                    'subtitle' => 'Rev 1.3.3',
-//                    'columns' => $columnsArray,
-//                    'rows' => $rowsArray,
-//                    'footer' => 'Total rows: ' . count($rowsArray) . ' By: José Rullán'
-//                ));
-        ?>
-                    </div>
-                    <div class="alien_commander half">
-        <?php
-        $columnsArray = array('id', 'name', 'lastname', 'tel', 'email');
-        $rowsArray = array(
-            array(1, 'Jose', 'Rullan', '123-123-1234', 'jose@email.com'),
-            array(2, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-            array(3, 'Paul', 'Horstmann', '123-123-1234', 'phor@email.com'),
-            array(4, 'Kim', 'Guptha', '123-123-1234', 'kgup@email.com'),
-            array(5, 'Fred', 'Frederick', '123-123-1234', 'fred@email.com'),
-            array(6, 'Querty', 'Uiop', '123-123-1234', 'querty@email.com'),
-            array(7, 'Albert', 'Febensburg', '123-123-1234', 'a@email.com'),
-            array(8, 'Dan', 'Sieg', '123-123-1234', 'da@email.com'),
-            array(9, 'Janice', 'Breyfogle', '123-123-1234', 'janice@email.com'),
-            array(10, 'Cornelious', 'Ape', '123-123-1234', 'potapes@email.com'),
-        );
+                $this->widget('ext.htmltableui.htmlTableUi', array(
+                    'collapsed' => true,
+                    'enableSort' => true,
+                    'title' => 'View marine statistics',                    
+                    'columns' => $columnsArray,
+                    'rows' => $rowsArray,                    
+                ));
+                ?>
+            </div>
+            <div class="alien_commander half">
+                <?php
+                $columnsArray = array('', '');
+                $rowsArray = array(
+                    array('Fades dead', '3'),
+                    array('Onoes dead', '2'),
+                    array('Skulks dead', '62'),
+                    array('Hydras dead', '12'),
+                    array('Gorges fallen', '4'),
+                );
 
-//                $this->widget('ext.htmltableui.htmlTableUi', array(
-//                    'collapsed' => true,
-//                    'enableSort' => true,
-//                    'title' => 'View alien commander statistics',
-//                    'subtitle' => 'Rev 1.3.3',
-//                    'columns' => $columnsArray,
-//                    'rows' => $rowsArray,
-//                    'footer' => 'Total rows: ' . count($rowsArray) . ' By: José Rullán'
-//                ));
-        ?>
-                    </div>
-                </div>-->
+                $this->widget('ext.htmltableui.htmlTableUi', array(
+                    'collapsed' => true,
+                    'enableSort' => true,
+                    'title' => 'View alien  statistics',
+                    'columns' => $columnsArray,
+                    'rows' => $rowsArray,
+                ));
+                ?>
+            </div>
+        </div>
         <div class="span-30">
             <div class="content-box">
                 <?php

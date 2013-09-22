@@ -1,11 +1,9 @@
-
 <div style="margin-left:auto;margin-right:auto;width:1000px;">
     <h1 style="font-family:Verdana;font-size:20px;color:gold;">
         CURRENTLY DISABLED, due lag issues, will be enabled later.
         <?php return; ?>
     </h1>    
 </div>
-
 <?php
 
 /*
@@ -15,14 +13,14 @@
 
 echo "<ul id='games'>";
 foreach ($liveRounds as $liveRound) {
-    $server = Server::model()->cache(120)->findByPk($liveRound->server_id);
+    $server = Server::model()->findByPk($liveRound->server_id);
     if($server->country)
         $img =  CHtml::image(Yii::app()->baseUrl . "/images/flags/" . strtolower($server->country) . ".png", $server->country);
     else
         $img = '';
     echo "<li>";
     echo "<h2>$img " . CHtml::tag("a", array("title" => "View server livestats.","href" => Yii::app()->createUrl("server/server/", array("id" => $server->id))), $server->name)  . " (" . $liveRound->players . ") players " . CHtml::tag("a", array("href" => "steam://run/4920//connect " . $server->ip . ":" . $server->port, "title" => "Connect to " . $server->name),"(Connect)") . "</h2>";
-    echo "<p>Gametime: " . $liveRound->gametime . " seconds.</p>";
+    echo "<p>Gametime: " . gmdate("H:i:s", $liveRound->gametime) . " seconds.</p>";
     $columns = array(
         array(
             'title' => '',
@@ -85,12 +83,6 @@ foreach ($liveRounds as $liveRound) {
                 'columns' => $columns,
                 'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 5),
             ));
-
-
-
-
-
-
 
     echo "</li>";
 }

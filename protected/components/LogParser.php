@@ -19,6 +19,7 @@ class LogParser
     private $message;
     private $startTime = null;
     private $logRandomId = 0;
+    private $logpath;
 
     function parseStarted()
     {
@@ -51,8 +52,7 @@ class LogParser
     {
         $this->log = array();
         Yii::beginProfile('loadLog');
-        //Load the whole log
-        $logParser = new LogParser();
+
         $handle = @fopen($logPath, "r");
         if ($handle)
         {
@@ -72,13 +72,7 @@ class LogParser
 END;
             while (($buffer = fgets($handle)) !== false)
             {
-                //$this->log[] = json_decode($buffer, true);
                 $this->log[] = json_decode(preg_replace($regex, '$1', $buffer), true);
-
-//                if (!is_array($this->log[count($this->log)-1]))
-//                    die("Not array: " . print_r($this->log[count($this->log)-1],true));
-//                echo "mem usage: " . ((memory_get_usage() - $start_memory)/1024/1024) . " M<br />";
-//                echo "counT:" . count($this->log);
             }
             if (!feof($handle))
             {
@@ -100,14 +94,12 @@ END;
         {
             if ($logRow['action'] == 'game_start')
             {
-                //2013-06-14 16:32:01
-                //2013-06-14 17:08:49
                 $dateInfo = date_parse_from_format('Y-m-d H:i:s', $logRow['time']);
 
                 $unixTimestamp = mktime(
                         $dateInfo['hour'], $dateInfo['minute'], $dateInfo['second'], $dateInfo['month'], $dateInfo['day'], $dateInfo['year']
                 );
-                $round->start = $unixTimestamp; //save as temporary time
+                $round->start = $unixTimestamp;
                 break;
             }
         }
@@ -118,13 +110,10 @@ END;
         {
             if ($logRow['action'] == 'game_ended')
             {
-                $this->checkVersion($logRow['statsVersion']);
                 $server = Server::model()->findByPk($serverId);
                 $server->name = $logRow['serverName'];
 
-                $server->stats_version = $logRow['statsVersion'];
-
-                if ($logRow['private'] == true) //change in b227, tournament mode is now set in game/config
+                if ($logRow['private'] == true)
                     $server->private = 1;
                 else
                     $server->private = 0;
@@ -179,23 +168,11 @@ END;
             throw new Exception("saving of round failed" . print_r($round->getErrors(), true), 401, null);
     }
 
-    protected function checkVersion($version)
-    {
-        $versionNumber = preg_replace("/[^1234567890]/", "", $version);
-        if ($versionNumber < Yii::app()->params['minimumStatsVersion'])
-        {
-            $this->message->other = 'NS2Stats mod is too old version. Stats are not saved before you update NS2Stats!';
-            die();
-        }
-        //Not latest version
-        if ($version != Yii::app()->params['currentStatsVersion'])
-            $this->message->other = 'There is a new version of NS2Stats mod available. Please update!';
-    }
-
     public function parse($logPath, $serverId, $roundId)
     {
         set_time_limit(5 * 60);
         ini_set('memory_limit', '512M');
+        $this->logpath = $logPath;
         $this->loadLog($logPath);
         $this->serverId = $serverId;
         $this->logRandomId = rand(1, 999999);
@@ -217,10 +194,6 @@ END;
         {
             foreach ($this->log as $logRow)
             {
-//            if (Yii::app()->request->getQuery('debug')) {
-//                echo json_encode($logRow) . '<br />';
-//                ob_flush();
-//            }
                 //Create starting players 
                 if ($logRow['action'] == 'player_list_start' && $started == 0)
                 {
@@ -293,10 +266,6 @@ END;
         {
             foreach ($this->log as $logRow)
             {
-                // if (Yii::app()->request->getQuery('debug')) {
-                //    echo json_encode($logRow) . '<br />';
-                //    ob_flush();
-                //}
                 if ($logRow['action'] == 'game_start')
                     $started = 1;
 
@@ -687,7 +656,7 @@ END;
 
     protected function createUpgrade($logRow)
     {
-        if (isset($logRow['commander_steamid']))
+        if (isset($logRow['commander_steamid']) && $logRow['commander_steamid'] != 0)
         {
             $roundUpgrade = new RoundUpgrade();
             $roundUpgrade->round_id = $this->roundId;
@@ -992,6 +961,8 @@ END;
                 ob_flush();
                 $this->message->error = null;
                 $this->addTimeStamp("NOT_ENOUGH_PLAYERS");
+                rename($this->logPath, Yii::app()->params['logDirectory'] . 'other/' . $this->round->log_file);
+                $this->addTimeStamp("PARSE_FINISHED");
                 die();
             }
         }
