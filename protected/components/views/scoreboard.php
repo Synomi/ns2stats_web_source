@@ -1,10 +1,14 @@
 <?php
 
+$page = 'http://' . $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+$sec = "15";
+header("Refresh: $sec; url=$page");
+
 $liveRound = LiveRound::model()->find(array(
-            'condition' => 'server_id=:serverId',
-            'params' => array(
-                'serverId' => $server->id,
-            ),
+    'condition' => 'server_id=:serverId',
+    'params' => array(
+        'serverId' => $server->id,
+    ),
         ));
 
 if ($server->country)
@@ -12,8 +16,9 @@ if ($server->country)
 else
     $img = '';
 
-if (isset($liveRound)) {    
-    echo "<p>Gametime: " . $liveRound->gametime . " seconds.</p>";
+if (isset($liveRound))
+{
+    echo "<p>Gametime: " . gmdate("H:i:s", $liveRound->gametime) . ".</p>";
     $columns = array(
         array(
             'title' => '',
@@ -43,7 +48,7 @@ if (isset($liveRound)) {
         array(
             'title' => 'D',
             'value' => '$data["deaths"]'
-        ),        
+        ),
         array(
             'title' => 'P.dmg',
             'value' => 'LivePlayer::getPlayerDamage($data["weapons"])'
@@ -71,20 +76,22 @@ if (isset($liveRound)) {
     );
     echo "<h3>Marines</h3>";
     $widget = $this->widget('StatsTable', array(
-                'columns' => $columns,
-                'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 1),
-            ));
+        'columns' => $columns,
+        'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 1),
+    ));
     echo "<h3>Aliens</h3>";
     $widget = $this->widget('StatsTable', array(
-                'columns' => $columns,
-                'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 2),
-            ));
+        'columns' => $columns,
+        'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 2),
+    ));
     echo "<h3>Ready room / spectating</h3>";
     $widget = $this->widget('StatsTable', array(
-                'columns' => $columns,
-                'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 5),
-            ));
-} else {  
+        'columns' => $columns,
+        'rows' => LiveRound::getPlayersForLiveRound($liveRound->id, 5),
+    ));
+}
+else
+{
     echo "<p>No live stats for server</p>";
 }
 ?>

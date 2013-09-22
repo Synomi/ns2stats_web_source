@@ -6,11 +6,11 @@
             ));
     ?>
 </div>
-<p style="padding-left:20px;font-size:10px;">Livestats update once per minute.</p>
+<p style="padding-left:20px;font-size:10px;">Livestats update once per 30 seconds.</p>
 <?php
     $this->pageTitle = $server->name . ' - NS2Stats';
     $this->widget('FilterForm', array(
-        'builds' => Server::getPlayedBuilds($server->id),
+        'builds' => All::getBuilds(),
         'filter' => $filter,
     ));
 ?>
@@ -84,6 +84,6 @@
         });        
     }
     $(document).ready(function(){
-        var t=self.setInterval(function(){updateLivestats()},60000);
+        var t=self.setInterval(function(){updateLivestats()},15000);
     });
 </script>

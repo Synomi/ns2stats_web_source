@@ -130,11 +130,11 @@ class ApiController extends Controller
     }
 
     public function actionSendstatus()
-    {
+    {        
         $playerCount = 0;
         if (isset($_POST['key']))
         {
-            $dir = Yii::app()->params['logDirectory'] . "status/";
+//            $dir = Yii::app()->params['logDirectory'] . "status/";
             $log = "";
             $log .= "Starting\n";
 
@@ -147,6 +147,7 @@ class ApiController extends Controller
                 echo "Unable to find server";
                 return;
             }
+            $transaction = Yii::app()->db->beginTransaction();
             $log .= "server found\n";
             $sDate = date("Y-m-d H:i:s");
             $server->last_updated = $sDate;
@@ -248,9 +249,11 @@ class ApiController extends Controller
             $server->gametime = intval($_POST['gametime']);
             $log .= "Saving server and live round\n";
             $server->update();
-
-            //file_put_contents($dir . $_POST['key'] . '-postlog-' . time() . "-" . rand(0, 99999) . '.txt', $log);
+           
+            $transaction->commit();
+            
             echo "STATUS_OK";
+            
         }
         else
             echo "NO_KEY";
@@ -301,7 +304,7 @@ class ApiController extends Controller
         //for DEV output        
 
         $server = Server::model()->findByAttributes(array('server_key' => $_POST['key']));
-        
+
         $server->ip = $_SERVER['REMOTE_ADDR'];
         $server->save();
         if (!isset($server))
@@ -310,11 +313,11 @@ class ApiController extends Controller
         //Create log file
         if ($partNumber == 1)
         {
-            
+
             $logName = "round-log-" . date('d-m-Y-H-i-s') . '-' . $partNumber . '-' . $server->id;
         }
         else
-        {            
+        {
             //Get log file
             $path = Yii::app()->params['logDirectory'] . 'incomplete/';
             $dir = opendir($path);
@@ -368,7 +371,7 @@ class ApiController extends Controller
 
         //Parse log
         if ($_POST['last_part'] == 1)
-        {            
+        {
             $logDirectory = Yii::app()->params['logDirectory'] . 'failed/';
             $logPath = $logName;
             rename(Yii::app()->params['logDirectory'] . 'incomplete/' . $logName, $logDirectory . $logName);
@@ -376,7 +379,7 @@ class ApiController extends Controller
             $roundId = $logParser->createRound($logDirectory, $logPath, $server->id);
         }
         else
-        {            
+        {
             $newLogName = "round-log-" . date('d-m-Y-H-i-s') . '-' . $partNumber . '-' . $server->id;
             rename(Yii::app()->params['logDirectory'] . 'incomplete/' . $logName, Yii::app()->params['logDirectory'] . 'incomplete/' . $newLogName);
         }
@@ -717,7 +720,7 @@ class ApiController extends Controller
 
     public function actionGetDeathsForMapAndBuildJSON($mapName, $build, $offset = 0)
     {
-        
+
         if (!isset($mapName) || !isset($build) || !is_numeric($build))
             throw new CHttpException(401, "Invalid data");
 
@@ -755,6 +758,19 @@ class ApiController extends Controller
         Json::printJSON($deaths);
     }
 
+    public function actionMap($name)
+    {
+        if (!isset($name) || $name == '')
+            throw new CHttpException(401, "Name is not set");
+
+        $map = Map::model()->findByAttributes(array('name' => $name));
+
+        if (!isset($map))
+            throw new CHttpException(401, "Cannot find map by name");
+
+        echo $map->jsonvalues;
+    }
+
     public function actionPlayers()
     {
 
@@ -762,9 +778,9 @@ class ApiController extends Controller
         if (isset($_REQUEST['players']))
         {
             $steamIds = explode(",", $_REQUEST['players']);
-            foreach($steamIds as &$steamId)
+            foreach ($steamIds as &$steamId)
                 $steamId = '' . $steamId;
-            
+
             $players = Player::model()->findAllByAttributes(array('steam_id' => $steamIds));
             foreach ($players as $player)
             {

@@ -103,8 +103,11 @@ END;
                 while (($buffer = fgets($handle)) !== false)
                 {
                     //$log[] = json_decode($buffer, true);
-
-                    $log[] = json_decode(preg_replace($regex, '$1', $buffer), true);                    
+                    $row = json_decode(preg_replace($regex, '$1', $buffer), true);                    
+                    if ($row =='' || $row == null)
+                        die('json_decode of line: <br />\n' . $buffer . '<br />\n has FAILED!');
+                    
+                    $log[] = $row;
                     //$log[] = json_decode(preg_replace('/[^(\x20-\x7F)]*/', '', $buffer), true);
                 }
                 if (!feof($handle))

@@ -15,7 +15,7 @@ else
 if (isset($liveRound))
 {
     echo "<h2>$img " . CHtml::tag("a", array("title" => "View server livestats.", "href" => Yii::app()->createUrl("server/server/", array("id" => $server->id))), $server->name) . " (" . $liveRound->players . ") players " . CHtml::tag("a", array("href" => "steam://run/4920//connect " . $server->ip . ":" . $server->port, "title" => "Connect to " . $server->name), "join server") . "</h2>";
-    echo "<p>Gametime: " . $liveRound->gametime . " seconds.</p>";
+    echo "<p>Gametime: " . gmdate("H:i:s",$liveRound->gametime) . ".</p>";
     $columns = array(
         array(
             'title' => '',

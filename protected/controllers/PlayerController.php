@@ -22,6 +22,7 @@ class PlayerController extends Controller
 
     public function actionCalculateRanks()
     {
+        die('disabled');
         if (Yii::app()->user->isSuperAdmin() || $_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR'])
         {
             //calculate ranks

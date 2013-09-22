@@ -146,7 +146,7 @@ class LiveRound extends CActiveRecord
             else
                 $players = array();
 
-            Yii::app()->cache->set($cacheId, $players, 30);
+            Yii::app()->cache->set($cacheId, $players, 15);
         }
 
         return $players;

@@ -1,8 +1,8 @@
 <?php
 $this->pageTitle = $map->name . ' - NS2Stats';
 $this->widget('FilterForm', array(
-    'servers' => Map::getPlayedServers($map->id),
-    'builds' => Map::getPlayedBuilds($map->id),
+    'servers' => All::getServers(),
+    'builds' => All::getBuilds(),   
 ));
 ?>
 <div class="content-box">

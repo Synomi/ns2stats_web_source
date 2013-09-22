@@ -217,6 +217,8 @@ class Map extends CActiveRecord {
     }
 
     public static function getPlayedBuilds($id) {
+        die('deprecated getPlayedBuilds');
+        //too slow replaced with All:getBuilds() DEPRECATED
         $sql = 'SELECT round.build FROM round
             LEFT JOIN player_round ON round.id = player_round.round_id
             LEFT JOIN player ON player_round.player_id = player.id
@@ -229,14 +231,16 @@ class Map extends CActiveRecord {
         return $command->queryAll();
     }
 
+    //DEPRECATED
     public static function getPlayedServers($id) {
+        die('deprecated too slow');
         $sql = 'SELECT server.id, server.name FROM server
             LEFT JOIN round ON round.server_id = server.id
             LEFT JOIN player_round ON round.id = player_round.round_id
-            LEFT JOIN player ON player_round.player_id = player.id
-            WHERE round.map_id = :id AND round.build>240';
+            WHERE  round.build>240 AND round.map_id = :id 
+            LIMIT 10';
         $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
+        $command = $connection->cache(60 * 60 * 1)->createCommand($sql);
         $command->bindParam(':id', $id);
         return $command->queryAll();
     }
