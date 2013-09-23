@@ -10,6 +10,7 @@ $this->pageTitle = 'About - NS2Stats';
 <ul>
     <li>Rantology - Graphics</li>
     <li>Synomi - Lua mod and website</li>
+    <li>Ghoul - NS2stats Shine Admin mod plugin</li>
     <li>Zeikko - Website and web server</li>
     <li>Zups - Lua mod</li>
 </ul>

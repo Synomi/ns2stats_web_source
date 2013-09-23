@@ -149,7 +149,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
 
                                     echo "[<a style='text-decoration:none;color:gold' href='" . Yii::app()->baseUrl . '/player/player/' . $player->id . "' title='View profile'" .
                                     ">" . htmlspecialchars($player->steam_name) . "</a> " .
-                                    CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//connect "
+                                    CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//-connect "
                                         . $currentServer->ip
                                         . ":" . $currentServer->port,
                                         "title" => "Join where "

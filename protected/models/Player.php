@@ -198,15 +198,23 @@ class Player extends CActiveRecord
     {
         if (!isset($namePhrase) || $namePhrase == '')
             return array();
+//        $sql = '
+//            SELECT 
+//            player.steam_name AS name, 
+//            player.id            
+//            FROM player
+//            LEFT JOIN player_round ON player.id = player_round.player_id
+//            LEFT JOIN round ON player_round.round_id = round.id            
+//            WHERE player.steam_name LIKE :namePhrase2 OR player_round.name LIKE :namePhrase2
+//            GROUP BY player.id
+//            ORDER BY name DESC
+//            LIMIT 10';
         $sql = '
             SELECT 
             player.steam_name AS name, 
             player.id            
-            FROM player
-            LEFT JOIN player_round ON player.id = player_round.player_id
-            LEFT JOIN round ON player_round.round_id = round.id            
-            WHERE player.steam_name LIKE :namePhrase2 OR player_round.name LIKE :namePhrase2
-            GROUP BY player.id
+            FROM player            
+            WHERE player.steam_name LIKE :namePhrase2            
             ORDER BY name DESC
             LIMIT 10';
         /* kestää yli 5 sekuntia pitkään tää kysely:
@@ -306,7 +314,7 @@ class Player extends CActiveRecord
             LEFT JOIN player_round ON player_lifeform.player_round_id = player_round.id
             LEFT JOIN player ON player.id = player_round.player_id
             LEFT JOIN round ON player_round.round_id = round.id
-            WHERE player.id = :id ' . Filter::addFilterConditions(true) . ' AND (' . self::getAlienLifeforms();
+            WHERE player_lifeform.end > player_lifeform.start AND player.id = :id ' . Filter::addFilterConditions(true) . ' AND (' . self::getAlienLifeforms();
         if ($includeCommander)
             $sql .= ' OR lifeform.name = "alien_commander") ';
         else

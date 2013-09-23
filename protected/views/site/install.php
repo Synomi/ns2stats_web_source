@@ -16,7 +16,7 @@ echo CHtml::tag('li', array(), 'After this you can join to your server ingame an
 ?></ol><?php
     echo CHtml::tag('p', array('class' => 'alert'), 'If you are running multiple servers make sure they all use have different config_path or otherwise the stats will not be shown on the website.');
 
-    echo CHtml::tag('p', array(), 'If you encounter any problems you can make a forum post ' . CHtml::tag('a', array('href' => 'http://www.unknownworlds.com/ns2/forums/index.php?showtopic=119419'), 'here') . ', send a Steam message to ' . CHtml::tag('a', array('href' => 'http://steamcommunity.com/profiles/76561197961466749/'), 'Zups') . ', ' . CHtml::tag('a', array('href' => 'http://steamcommunity.com/profiles/76561197960490558/'), 'Synomi') . ' or ' . CHtml::tag('a', array('href' => 'http://steamcommunity.com/id/zeikko'), 'Zeikko') . ' or send an email to zeikko@teamarchaea.net and synomi66@gmail.com');
+    echo CHtml::tag('p', array(), 'If you encounter any problems you can make a forum post ' . CHtml::tag('a', array('href' => 'http://forums.unknownworlds.com/discussion/129495/ns2stats-com-statistics-for-natural-selection-2#latest'), 'here') . ', send a Steam message to ' . CHtml::tag('a', array('href' => 'http://steamcommunity.com/profiles/76561197961466749/'), 'Zups') . ', ' . CHtml::tag('a', array('href' => 'http://steamcommunity.com/profiles/76561197960490558/'), 'Synomi') . ' or ' . CHtml::tag('a', array('href' => 'http://steamcommunity.com/id/zeikko'), 'Zeikko') . ' or send an email to zeikko@teamarchaea.net and synomi66@gmail.com');
 ?>
 <div>
     <br />
@@ -27,9 +27,7 @@ echo CHtml::tag('li', array(), 'After this you can join to your server ingame an
     <br />
     <h3>Setting up tournament mode</h3>
     <p>To enable tournament mode in server use admin command sv_tournamentmode. This toggles if tournament mode is enabled or disabled. After command use sv_ns2stats_save to make changes stay after map change.
-        Another way to enable tournament mode is to edit ns2stats_config.json file and set: "tournamentMode": true.</p>
-    <p style="color:orange"><br /><br/>If you want to install server only version of NS2Stats which will allow you to run NS2Stats on unmodded looking server, you can find installation instructions at <a href="http://forums.unknownworlds.com/discussion/comment/2088664/#Comment_2088664">http://forums.unknownworlds.com/discussion/comment/2088664/#Comment_2088664</a>
-    Download: <a href="http://ns2stats.com/downloads/ns2stats_server_b241_v0.41.zip">B241 V0.41</a></p>
+        Another way to enable tournament mode is to edit ns2stats_config.json file and set: "tournamentMode": true.</p>    
 </div>
 <div class="clear">
 

@@ -13,7 +13,7 @@ $this->widget('StatsTable', array(
             'title' => 'Name',
             'value' => 'CHtml::tag("a", array("title" => "View server stats.","href" => Yii::app()->createUrl("server/server/", array("id" => $data["id"]))), $data["name"]) .
                                 CHtml::tag("div", array("style" => "display:inline-block;float:right"),
-                                CHtml::tag("a", array("href" => "steam://run/4920//connect " . $data["ip"] . ":" . $data["port"], "title" => "Connect to " . $data["name"]),"(Connect)")
+                                CHtml::tag("a", array("href" => "steam://run/4920//-connect " . $data["ip"] . ":" . $data["port"], "title" => "Connect to " . $data["name"]),"(Connect)")
                                 )
                         ',
         ),

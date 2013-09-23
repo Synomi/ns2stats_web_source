@@ -603,7 +603,14 @@ END;
                     {
 
                         $playerRound->score = $player['score'];
-                        $playerRound->assists = $player['assists'];
+                        if (isset($player['assists']))
+                            $playerRound->assists = $player['assists'];
+                        else
+                        {
+                            error_log('$player["assists"] were not defined ' . $this->logpath);
+                            $playerRound->assists = 0;
+                        }
+
                         $playerRound->finished = 1;
                         $playerRound->end = round($logRow['gametime']);
                         if (isset($playerRound->attributes))

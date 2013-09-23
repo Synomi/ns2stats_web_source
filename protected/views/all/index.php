@@ -6,7 +6,10 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
     var filterpanels = new Array();
     function checkKey(event) {
         if (event.keyCode == 13)
+        {
+            loadPlayers();
             return false;
+        }
         else
             return true;
     }
@@ -37,7 +40,7 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
         }
         previousInput = $('#s').val();
     }
-    window.setInterval("loadPlayers()", 500);
+    // window.setInterval("loadPlayers()", 500);
 
 </script>
 <!--
@@ -74,8 +77,9 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
     <?php
     echo CHtml::beginForm('', 'post', array(
         'id' => 'search-form',
+        'style' => 'margin-left:10px;'
     ));
-    echo CHtml::label('Search Player', 's', array('class' => 'label'));
+    echo CHtml::label('Search Player by steam name', 's', array('class' => 'label'));
     echo CHtml::textField('s', '', array('onkeypress' => 'return checkKey(event)'));
     echo CHtml::endForm();
     ?>

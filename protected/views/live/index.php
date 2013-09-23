@@ -19,7 +19,7 @@ foreach ($liveRounds as $liveRound) {
     else
         $img = '';
     echo "<li>";
-    echo "<h2>$img " . CHtml::tag("a", array("title" => "View server livestats.","href" => Yii::app()->createUrl("server/server/", array("id" => $server->id))), $server->name)  . " (" . $liveRound->players . ") players " . CHtml::tag("a", array("href" => "steam://run/4920//connect " . $server->ip . ":" . $server->port, "title" => "Connect to " . $server->name),"(Connect)") . "</h2>";
+    echo "<h2>$img " . CHtml::tag("a", array("title" => "View server livestats.","href" => Yii::app()->createUrl("server/server/", array("id" => $server->id))), $server->name)  . " (" . $liveRound->players . ") players " . CHtml::tag("a", array("href" => "steam://run/4920//-connect " . $server->ip . ":" . $server->port, "title" => "Connect to " . $server->name),"(Connect)") . "</h2>";
     echo "<p>Gametime: " . gmdate("H:i:s", $liveRound->gametime) . " seconds.</p>";
     $columns = array(
         array(
