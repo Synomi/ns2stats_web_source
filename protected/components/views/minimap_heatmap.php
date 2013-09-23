@@ -14,12 +14,13 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/css/simple-slider.css');
     <canvas style="position: absolute;top:10px;left:0px;" width="1024" height="1024" id="minimapoverlay"></canvas>
     <div style="position: absolute;top:10px;left:10px">
         Intensity: <input value="0.05"  type="text" data-slider="true" id="intensity_slider"><br />
-        Point Size: <input value="0.7"  type="text" data-slider="true" id="size_slider">
+        Point Size: <input value="0.7"  type="text" data-slider="true" id="size_slider"> 
+        Marines <input type="checkbox" checked="checked" id="marines" name="marines"/> | Aliens <input name="aliens" type="checkbox" checked="checked" id="aliens" /> 
     </div>
     <p>If filters are changed, page will need to be reloaded for minimap to update. Minimap shows latest deaths, maximum of 3000.</p>
 </div>
 
-<script type="text/javascript" src="/js/map/minimap_object.js?v=2"></script>
+<script type="text/javascript" src="/js/map/minimap_object.js?v=3"></script>
 <script type="text/javascript">
     var map;
     $(document).ready(
@@ -72,6 +73,18 @@ EOF;
                     // The value as a ratio of the slider (between 0 and 1)
 
                 });
+
+                $('#marines').change(function () {                    
+                    map.marines =this.checked;
+                    map.heatmap.clear();
+                    map.drawLines();
+                 });
+
+                $('#aliens').change(function () {                    
+                    map.aliens =this.checked;    
+                    map.heatmap.clear();
+                    map.drawLines();
+                 });
 
             });
 
