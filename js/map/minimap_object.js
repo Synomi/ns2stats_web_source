@@ -7,6 +7,9 @@ function Minimap_object(canvasElement, heatmap, map, data, drawNormal)
     this.pointSize = 70;
     this.marines = true;
     this.aliens = true;
+    this.killer = false;
+    this.alienWins = true;
+    this.marineWins = true;
     this.drawNormal = drawNormal;
     this.hits = new Array();
     this.deaths = new Array();
@@ -78,8 +81,16 @@ function Minimap_object(canvasElement, heatmap, map, data, drawNormal)
         }
         else
         {
-            if ((death.team === "1" && this.marines === true) || (death.team === "2" && this.aliens === true))
-                self.heatmap.addPoint(this.convZtoCvsX(death.target_z), this.convXtoCvsY(death.target_x), self.pointSize, self.intensity);
+            if ((death.winner === "1" && self.marineWins === true) || (death.winner === "2" && self.alienWins === true))
+            {
+                if ((death.team === "1" && self.marines === true) || (death.team === "2" && self.aliens === true))
+                {
+                    if (self.killer === false)
+                        self.heatmap.addPoint(this.convZtoCvsX(death.target_z), this.convXtoCvsY(death.target_x), self.pointSize, self.intensity);
+                    else
+                        self.heatmap.addPoint(this.convZtoCvsX(death.attacker_z), this.convXtoCvsY(death.attacker_x), self.pointSize, self.intensity);
+                }
+            }
         }
     }
     // Draw a pixel on the canvas
@@ -101,7 +112,6 @@ function Minimap_object(canvasElement, heatmap, map, data, drawNormal)
     this.addDeath = function(data)
     {
         this.deaths[this.deaths.length] = data;
-        console.log(data)
     }
     this.onMouseClick = function(e)
     {

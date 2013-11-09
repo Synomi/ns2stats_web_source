@@ -129,8 +129,22 @@ class ApiController extends Controller
         $server->update();
     }
 
+    public function actionGetDevour()
+    {
+        $dir = Yii::app()->params['logDirectory'] . "status/devourtest.txt";
+        $data = file_get_contents($dir);
+        echo $data;
+    }
+
+    public function actionSendstatusDevour()
+    {
+        $dir = Yii::app()->params['logDirectory'] . "status/devourtest.txt";
+        file_put_contents($dir, $_POST['data']);
+        print_r($_POST);
+    }
+
     public function actionSendstatus()
-    {        
+    {
         $playerCount = 0;
         if (isset($_POST['key']))
         {
@@ -144,8 +158,7 @@ class ApiController extends Controller
             $server = Server::model()->findByAttributes(array('server_key' => $_POST['key']));
             if (!isset($server))
             {
-                echo "Unable to find server";
-                return;
+                throw new Exception('Unable to find server.', 404, null);
             }
             $transaction = Yii::app()->db->beginTransaction();
             $log .= "server found\n";
@@ -241,19 +254,21 @@ class ApiController extends Controller
                             $livePlayer->update();
 
                         $log .= "Updating player" . $dbplayer->steam_name . "\n";
-                        $dbplayer->update();
+                        if (!$dbplayer->update())
+                            $log.= 'player update failed' . print_r($dbplayer->getErrors(), true);
                     }
+                    else
+                        $log .= 'player is not set: ' . $player->steamId;
                 }
             }
             $server->last_player_count = $playerCount;
             $server->gametime = intval($_POST['gametime']);
             $log .= "Saving server and live round\n";
             $server->update();
-           
+
             $transaction->commit();
-            
+            //echo $log;
             echo "STATUS_OK";
-            
         }
         else
             echo "NO_KEY";
@@ -468,6 +483,21 @@ class ApiController extends Controller
         $this->renderPartial('adminVerify', array(
             'server' => $server
         ));
+    }
+
+    public function actionVerifyKey($key)
+    {
+        if (isset($key))
+            $server = Server::model()->findByAttributes(array('server_key' => $key));
+
+        if (!isset($server))
+        {
+            $data = array('valid' => false);
+        }
+        else
+            $data = array('valid' => true);
+
+        Json::printJSON($data);
     }
 
     public function actionMotd($id, $a, $key)
@@ -716,6 +746,54 @@ class ApiController extends Controller
             );
         }
         Json::printJSON($response);
+    }
+
+    public function actionOnePlayer()
+    {
+        if (isset($_GET['steam_id']))
+        {
+            $steamId = SteamApi::PublicIdToSteamId($_GET['steam_id']);
+            $player = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
+        }
+        else if (isset($_GET['steam_name']))
+        {
+            $steamName = $_GET['steam_name'];            
+            $player = Player::model()->findAllByAttributes(array('steam_name' => $steamName));
+        }
+        else if (isset($_GET['ns2_id']))
+        {
+            $steamId = $_GET['ns2_id'];
+            $player = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
+        }
+        else
+            throw new CHttpException(401, "Missing player name or id.");
+
+        if (!isset($player))
+            throw new CHttpException(404, "Player not found");
+
+        if (is_array($player))
+        {
+            $players = array();
+            foreach ($player as $p)
+            {
+                
+                $p->ip = null;
+                $p->code = null;
+                unset($p->ip);
+                unset($p->code);
+                $players[] = $p->attributes;
+            }
+
+            Json::printJSON($players);
+        }
+        else
+        {
+            $player->ip = null;
+            $player->code = null;
+            unset($player->ip);
+            unset($player->code);
+            Json::printJSON($player->attributes);
+        }
     }
 
     public function actionGetDeathsForMapAndBuildJSON($mapName, $build, $offset = 0)

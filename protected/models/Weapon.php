@@ -42,7 +42,8 @@ class Weapon extends CActiveRecord
         // will receive user inputs.
         return array(
             array('name', 'required'),
-            array('name', 'length', 'max' => 20),
+            //drop_structure_ability
+            array('name', 'length', 'max' => 50),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name', 'safe', 'on' => 'search'),

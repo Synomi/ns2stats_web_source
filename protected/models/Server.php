@@ -57,7 +57,7 @@ class Server extends CActiveRecord {
             array('id', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, ip, port, admin_id, server_key, motds, created', 'safe', 'on' => 'search'),
+            array('id, name, ip, port, admin_id, server_key, motds, created, stats_version', 'safe', 'on' => 'search'),
         );
     }
 
@@ -186,12 +186,12 @@ class Server extends CActiveRecord {
             last_map,last_player_count,
             round.id AS round_id, round.end AS round_end, 
             map.id AS map_id, map.name AS map_name,
-            player.id AS admin_id, player.steam_name AS admin_name, server.country
+            player.id AS admin_id, player.steam_name AS admin_name, server.country, server.stats_version
             FROM server
             LEFT JOIN round ON round.server_id = server.id
             LEFT JOIN map ON round.map_id = map.id
             LEFT JOIN player ON server.admin_id = player.id
-            WHERE 1=1 ' . Filter::addFilterConditions() . ' AND round.build > 248          
+            WHERE 1=1 ' . Filter::addFilterConditions() . ' AND round.build > 240          
             GROUP BY server.id
             ORDER BY server.last_updated DESC';
         $connection = Yii::app()->db;

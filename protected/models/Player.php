@@ -474,7 +474,9 @@ class Player extends CActiveRecord
      */
     public static function getLifeformRoundResults($id, $lifeform)
     {
-        $sql = '
+        try
+        {
+            $sql = '
             SELECT "Wins" as name, COUNT(count) AS count FROM (
             SELECT 1 AS count, SUM(player_lifeform.end - player_lifeform.start) AS lifeformtime,
             round.end - round.start AS roundtime
@@ -500,11 +502,18 @@ class Player extends CActiveRecord
             lifeform.name = :lifeform' . Filter::addFilterConditions(true) . '
             GROUP BY round.id) AS losses
             WHERE lifeformtime > 0.5 * roundtime';
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->bindParam(':id', $id);
-        $command->bindParam(':lifeform', $lifeform);
-        return $command->queryAll();
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+            $command->bindParam(':id', $id);
+            $command->bindParam(':lifeform', $lifeform);
+            $results = $command->queryAll();
+        }
+        catch (Exception $ex)
+        {
+            error_log('Player:getLifeformRoundResults, error:' . $ex);
+            return null;
+        }
+        return $results;
     }
 
     public static function getRoundsPlayed($id)

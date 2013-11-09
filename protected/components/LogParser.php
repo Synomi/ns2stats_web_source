@@ -52,7 +52,7 @@ class LogParser
     {
         $this->log = array();
         Yii::beginProfile('loadLog');
-
+        ini_set('memory_limit', '780M');
         $handle = @fopen($logPath, "r");
         if ($handle)
         {
@@ -112,6 +112,7 @@ END;
             {
                 $server = Server::model()->findByPk($serverId);
                 $server->name = $logRow['serverName'];
+                $server->stats_version = substr($logRow['statsVersion'], 0, 5);
 
                 if ($logRow['private'] == true)
                     $server->private = 1;
@@ -171,7 +172,7 @@ END;
     public function parse($logPath, $serverId, $roundId)
     {
         set_time_limit(5 * 60);
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '780M');
         $this->logpath = $logPath;
         $this->loadLog($logPath);
         $this->serverId = $serverId;
@@ -369,7 +370,7 @@ END;
                 if ($started)
                 {
                     //Weapon hit
-                    if ($logRow['action'] == 'hit_player' || $logRow['action'] == 'structure')
+                    if ($logRow['action'] == 'hit_player')// || $logRow['action'] == 'structure')
                         $this->hit($logRow);
                     //Drop Pickable
                     if ($logRow['action'] == 'pickable_ability_dropped' || $logRow['action'] == 'pickable_item_dropped')
@@ -461,11 +462,11 @@ END;
         if (isset($logRow['attacker_steamId']))
         {
             $death->attacker_team = $logRow['attacker_team'];
-            $death->attacker_armor = $logRow['attacker_armor'];
-            $death->attacker_health = round($logRow['attacker_hp']);
-            $death->attacker_x = $logRow['attackerx'];
-            $death->attacker_y = $logRow['attackery'];
-            $death->attacker_z = $logRow['attackerz'];
+            $death->attacker_armor = intval($logRow['attacker_armor']);
+            $death->attacker_health = intval(round($logRow['attacker_hp']));
+            $death->attacker_x = round($logRow['attackerx'], 3);
+            $death->attacker_y = round($logRow['attackery'], 3);
+            $death->attacker_z = round($logRow['attackerz'], 3);
             //Attacker is not a bot
             if (is_numeric($logRow['attacker_steamId']) && $logRow['attacker_steamId'] > 0)
             {
@@ -499,9 +500,9 @@ END;
             $death->target_weapon_id = $this->getWeaponIdByName($logRow['target_weapon']);
             $death->target_lifeform_id = $this->getLifeformIdByName($logRow['target_lifeform']);
             $death->target_team = $logRow['target_team'];
-            $death->target_x = $logRow['targetx'];
-            $death->target_y = $logRow['targety'];
-            $death->target_z = $logRow['targetz'];
+            $death->target_x = round($logRow['targetx'], 3);
+            $death->target_y = round($logRow['targety'], 3);
+            $death->target_z = round($logRow['targetz'], 3);
             $death->target_lifetime = round($logRow['target_lifetime']);
             $death->time = round($logRow['gametime']);
             $death->save();
@@ -789,9 +790,9 @@ END;
             $hit->attacker_team = $logRow['attacker_team'];
             $hit->attacker_armor = $logRow['attacker_armor'];
             $hit->attacker_health = round($logRow['attacker_hp']);
-            $hit->attacker_x = round($logRow['attackerx'], 4);
-            $hit->attacker_y = round($logRow['attackery'], 4);
-            $hit->attacker_z = round($logRow['attackerz'], 4);
+            $hit->attacker_x = round($logRow['attackerx'], 3);
+            $hit->attacker_y = round($logRow['attackery'], 3);
+            $hit->attacker_z = round($logRow['attackerz'], 3);
             //Attacker is not a bot
             if (is_numeric($logRow['attacker_steamId']) && $logRow['attacker_steamId'] > 0)
             {
@@ -815,23 +816,24 @@ END;
         $hit->target_team = $logRow['target_team'];
         if ($logRow['action'] == 'hit_player')
         {
-            $hit->target_x = round($logRow['targetx'], 4);
-            $hit->target_y = round($logRow['targety'], 4);
-            $hit->target_z = round($logRow['targetz'], 4);
+            $hit->target_x = round($logRow['targetx'], 3);
+            $hit->target_y = round($logRow['targety'], 3);
+            $hit->target_z = round($logRow['targetz'], 3);
         }
         if ($logRow['action'] == 'hit_structure')
         {
             $roundStructure = $this->roundStructures[$logRow['id']];
-            $hit->structure_id = $roundStructure->id;
-            $hit->target_x = round($logRow['structure_x'], 4);
-            $hit->target_y = round($logRow['structure_y'], 4);
-            $hit->target_z = round($logRow['structure_z'], 4);
+            $hit->target_structure_id = $roundStructure->id;
+            $hit->target_x = round($logRow['structure_x'], 3);
+            $hit->target_y = round($logRow['structure_y'], 3);
+            $hit->target_z = round($logRow['structure_z'], 3);
         }
         $hit->damage_type = $logRow['damageType'];
-        $hit->damage = $logRow['damage'];
+        $hit->damage = round($logRow['damage'], 2);
         $hit->time = round($logRow['gametime']);
 
-        $hit->save();
+        if (!$hit->save())
+            error_log('save for hit_player failed:' . print_r($hit->getErrors(), true) . ' for row: ' . print_r($logRow, true));
     }
 
     protected function dropPickable($logRow)
@@ -1063,7 +1065,7 @@ END;
         if (isset($team1CommanderEloRating) && isset($team2CommanderEloRating))
         {
             $team1CommanderEloRating = ($team1CommanderEloRating + $team1EloRating) / 2;
-            $team1CommanderEloRating = ($team2CommanderEloRating + $team2EloRating) / 2;
+            $team2CommanderEloRating = ($team2CommanderEloRating + $team2EloRating) / 2;
             $marineCommanderEloRating = ($marineCommanderEloRating + $marineEloRating) / 2;
             $alienCommanderEloRating = ($alienCommanderEloRating + $alienEloRating) / 2;
             if ($this->round->winner == 1)

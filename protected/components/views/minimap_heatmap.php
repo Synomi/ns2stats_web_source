@@ -13,14 +13,18 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/css/simple-slider.css');
     </canvas>
     <canvas style="position: absolute;top:10px;left:0px;" width="1024" height="1024" id="minimapoverlay"></canvas>
     <div style="position: absolute;top:10px;left:10px">
+        Options: Marines <input title="Shows only marine deaths (or marine killers if selected)." type="checkbox" checked="checked" id="marines" name="marines"/>
+        | Aliens <input title="Shows only alien deaths (or alien killers if selected)." name="aliens" type="checkbox" checked="checked" id="aliens" /> 
+        | Killer <input title="Shows only killers, normally only deaths are shown. If marine team is selected alien killers are shown and wiseversa." name="killer" type="checkbox" id="killer" /> 
+        | Marine wins <input title="Deaths/killer shown if marine side won" checked="checked" name="marineWins" type="checkbox" id="marineWins" />
+        | Alien wins <input title="Deaths/killer shown if alien side won" checked="checked" name="alienWins" type="checkbox" id="alienWins" /><br /><br />
         Intensity: <input value="0.05"  type="text" data-slider="true" id="intensity_slider"><br />
-        Point Size: <input value="0.7"  type="text" data-slider="true" id="size_slider"> 
-        Marines <input type="checkbox" checked="checked" id="marines" name="marines"/> | Aliens <input name="aliens" type="checkbox" checked="checked" id="aliens" /> 
+        Point Size: <input value="0.7"  type="text" data-slider="true" id="size_slider">         
     </div>
     <p>If filters are changed, page will need to be reloaded for minimap to update. Minimap shows latest deaths, maximum of 3000.</p>
 </div>
 
-<script type="text/javascript" src="/js/map/minimap_object.js?v=3"></script>
+<script type="text/javascript" src="/js/map/minimap_object.js?v=4"></script>
 <script type="text/javascript">
     var map;
     $(document).ready(
@@ -82,6 +86,21 @@ EOF;
 
                 $('#aliens').change(function () {                    
                     map.aliens =this.checked;    
+                    map.heatmap.clear();
+                    map.drawLines();
+                 });
+                $('#killer').change(function () {                    
+                    map.killer =this.checked;    
+                    map.heatmap.clear();
+                    map.drawLines();
+                 });
+                $('#marineWins').change(function () {                    
+                    map.marineWins =this.checked;    
+                    map.heatmap.clear();
+                    map.drawLines();
+                 });
+                $('#alienWins').change(function () {                    
+                    map.alienWins =this.checked;    
                     map.heatmap.clear();
                     map.drawLines();
                  });

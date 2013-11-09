@@ -41,6 +41,10 @@ $this->widget('StatsTable', array(
             'title' => 'Server Admin',
             'value' => 'CHtml::tag("a", array("href" => Yii::app()->createUrl("player/player/", array("id" => $data["admin_id"]))), $data["admin_name"])',
         ),
+        array(
+            'title' => 'Mod version',
+            'value' => '$data["stats_version"]',
+        ),
     ),
     'rows' => Server::getList(),
         )

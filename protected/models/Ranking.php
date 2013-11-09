@@ -91,16 +91,21 @@ class Ranking {
     }
 
     public static function getTopRankings() {
+        
+        $sql1 = 'SET @rank=0;';
+        $rconnection = Yii::app()->db;
+        $rcommand = $rconnection->createCommand($sql1);
+        $rcommand->query();
+        
         $sql = '
             SELECT
                 player.country, player.steam_image, 
                 id,
                 steam_name AS name,
-                ranking,
+                @rank:=@rank+1 AS ranking,
                 rating
-            FROM `player`
-            WHERE ranking IS NOT NULL
-            ORDER BY ranking ASC
+            FROM `player`            
+            ORDER BY rating DESC
             LIMIT 10
             ';
         $connection = Yii::app()->db;
@@ -109,16 +114,20 @@ class Ranking {
     }
 
     public static function getTopRankingsLong($amount) {
+            $sql1 = 'SET @rank=0;';
+        $rconnection = Yii::app()->db;
+        $rcommand = $rconnection->createCommand($sql1);
+        $rcommand->query();
+        
         $sql = '            
             SELECT    
                 player.country, player.steam_image, 
                 id,
                 steam_name AS name,
-                ranking,
+                @rank:=@rank+1 as "ranking",
                 rating
-            FROM `player`
-            WHERE ranking IS NOT NULL
-            ORDER BY ranking ASC
+            FROM `player`            
+            ORDER BY rating DESC
             LIMIT :amount
             ';
         $connection = Yii::app()->db;

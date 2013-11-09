@@ -314,6 +314,37 @@ class PlayerController extends Controller
             throw new CHttpException(401, 'You need to login to access this page.');
     }
 
+    public function actionUpdateNationality()
+    {
+        if (isset(Yii::app()->user->id))
+        {
+            $this->layout = 'account';
+            $player = Player::model()->findByPk(Yii::app()->user->id);
+
+            $sql = 'SELECT DISTINCT country FROM player';
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+            $nationalities = $command->queryAll();
+            
+            foreach ($nationalities as $nat)
+            {
+                if ($nat['country'] == $_POST['nationality'])
+                {
+                    $player->country = $_POST['nationality'];
+                    $player->update();
+                    $this->render('nationalityupdated', array(
+                        'message' => "Your nationality is now set to: " . $player->country,
+                    ));
+                    return;
+                }
+            }
+
+            throw new CHttpException(404, 'Nationality not found');
+        }
+        else
+            throw new CHttpException(401, 'You need to login to access this page.');
+    }
+
     public function actionAccount()
     {
         if (isset(Yii::app()->user->id))

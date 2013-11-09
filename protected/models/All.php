@@ -187,7 +187,7 @@ class All
             server.id, server.name
             FROM server
             LEFT JOIN round ON round.server_id = server.id
-            WHERE round.end > ' . strtotime('-7 days') . '
+            WHERE round.end > ' . strtotime('-90 days') . '
             ORDER BY name ASC';
 
         $command = Yii::app()->db->cache(19 * 60)->createCommand($sql);

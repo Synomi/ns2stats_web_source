@@ -66,7 +66,7 @@ class Hit extends CActiveRecord
             array('time, attacker_team, target_team, attacker_armor, attacker_health', 'numerical', 'integerOnly' => true),
             array('attacker_id, target_id, attacker_weapon_id, target_weapon_id, attacker_lifeform_id, target_lifeform_id, damage', 'length', 'max' => 10),
             array('attacker_x, attacker_y, attacker_z, target_x, target_y, target_z', 'length', 'max' => 9),
-            array('damage_type', 'length', 'max' => 1),
+            array('damage_type', 'length', 'max' => 100),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, attacker_id, target_id, attacker_weapon_id, target_weapon_id, attacker_lifeform_id, target_lifeform_id, time, attacker_team, target_team, attacker_armor, attacker_health, attacker_x, attacker_y, attacker_z, target_x, target_y, target_z, damage_type, damage', 'safe', 'on' => 'search'),

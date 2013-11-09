@@ -11,6 +11,11 @@ class LiveController extends Controller
         
     }
 
+    public function actionDevour()
+    {
+        $this->render('devourtest', array(            
+        ));
+    }
     public function actionIndex()
     {
 
