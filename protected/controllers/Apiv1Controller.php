@@ -66,7 +66,37 @@ class Apiv1Controller extends Controller
             return;
         }
 
-        if (isset($_GET['id']))
+        //find by field id
+        if (isset($_GET['field']) && strlen($_GET['field']) > 1 && isset($_GET['value']) && $_GET['field'] != 'code' && $_GET['field'] != 'ip')
+        {
+            $fieldModel = new $model;
+            foreach ($fieldModel->attributes as $key => $value)
+            {
+                if ($_GET['field'] == $key)
+                {
+                    $data = $model::model()->findByAttributes(array($_GET['field'] => $_GET['value']));
+                    if (isset($data))
+                    {
+                        if (isset($data->ip) && $model != 'Server')
+                            $data->ip = null;
+                        if (isset($data->code))
+                            $data->code = null;
+                        if (isset($data->server_key))
+                            $data->server_key = null;
+                        
+                        Json::printJSON($data->attributes, 200);
+                    }
+                    else
+                        Json::printJSON(array('error' => $_GET['field'] . ':' . $value . ' does not return any data.'), 200);
+
+                    return;
+                }
+            }
+
+            Json::printJSON(array('error' => $_GET['field'] . ' field does not exist in ' . $model . '.'), 404);
+            return;
+        }
+        else if (isset($_GET['id']))
         {
             $data = $model::model()->findByPk($_GET['id']);
 
@@ -78,7 +108,7 @@ class Apiv1Controller extends Controller
                     $data->code = null;
                 if (isset($data->server_key))
                     $data->server_key = null;
-                
+
                 Json::printJSON($data->attributes, 200);
             }
             else
@@ -95,8 +125,9 @@ class Apiv1Controller extends Controller
                 $parts = explode(' ', $_GET['order']);
 
                 $parts[0] = preg_replace('/[^a-z\_0-9]/i', '', $parts[0]);
+
                 $parts[1] = preg_replace('/[^a-z\_0-9]/i', '', $parts[1]);
-                if (count($parts) != 2 || strlen($parts[0]) < 2 || strlen($parts[0]) > 20 || (strtolower($parts[1]) != 'desc' && strtolower($parts[1]) != 'asc'))
+                if (count($parts) != 2 || strlen($parts[0]) < 2 || strlen($parts[0]) > 20 || (strtolower($parts[1]) != 'desc' && strtolower($parts[1]) != 'asc') || strtolower($parts[0]) == 'code')
                 {
                     Json::printJSON(array('error' => 'Invalid order type. Use <field name> (space) <ASC or DESC>'), 400);
                     return;
