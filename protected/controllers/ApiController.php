@@ -7,6 +7,7 @@ class ApiController extends Controller
     {
         Yii::app()->errorHandler->errorAction = 'api/error';
     }
+    
 
     /**
      * Declares class-based actions.
@@ -757,7 +758,7 @@ class ApiController extends Controller
         }
         else if (isset($_GET['steam_name']))
         {
-            $steamName = $_GET['steam_name'];            
+            $steamName = $_GET['steam_name'];
             $player = Player::model()->findAllByAttributes(array('steam_name' => $steamName));
         }
         else if (isset($_GET['ns2_id']))
@@ -776,7 +777,7 @@ class ApiController extends Controller
             $players = array();
             foreach ($player as $p)
             {
-                
+
                 $p->ip = null;
                 $p->code = null;
                 unset($p->ip);

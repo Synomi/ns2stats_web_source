@@ -23,6 +23,7 @@ $this->pageTitle = 'About - NS2Stats';
 </ul>
 
 <h3>
+    99.9% of NS2stats data is available through API:
     <a href="https://docs.google.com/document/d/13v9TF56gqykSyg0uysIzeZlEQmJL5ge5wLfM-uRaAwo/edit?usp=sharing">NS2Stats API documentation at Google Docs</a>
 </h3>
 
