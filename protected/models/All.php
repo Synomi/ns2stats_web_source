@@ -98,7 +98,7 @@ class All
     public static function getFullRoundsList()
     {
         if (isset($_GET['searchTags']) && strlen($_GET['searchTags']) > 1)
-        {            
+        {
             $tagsString = '%' . $_GET['searchTags'] . '%';
             $sql = 'SELECT DISTINCT server.id AS server_id, round.id, server.name AS server_name, round.end, round.end - round.start AS length,round.added, round.tags
             FROM round
@@ -111,7 +111,7 @@ class All
             LIMIT 100';
             $command = Yii::app()->db->createCommand($sql);
             $command->bindParam(':tags', $tagsString);
-             //$command->bindParam(':id', $id); $id was ununsed
+            //$command->bindParam(':id', $id); $id was ununsed
         }
         else
         {
@@ -293,6 +293,37 @@ class All
             LIMIT ' . $limit;
 
         $command = Yii::app()->db->cache(3600)->createCommand($sql);
+        return $command->queryAll();
+    }
+    
+    public static function getLatestChatMessages($limit = 15)
+    {
+
+        $connection = Yii::app()->db; //,COUNT(death.id) AS kills
+        $command = $connection->createCommand(
+                'SELECT 
+                    player.id as prid,
+                    player.steam_name as steam_name,
+                    player.steam_image as steam_image,
+                    player.hidden as hidden,
+                    player.country as country,
+                    chat.message as message,
+                    chat.team_number as team,
+                    chat.to_team as to_team,
+                    chat.player_name as player_name,
+                    chat.gametime as gametime
+           FROM round    
+           LEFT JOIN player_round ON player_round.round_id = round.id
+           LEFT JOIN chat ON chat.player_round_id = player_round.id        
+           LEFT JOIN player ON player.id = player_round.player_id           
+           WHERE           
+           message IS NOT NULL           
+           ORDER BY chat.id DESC            
+           LIMIT :limit
+            ');
+
+        $command->bindParam(':limit', $limit);
+
         return $command->queryAll();
     }
 

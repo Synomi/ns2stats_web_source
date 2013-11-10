@@ -123,6 +123,6 @@ class SiteController extends Controller {
         $player = Player::model()->findByPk($id);
         $player->getSteamApiData();
         $player->save();
-    }
+    }    
 
 }

@@ -1,16 +1,19 @@
 <?php
 
-class AllController extends Controller {
+class AllController extends Controller
+{
 
     /**
      * Declares class-based actions.
      */
-    public function actions() {
+    public function actions()
+    {
         return array(
         );
     }
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $filter = new Filter();
         $filter->startDate = date('d.m.Y', strtotime('-14 days'));
 
@@ -26,62 +29,78 @@ class AllController extends Controller {
         ));
     }
 
-    public function actionMapsPie() {
+    public function actionMapsPie()
+    {
         $maps = All::getMaps();
         $maps = HighchartData::pie($maps);
         Json::printJSON($maps);
     }
 
-    public function actionRoundResultsPie() {
+    public function actionRoundResultsPie()
+    {
         $roundResults = All::getRoundResults();
         $roundResults = HighchartData::pie($roundResults);
         Json::printJSON($roundResults);
     }
 
-    public function actionRoundsPlayedLine() {
+    public function actionRoundsPlayedLine()
+    {
         $rounds = All::getRoundsPlayedPerHour();
         $rounds = HighchartData::line($rounds);
         Json::printJSON($rounds);
     }
 
-    public function actionPlayersLine() {
+    public function actionPlayersLine()
+    {
         $players = All::getPlayersPerHour();
         $players = HighchartData::line($players);
         Json::printJSON($players);
     }
 
-    public function actionMostKills() {
+    public function actionMostKills()
+    {
         $this->renderPartial('mostkills');
     }
 
-    public function actionMostScore() {
+    public function actionMostScore()
+    {
         $this->renderPartial('mostscore');
     }
 
-    public function actionRecentRounds() {
+    public function actionRecentRounds()
+    {
         $this->renderPartial('recentrounds');
     }
 
-    public function actionRoundResultsLengthColumn() {
+    public function actionRoundResultsLengthColumn()
+    {
         $roundResultsByLength = All::getRoundResultsByTime();
         $roundResultsByLength = HighchartData::getTimeDistributionPie($roundResultsByLength);
         Json::printJSON($roundResultsByLength);
     }
 
-    public function actionRoundLengthColumn() {
+    public function actionRoundLengthColumn()
+    {
         $roundsByLength = All::getRoundLengths();
         $roundsByLength = HighchartData::getTimeDistributionPie($roundsByLength);
         Json::printJSON($roundsByLength);
     }
 
-    public function actionPlayerNationalitiesPie() {
+    public function actionPlayerNationalitiesPie()
+    {
         $nationalities = All::getPlayerNationalities();
         $nationalities = HighchartData::pie($nationalities);
         Json::printJSON($nationalities);
     }
 
-    public function actionElo() {
+    public function actionElo()
+    {
         $this->render('elo');
+    }
+    
+    public function actionLatestChatMessages()
+    {
+        $this->renderPartial('_latestChatMessages');
     }
 
 }

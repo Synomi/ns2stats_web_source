@@ -40,7 +40,14 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
         }
         previousInput = $('#s').val();
     }
-    // window.setInterval("loadPlayers()", 500);
+    function loadChatMessages()
+    {
+        $("#ajaxchat").load("/all/latestchatmessages");
+    }
+    $(document).ready(function() {
+        window.setInterval("loadChatMessages()", 60000);
+
+    });
 
 </script>
 <!--
@@ -130,7 +137,12 @@ $this->widget('FilterForm', array(
     $widget->renderContent();
     ?>
 </div>
-<div class="span-10">
+<div class="span-10">    
+    <div id="ajaxchat" style="width: 380px;height:360px;margin:5px;margin-top: 20px;margin-bottom: 30px;overflow-y: auto;">
+        <?php
+        $this->renderPartial('/all/_latestChatMessages');
+        ?>
+    </div>
     <?php
     $widget = $this->widget('Highchart', array(
         'type' => 'line',
@@ -157,7 +169,7 @@ $this->widget('FilterForm', array(
             ),
         )
     ));
-    $widget->renderContent();
+    // $widget->renderContent();
     ?>
 </div>
 <div class="span-10 last">
