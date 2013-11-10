@@ -71,7 +71,16 @@ class Apiv1Controller extends Controller
             $data = $model::model()->findByPk($_GET['id']);
 
             if (isset($data))
+            {
+                if (isset($data->ip) && $model != 'Server')
+                    $data->ip = null;
+                if (isset($data->code))
+                    $data->code = null;
+                if (isset($data->server_key))
+                    $data->server_key = null;
+                
                 Json::printJSON($data->attributes, 200);
+            }
             else
                 Json::printJSON(array('error' => $model . ' not found.'), 404);
         }
