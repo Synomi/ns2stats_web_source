@@ -20,8 +20,7 @@ class All
     }
 
     public static function getRoundResults()
-    {
-        //WHERE round.winner = 1 ' . Filter::addFilterConditions() . ' APRIL FOOL CHANGE
+    {        
         $sql = '
             SELECT "Marines" AS name, COUNT(DISTINCT round.id) AS count FROM round 
             LEFT JOIN mod_round ON mod_round.round_id = round.id
@@ -204,6 +203,7 @@ class All
             LEFT JOIN server ON server.id = round.server_id
             LEFT JOIN mod_round ON mod_round.round_id = round.id
             WHERE 1=1 ' . Filter::addFilterConditions() . ') AS rounds
+        WHERE round_length > 0
         GROUP BY winner, floor(round_length / (' . HighchartData::$timeDistributionFactor . ' * 60))';
         $command = Yii::app()->db->cache(121 * 60)->createCommand($sql);
         //$command->bindParam(':id', $id); $id was ununsed
@@ -221,6 +221,7 @@ class All
             LEFT JOIN server ON server.id = round.server_id
             LEFT JOIN mod_round ON mod_round.round_id = round.id
             WHERE 1=1 ' . Filter::addFilterConditions() . ') AS rounds
+        WHERE round_length > 0
         GROUP BY floor(round_length / (' . HighchartData::$timeDistributionFactor . ' * 60))';
 
         $command = Yii::app()->db->cache(122 * 60)->createCommand($sql);
