@@ -15,7 +15,9 @@ echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('hre
 <div class="span-5">
     <div class="box">
         <?php
-        echo CHtml::tag('a', array('href' => $player->steam_url), CHtml::tag('img', array('src' => $player->steam_image, 'alt' => $player->steam_name)))
+        echo CHtml::tag('a', array('href' => $player->steam_url), CHtml::tag('img', array('src' => $player->steam_image, 'alt' => $player->steam_name)));
+
+        echo CHtml::tag('div', array('style' => 'padding-top:18px;'), CHtml::tag('a', array('target' => '_blank', 'href' => 'http://hive.naturalselection2.com/profile/' . $player->steam_id), 'Check HIVE stats'));
         ?>
     </div>
 </div>

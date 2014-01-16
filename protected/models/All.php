@@ -164,7 +164,7 @@ class All
         $sql = 'SELECT DISTINCT round.build FROM round
             LEFT JOIN player_round ON round.id = player_round.round_id
             LEFT JOIN player ON player_round.player_id = player.id
-            WHERE round.build>244
+            WHERE round.build>250
             ORDER BY round.build DESC';
 
 

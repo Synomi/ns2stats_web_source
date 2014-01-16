@@ -7,7 +7,6 @@ class ApiController extends Controller
     {
         Yii::app()->errorHandler->errorAction = 'api/error';
     }
-    
 
     /**
      * Declares class-based actions.
@@ -204,7 +203,7 @@ class ApiController extends Controller
                 $liveRound->update();
 
             if (isset($_POST['map']))
-                $map = Map::model()->findByAttributes(array('name' => trim($_POST['map'])));
+                $map = Map::model()->cache(60 * 30)->findByAttributes(array('name' => trim($_POST['map'])));
 
             if (isset($map))
             {
@@ -637,7 +636,7 @@ class ApiController extends Controller
 
     public function actionServer($key)
     {
-        $server = Server::model()->findByAttributes(array('server_key' => $key));
+        $server = Server::model()->cache(60 * 30)->findByAttributes(array('server_key' => $key));
         if (isset($server))
         {
             $response = array(
@@ -650,6 +649,13 @@ class ApiController extends Controller
 
             Json::printJSON($response);
         }
+        else
+        {
+            $response = array(
+                'error' => 'Invalid server key. Server not found.'
+            );
+            Json::printJSON($response);
+        }
     }
 
     public function actionPlayer()
@@ -658,17 +664,17 @@ class ApiController extends Controller
         {
             $steamId = $_GET['steam_id'];
             $steamId = SteamApi::PublicIdToSteamId($steamId);
-            $players = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
+            $players = Player::model()->cache(60 * 30)->findByAttributes(array('steam_id' => '' . $steamId));
         }
         else if (isset($_GET['steam_name']))
         {
             $steamName = $_GET['steam_name'];
-            $players = Player::model()->findAllByAttributes(array('steam_name' => $steamName));
+            $players = Player::model()->cache(60 * 30)->findAllByAttributes(array('steam_name' => $steamName));
         }
         else if (isset($_GET['ns2_id']))
         {
             $steamId = $_GET['ns2_id'];
-            $players = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
+            $players = Player::model()->cache(60 * 30)->findByAttributes(array('steam_id' => '' . $steamId));
         }
         else
             throw new CHttpException(401, "Missing player name or id.");
@@ -754,17 +760,17 @@ class ApiController extends Controller
         if (isset($_GET['steam_id']))
         {
             $steamId = SteamApi::PublicIdToSteamId($_GET['steam_id']);
-            $player = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
+            $player = Player::model()->cache(60 * 30)->findByAttributes(array('steam_id' => '' . $steamId));
         }
         else if (isset($_GET['steam_name']))
         {
             $steamName = $_GET['steam_name'];
-            $player = Player::model()->findAllByAttributes(array('steam_name' => $steamName));
+            $player = Player::model()->cache(60 * 30)->findAllByAttributes(array('steam_name' => $steamName));
         }
         else if (isset($_GET['ns2_id']))
         {
             $steamId = $_GET['ns2_id'];
-            $player = Player::model()->findByAttributes(array('steam_id' => '' . $steamId));
+            $player = Player::model()->cache(60 * 30)->findByAttributes(array('steam_id' => '' . $steamId));
         }
         else
             throw new CHttpException(401, "Missing player name or id.");
@@ -803,7 +809,7 @@ class ApiController extends Controller
         if (!isset($mapName) || !isset($build) || !is_numeric($build))
             throw new CHttpException(401, "Invalid data");
 
-        $map = Map::model()->findByAttributes(array('name' => $mapName));
+        $map = Map::model()->cache(60 * 30)->findByAttributes(array('name' => $mapName));
         if (!isset($map))
             throw new CHttpException(404, "Unable to find map.");
 
@@ -842,7 +848,7 @@ class ApiController extends Controller
         if (!isset($name) || $name == '')
             throw new CHttpException(401, "Name is not set");
 
-        $map = Map::model()->findByAttributes(array('name' => $name));
+        $map = Map::model()->cache(60 * 30)->findByAttributes(array('name' => $name));
 
         if (!isset($map))
             throw new CHttpException(401, "Cannot find map by name");
@@ -860,7 +866,7 @@ class ApiController extends Controller
             foreach ($steamIds as &$steamId)
                 $steamId = '' . $steamId;
 
-            $players = Player::model()->findAllByAttributes(array('steam_id' => $steamIds));
+            $players = Player::model()->cache(60 * 30)->findAllByAttributes(array('steam_id' => $steamIds));
             foreach ($players as $player)
             {
                 $responsePlayer = array(

@@ -191,7 +191,7 @@ class Server extends CActiveRecord {
             LEFT JOIN round ON round.server_id = server.id
             LEFT JOIN map ON round.map_id = map.id
             LEFT JOIN player ON server.admin_id = player.id
-            WHERE 1=1 ' . Filter::addFilterConditions() . ' AND round.build > 240          
+            WHERE 1=1 ' . Filter::addFilterConditions() . ' AND round.build > 250          
             GROUP BY server.id
             ORDER BY server.last_updated DESC';
         $connection = Yii::app()->db;

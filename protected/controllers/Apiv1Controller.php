@@ -74,7 +74,7 @@ class Apiv1Controller extends Controller
             {
                 if ($_GET['field'] == $key)
                 {
-                    $data = $model::model()->findByAttributes(array($_GET['field'] => $_GET['value']));
+                    $data = $model::model()->cache(60*30)->findByAttributes(array($_GET['field'] => $_GET['value']));
                     if (isset($data))
                     {
                         if (isset($data->ip) && $model != 'Server')
@@ -98,7 +98,7 @@ class Apiv1Controller extends Controller
         }
         else if (isset($_GET['id']))
         {
-            $data = $model::model()->findByPk($_GET['id']);
+            $data = $model::model()->cache(60*30)->findByPk($_GET['id']);
 
             if (isset($data))
             {
@@ -145,7 +145,7 @@ class Apiv1Controller extends Controller
 
             try
             {
-                $rows = $model::model()->findAll($criteria);
+                $rows = $model::model()->cache(60*30)->findAll($criteria);
             }
             catch (Exception $ex)
             {

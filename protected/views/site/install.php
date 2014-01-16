@@ -2,7 +2,9 @@
 $this->pageTitle = 'Installing NS2Stats';
 echo CHtml::tag('h1', array(), 'Installing NS2Stats to your server');
 
-echo CHtml::tag('h2', array(), 'To be able to see the stats from your server in ns2stats.com follow these instructions:');
+echo CHtml::tag('h2', array(), 'NEW WAY: Shine NS2Stats plugin (RECOMMENDED): <a href="http://forums.unknownworlds.com/discussion/132378/ns2stats-shine-plugin-package/p1">http://forums.unknownworlds.com/discussion/132378/ns2stats-shine-plugin-package/p1</a>');
+
+echo CHtml::tag('h2', array('style' => 'padding-top:30px;'), 'OLD WAY: To be able to see the stats from your server in ns2stats.com follow these instructions:');
 ?><ol><?php
 echo CHtml::tag('li', array(), 'Add -mods "5fd7a38" to executable line (or your server.txt file)');
 echo CHtml::tag('li', array(), 'Add "mods": ["5fd7a38"] to your MapCycle.json file');

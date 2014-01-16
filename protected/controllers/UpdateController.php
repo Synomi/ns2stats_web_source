@@ -2,10 +2,14 @@
 
 class UpdateController extends Controller {
 
+    public function actionIndex()
+    {
+        echo 'test';
+    }
     /**
      * Resolves the country of a players who don't yet have country by IP
      * @throws CHttpException
-     */
+     */    
     public function actionGetPlayerCountry() {
         ignore_user_abort(1);
         if (Yii::app()->user->isSuperAdmin() || $_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) {
@@ -46,6 +50,7 @@ class UpdateController extends Controller {
 
     public function actionStartParseLog() {
 //        ignore_user_abort(1);
+        
         set_time_limit(55);
         while (1 == 1) {
             $rounds = Round::model()->findAll('parse_status = 1');
@@ -59,7 +64,7 @@ class UpdateController extends Controller {
 
     protected function startParse($roundId) {
         $round = Round::model()->findByPk($roundId);
-        $command = 'elinks "' . Yii::app()->createAbsoluteUrl('api/parselog', array('logPath' => Yii::app()->params['logDirectory'] . 'failed' . '/' . $round->log_file, 'roundId' => $round->id, 'serverId' => $round->server_id)) . '"  --config-file ' . Yii::app()->basePath . '/config/elinks.conf > /dev/null';
+        $command = 'elinks "' . Yii::app()->createAbsoluteUrl('api/parselog', array('logPath' => Yii::app()->params['logDirectory'] . 'failed' . '/' . $round->log_file, 'roundId' => $round->id, 'serverId' => $round->server_id)) . '"  --config-file ' . Yii::app()->basePath . '/config/elinks.conf > /home/ns2stats/production/logs/elinks4.log';
 //        var_dump($command);
         exec($command);
     }

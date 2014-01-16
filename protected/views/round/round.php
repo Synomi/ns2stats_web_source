@@ -152,12 +152,13 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
 {
     $cacheId = "roundCache" . $round->id;
 
-    if ($this->beginCache($cacheId, array('duration' => 1))) //TODO CHANGE
+    if ($this->beginCache($cacheId, array('duration' => 60*3))) //TODO CHANGE
     {
         ?>
-        <div class="wide">
-            <div class="marine_commander half">
+<!--        <div class="wide">
+            <div class="marine_commander half">-->
                 <?php
+                /*
                 $columnsArray = array('','');
                 $rowsArray = array(
                     array('(Lifeform) Fades killed', '3'),
@@ -209,9 +210,11 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
                     'columns' => $columnsArray,
                     'rows' => $rowsArray,
                 ));
+                 * */
+                 
                 ?>
-            </div>
-        </div>
+<!--            </div>
+        </div>-->
         <div class="span-30">
             <div class="content-box">
                 <?php

@@ -672,7 +672,8 @@ class Player extends CActiveRecord
             FROM player_round  
             LEFT JOIN player ON player_round.player_id = player.id
             LEFT JOIN round ON player_round.round_id = round.id
-            WHERE player.id = :id' . Filter::addFilterConditions(true);
+            WHERE player_round.end > player_round.start AND
+            player.id = :id' . Filter::addFilterConditions(true);
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         $command->bindParam(':id', $id);
@@ -1070,7 +1071,8 @@ class Player extends CActiveRecord
     {
         $players = Player::model()->findAll(array(
             'condition' => 'now()-300<=last_seen and hidden=0',
-            'order' => 'steam_name ASC'
+            'order' => 'steam_name ASC',
+            'limit' => 1000
         ));
 
         return $players;

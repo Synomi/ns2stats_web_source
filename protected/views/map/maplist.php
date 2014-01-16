@@ -1,5 +1,5 @@
 <div class="span-30">
-    <div class="box">
+    <div class="box" style="height: auto;">
         <?php
         echo CHtml::tag('h2', array(), 'Maps');
 

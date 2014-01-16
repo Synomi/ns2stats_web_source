@@ -136,8 +136,13 @@ class PlayerController extends Controller
     public function actionLifeformRoundResultsPie($id, $lifeform)
     {
         $roundResults = Player::getLifeformRoundResults($id, $lifeform);
-        $roundResults = HighchartData::pie($roundResults);
-        Json::printJSON($roundResults);
+        if (isset($roundResults))
+        {
+            $roundResults = HighchartData::pie($roundResults);
+            Json::printJSON($roundResults);
+        }
+        else
+            return array();
     }
 
     public function actionTimePlayedByLifeformPie($id)
@@ -325,7 +330,7 @@ class PlayerController extends Controller
             $connection = Yii::app()->db;
             $command = $connection->createCommand($sql);
             $nationalities = $command->queryAll();
-            
+
             foreach ($nationalities as $nat)
             {
                 if ($nat['country'] == $_POST['nationality'])

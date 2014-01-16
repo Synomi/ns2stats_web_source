@@ -88,6 +88,12 @@ class Filter extends CModel
 
     public static function addFilterConditions($teamFilterEnabled = false, $buildFilterEnabled = true)
     {
+        if (isset($_GET['alltime']) && Yii::app()->controller->id == 'player' )
+        {            
+            echo '<span style="color:gold">';
+            return ' AND 1=1';       
+        }
+        
         if (Yii::app()->controller->id != 'api')
         {
             $filter = new Filter();

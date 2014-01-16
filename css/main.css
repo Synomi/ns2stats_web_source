@@ -568,15 +568,21 @@ a:hover {
     color: #FFF !important;
     text-decoration: none;
 }
+div.stat-list
+{
+    padding-bottom: 10px;
+}
+
 
 .stat-list div {
     line-height: 17px;
     font-size: 11pt;
+    
 }
 
 .stat-list .stat-label {
     display: inline-block;
-    width: 190px;
+    width: 200px;
     text-align: right;
     margin-right: 10px;
 }

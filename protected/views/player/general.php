@@ -17,7 +17,7 @@
     </div>
     <div>
         <div class="stat-label">Rating:</div>
-        <div class="stat-value"><?php echo $player->rating . " (might reset)" ?></div>
+        <div class="stat-value"><?php echo $player->rating ?></div>
     </div>
     <div>
         <div class="stat-label">Ranking:</div>
@@ -65,7 +65,7 @@
     </div>
     <div>
         <div class="stat-label">Score / Minute:</div>
-        <div class="stat-value"><?php round(Player::getSM($player->id), 2) ?></div>
+        <div class="stat-value"><?php echo round(Player::getSM($player->id), 2) ?></div>
     </div>
 
     <div>
