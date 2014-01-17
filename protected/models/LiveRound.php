@@ -101,7 +101,7 @@ class LiveRound extends CActiveRecord
         if ($players === false)
         {
             $livePlayers = LivePlayer::model()->findAll(array(
-                'condition' => 'live_round_id=:id AND now()-240<=last_updated',                
+                'condition' => 'live_round_id=:id AND (unix_timestamp(now())-240)<=unix_timestamp(last_updated)',                
                 'params' => array('id' => $id),
             ));
 

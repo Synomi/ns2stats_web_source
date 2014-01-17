@@ -1070,7 +1070,7 @@ class Player extends CActiveRecord
     public static function getCurrentActivePlayers()
     {
         $players = Player::model()->findAll(array(
-            'condition' => 'now()-300<=last_seen and hidden=0',
+            'condition' => 'unix_timestamp(now())-600<=unix_timestamp(last_seen) and hidden=0',
             'order' => 'steam_name ASC',
             'limit' => 1000
         ));

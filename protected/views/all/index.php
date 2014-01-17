@@ -1,7 +1,5 @@
 <?php
 $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
-echo CHtml::tag('p', array('class' => 'notice content-box'), 'NS2Stats is now running on lot more powerful server located in Germany, please report any issues to synomi66 at gmail.com or Synomi@steam. Few days of data was lost in process, sorry about this.');
-
 ?>
 <script type="text/javascript" >
     var filterpanels = new Array();

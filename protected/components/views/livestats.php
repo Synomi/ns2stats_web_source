@@ -1,7 +1,7 @@
 <?php
 
 $liveRound = LiveRound::model()->find(array(
-    'condition' => 'server_id=:serverId and now()-300<=last_updated AND players>0',
+    'condition' => 'server_id=:serverId and unix_timestamp(now())-300<=unix_timestamp(last_updated) AND players>0',
     'params' => array(
         'serverId' => $server->id,
     ),

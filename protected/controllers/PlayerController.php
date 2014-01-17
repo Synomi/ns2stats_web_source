@@ -410,4 +410,264 @@ class PlayerController extends Controller
         ));
     }
 
+    public function actionLoadSignature($id)
+    {
+        die('doesnt work yet');
+        if (isset(Yii::app()->user->id))
+        {
+            $this->layout = 'account';
+            $player = Player::model()->findByPk(Yii::app()->user->id);
+
+            if (isset($player))
+            {
+                $playerImage = PlayerImage::model()->findByAttributes(array('id' => $id, 'player_id' => $player->id));
+                if (!isset($playerImage))
+                    throw new CHttpException(404, 'Signature not found.');
+
+                $playerImages = PlayerImage::model()->findAllByAttributes(array('player_id' => $player->id));
+
+                $model = new SignatureForm();
+                $model->attributes = $playerImage->attributes;
+
+                $this->render('signature', array(
+                    'player' => $player,
+                    'playerImages' => $playerImages,
+                    'model' => $model
+                ));
+            }
+            else
+                throw new CHttpException(404, 'Player not found');
+        }
+    }
+
+    public function actionSignature($model = null)
+    {
+        if (isset(Yii::app()->user->id))
+        {
+            $this->layout = 'account';
+
+            $player = Player::model()->findByPk(Yii::app()->user->id);
+
+            if (isset($_POST['SignatureForm']))
+            {
+                $model = new SignatureForm();
+                $model->attributes = $_POST['SignatureForm'];
+
+                $background_image = CUploadedFile::getInstance($model, 'background_image');
+                if (isset($background_image))
+                {
+                    $backgroundPath = '/tmp/ns2stats_background.' . $player->id;
+                    @unlink($backgroundPath);
+                    $background_image->saveAs($backgroundPath);
+                    $model->background_image = $backgroundPath;
+                    $model->background_image_meta = $background_image->name;
+                }
+            }
+
+            if (isset($model) && $model->validate())
+            {
+                $_SESSION['signature'] = $model->attributes;
+
+                $this->redirect(array('player/createsignature'));
+            }
+
+            if ($model == null)
+                $model = new SignatureForm();
+
+            if (isset($player))
+            {
+                $playerImages = PlayerImage::model()->findAllByAttributes(array('player_id' => $player->id));
+                $this->render('signature', array(
+                    'player' => $player,
+                    'playerImages' => $playerImages,
+                    'model' => $model
+                ));
+            }
+            else
+                throw new CHttpException(404, 'Player not found');
+        }
+        else
+            throw new CHttpException(401, 'You need to login to access this page.');
+    }
+
+    public function actionCreateSignature()
+    {
+        if (isset(Yii::app()->user->id))
+        {
+            $player = Player::model()->findByPk(Yii::app()->user->id);
+            if (isset($player))
+            {
+                $playerImages = PlayerImage::model()->findAllByAttributes(array('player_id' => $player->id));
+                if (isset($playerImages) && count($playerImages) > 22)
+                    throw new CHttpException(500, 'You have maxium of 3 images created. Remove previous images to make new.');
+                if (!isset($_SESSION['signature']))
+                    throw new CHttpException(404, 'Signature data not available. Unable to continue.');
+
+                $signature = new SignatureForm();
+                $signature->attributes = $_SESSION['signature'];
+
+
+
+                //(w x h)
+//Call in another picture
+                
+                $playerImage = new PlayerImage();
+                if (isset($_SESSION['signature']['background_image_meta'])) //custom background?
+                {
+                    $ext = pathinfo($_SESSION['signature']['background_image_meta'], PATHINFO_EXTENSION);
+                    echo $ext;
+
+                    $dbimage = file_get_contents($_SESSION['signature']['background_image']);
+                    if ($ext == 'png')
+                        $image = imagecreatefrompng($_SESSION['signature']['background_image']);
+                    else if ($ext == 'jpg')
+                        $image = imagecreatefromjpeg($_SESSION['signature']['background_image']);
+                    else
+                        throw new CHttpException(500, 'Image type not supported. Jpg and png are supported.');
+
+                    @unlink($signature->background_image);
+                    //$image = imagecreatefromstring($signature->background_image);
+                    $playerImage->background_image = $dbimage;
+                    //$image = imagecreatefrompng();    
+                }
+                else//use predefined background
+                {
+                    //choises
+                    echo 'using predefined background';
+                    $image = imagecreatetruecolor($signature->width, $signature->height);
+                }
+
+
+                /*
+                 * Steam image
+                 */
+
+                $steam_image = imagecreatefromjpeg($player->steam_image);
+                // get current width/height
+                $steam_image_width = imagesx($steam_image);
+                $steam_image_height = imagesy($steam_image);
+
+                $background_image_width = imagesx($steam_image);
+                $background_image_height = imagesy($image);
+
+
+
+
+                imagecopy($image, $steam_image, 10, $background_image_height - 10 - $steam_image_height, 0, 0, $steam_image_width, $steam_image_height);
+
+
+                $white = imagecolorallocate($image, 255, 255, 255);
+                $font = 'css/OptimusPrincepsSemiBold.ttf';
+
+                //make explodeable if not.
+                if (strpos($signature->data, PHP_EOL) === false)
+                    $signature->data .=' ' . PHP_EOL . ' ';
+
+                $rows = explode(PHP_EOL, $this->findValues($signature->data, $player));
+                if (is_array($rows))
+                {
+                    $x = 0;
+                    $size = 10;
+                    foreach ($rows as $row)
+                    {
+                        $x+=$size + intval($size / 5) + 1;
+                        imagettftext($image, $size, 0, 0, $x, $white, $font, str_replace(' ', '  ', $row));
+                    }
+                    
+                    imagettftext($image, $size, 0, $background_image_width-300, $background_image_height-20, $white, $font, 'ns2stats.com');
+                    
+                }
+                else
+                    throw new CHttpException(500, 'Values field failed to parse-');
+
+
+
+
+
+                $tmpFilePath = '/tmp/signature_' . $player->id . '.png';
+                imagepng($image, $tmpFilePath);
+                $imageData = file_get_contents($tmpFilePath);
+
+                $playerImage->image = $imageData;
+                $playerImage->player_id = $player->id;
+
+                $playerImage->save();
+
+                unlink($tmpFilePath);
+                unset($tmpFilePath);
+                unset($imageData);
+                unset($image);
+                unset($_SESSION['signature']);
+                $this->redirect(array('player/signature'));
+
+//                header("Content-type: image/png");
+////tells the browser it is a png picture
+//                imagepng($image);
+////displays the png image "image"
+//                imagedestroy($image);
+//removes the image from memory
+//                
+            }
+            else
+                throw new CHttpException(404, 'Player not found');
+        }
+        else
+            throw new CHttpException(401, 'You need to login to access this page.');
+    }
+
+    public function actionGetSignature($id)
+    {
+        header("Content-type: image/png");
+        $playerImage = PlayerImage::model()->findByPk($id);
+        if (isset($playerImage))
+        {
+
+            echo $playerImage->image;
+            unset($playerImage);
+        }
+    }
+
+    public function actionDeleteSignature($id)
+    {
+        if (isset(Yii::app()->user->id))
+        {
+            $this->layout = 'account';
+
+            $player = Player::model()->findByPk(Yii::app()->user->id);
+            if (isset($player))
+            {
+                $playerImage = PlayerImage::model()->findByAttributes(array('id' => $id, 'player_id' => $player->id));
+                if (isset($playerImage))
+                {
+                    $playerImage->delete();
+                    $this->render('signature_deleted');
+                }
+                else
+                    throw new CHttpException(404, 'Signature not found');
+            }
+            else
+                throw new CHttpException(404, 'Player not found');
+        }
+        else
+            throw new CHttpException(401, 'You need to login to access this page.');
+    }
+
+    private function findValues($text, $player)
+    {
+
+        $searchFor = array();
+        $replaceWith = array();
+
+        foreach ($player->attributes as $key => $value)
+        {
+            if ($key != 'code' && $key != 'ip')
+            {
+                $searchFor[] = '[' . strtolower($key) . ']';
+                $replaceWith[] = $value;
+            }
+        }
+
+        return str_replace($searchFor, $replaceWith, $text);
+    }
+
 }

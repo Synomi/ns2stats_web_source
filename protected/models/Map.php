@@ -187,15 +187,37 @@ class Map extends CActiveRecord {
     public static function getList() {
         $sql = '
             SELECT round_id, round_end, round_added, map_id, map_name, COUNT(round_id) AS times_played FROM (
-            SELECT 
-            round.id AS round_id, round.end AS round_end, round.added AS round_added,
-            map.id AS map_id, map.name AS map_name
-            FROM map
-            LEFT JOIN round ON round.map_id = map.id
-            WHERE 1=1 ' . Filter::addFilterConditions() . '
-            ORDER BY round.end DESC) AS data
+                SELECT 
+                    round.id AS round_id,
+                    round.end AS round_end,
+                    round.added AS round_added,
+                    map.id AS map_id,
+                    map.name AS map_name
+                FROM map
+                LEFT JOIN round ON round.map_id = map.id
+                WHERE 1=1 ' . Filter::addFilterConditions() . '
+                    ORDER BY round.added DESC
+                    ) 
+            AS data
             GROUP BY map_id
-            ORDER BY round_end DESC';
+            ORDER BY round_added DESC';
+        //doesnt work because there are invalid round.added times on db
+//        $sql = '
+//            SELECT round_id, round_end, round_added, map_id, map_name, COUNT(round_id) AS times_played FROM (
+//                SELECT 
+//                    round.id AS round_id,
+//                    round.end AS round_end,
+//                    round.added AS round_added,
+//                    map.id AS map_id,
+//                    map.name AS map_name
+//                FROM map
+//                LEFT JOIN round ON round.map_id = map.id
+//                WHERE 1=1 ' . Filter::addFilterConditions() . '
+//                    ORDER BY round.id DESC
+//                    ) 
+//            AS data
+//            GROUP BY map_id
+//            ORDER BY round_added DESC';
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         return $command->queryAll();

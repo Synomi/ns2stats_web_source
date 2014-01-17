@@ -636,7 +636,7 @@ class ApiController extends Controller
 
     public function actionServer($key)
     {
-        $server = Server::model()->cache(60 * 30)->findByAttributes(array('server_key' => $key));
+        $server = Server::model()->findByAttributes(array('server_key' => $key));
         if (isset($server))
         {
             $response = array(
