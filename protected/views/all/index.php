@@ -49,6 +49,10 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
     });
 
 </script>
+<div style="padding:30px;">
+    <p style="font-size: 12px;"><span style="color:gold;font-weight: bold;">NS2Stats.com dynamic signatures are now available!</span> To create yourself a signature go to <a href="http://ns2stats.com/player/signature">Signature page</a> and press create signature. More info at <a href="http://forums.unknownworlds.com/discussion/comment/2182858/#Comment_2182858">UWE forums</a>.<br />Example:</p>
+    <a href="http://ns2stats.com/player/signature"><img style="width: 300px;height: auto;" src="http://ns2stats.com/player/getPlayerSignature/55" /></a>
+</div>
 <!--
 <div id="featuredserverscontainer" style="clear:both;width:1200px;margin-left:auto;margin-right:auto;">
 

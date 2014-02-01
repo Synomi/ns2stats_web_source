@@ -247,12 +247,31 @@ class Player extends CActiveRecord
 
     public static function getMaxRank()
     {
-        $sql = 'SELECT max(ranking) as m FROM player';
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $result = $command->queryAll();
+        $sql = 'SELECT count(*) as m FROM player';
+        $result = Yii::app()->db->cache(60*60)->createCommand($sql)->queryAll();
+         
         return $result[0]["m"];
     }
+    
+      public static function getRankByRating($id)
+    {
+          $sql = "SELECT x.id, 
+       x.position,
+       x.steam_name,
+       x.rating
+  FROM (SELECT t.id,
+               t.steam_name,
+               t.rating,
+               @rownum := @rownum + 1 AS position
+          FROM player t
+          JOIN (SELECT @rownum := 0) r
+      ORDER BY t.rating DESC) x
+ WHERE x.id = " . intval($id);        
+        $result = Yii::app()->db->cache(60*60)->createCommand($sql)->queryAll();
+        
+        return $result[0]["position"];
+    }
+    
 
     public static function getMaps($id)
     {

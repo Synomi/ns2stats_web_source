@@ -167,3 +167,52 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
     clear: left;
     padding-left: 110px;
 }
+
+/*
+    Signature form
+*/
+div.signature
+{
+    width: 90%;
+    height: auto;
+    line-height: 20px;
+    background-color: #111;
+    border-radius: 10px;
+    padding:10px;
+    margin-bottom: 30px;
+}
+div.signature span,div.signature a,div.signature div,div.signature pre
+{
+    font-size:11px;
+}
+div.signature div.row
+{
+    padding-top: 10px;
+    min-width: 600px;
+}
+div.signature div.row,div.signature div.row label 
+{
+    vertical-align: top;
+    text-align: left;
+}
+div.signature input
+{    
+    vertical-align: top;        
+    text-align: center;
+    width: auto;
+    min-width: 30px;    
+}
+
+div.signature textarea
+{
+    height: 200px;
+    width: 700px;
+    display: block;
+    vertical-align: bottom;
+}
+div.signature div.row pre
+{
+    padding-left:5px;
+    margin-left: 5px;
+}
+

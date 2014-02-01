@@ -21,7 +21,7 @@
     </div>
     <div>
         <div class="stat-label">Ranking:</div>
-        <div class="stat-value"><?php echo $player->ranking . " of " . Player::getMaxRank() ?></div>
+        <div class="stat-value"><?php echo Player::getRankByRating($player->id). " of " . Player::getMaxRank() ?></div>
     </div>
     <div>
         <div class="stat-label">NS2ID:</div>
@@ -67,11 +67,7 @@
         <div class="stat-label">Score / Minute:</div>
         <div class="stat-value"><?php echo round(Player::getSM($player->id), 2) ?></div>
     </div>
-
-    <div>
-        <div class="stat-label">Score / Deaths:</div>
-        <div class="stat-value"><?php echo round(Player::getSD($player->id), 2) ?></div>
-    </div>
+    
     <div>
         <div class="stat-label">Last seen:</div>
         <div class="stat-value"><a class="timeago" style="text-decoration: none;color:white;" href="#" title="<?php echo isset($player->last_seen) ? date("c", strtotime($player->last_seen )):"" ?>"></a></div>

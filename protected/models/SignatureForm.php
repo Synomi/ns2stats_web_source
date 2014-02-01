@@ -13,6 +13,11 @@ class SignatureForm extends CFormModel
     public $data;
     public $background_image;
     public $background_image_meta;
+    public $border;
+    public $logo;
+    public $steam_image;
+    public $steam_align;
+    public $background_number;
 
     /**
      * Declares the validation rules.
@@ -24,19 +29,19 @@ class SignatureForm extends CFormModel
         return array(
             // username and password are required
             //array('background_image', 'file', 'types'=>'jpg, png'),
-            array('height, width, data', 'required'),
+            array('data,logo,steam_image,border,background_number,height,width', 'required'),
             array('height', 'numerical',
                 'integerOnly' => true,
                 'min' => 1,
-                'max' => 400,
+                'max' => 300,
                 'tooSmall' => 'Minimum image height is 1',
-                'tooBig' => 'Maximum image height is 400'),
+                'tooBig' => 'Maximum image height is 300'),
             array('width', 'numerical',
                 'integerOnly' => true,
                 'min' => 1,
-                'max' => 800,
-                'tooSmall' => 'Minimum image width/height is 1',
-                'tooBig' => 'Maximum image width is 800'),
+                'max' => 900,
+                'tooSmall' => 'Minimum image width is 1',
+                'tooBig' => 'Maximum image width is 900'),
         );
     }
 
@@ -46,10 +51,16 @@ class SignatureForm extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'heigth' => 'Heigth',
-            'width' => 'Width',
-            'data' => 'Values',
-            'background_image' => 'Background image (optional)'
+            'height' => 'Height (max 300)',
+            'width' => 'Width (max 900)',
+            'data' => 'Dynamic values',
+            'background_image' => 'Background image (optional)',
+            'background_number' => 'Select background image (ignored if you select custom bg): ',
+            'logo' => 'NS2Stats.com logo',
+            'border' => 'Steam image border',
+            'steam_image' => 'Your steam image',
+            'steam_align' => 'Start dynamic values after steam image (instead of staring from 0x0)'
+            
         );
     }
 

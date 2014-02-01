@@ -93,6 +93,10 @@ class Filter extends CModel
             echo '<span style="color:gold">';
             return ' AND 1=1';       
         }
+        if (isset($_GET['alltime_signature']) && Yii::app()->controller->id == 'player' )
+        {                  
+            return ' AND 1=1';       
+        }
         
         if (Yii::app()->controller->id != 'api')
         {

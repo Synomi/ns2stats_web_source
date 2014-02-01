@@ -468,6 +468,8 @@ class PlayerController extends Controller
             {
                 $_SESSION['signature'] = $model->attributes;
 
+
+
                 $this->redirect(array('player/createsignature'));
             }
 
@@ -477,6 +479,13 @@ class PlayerController extends Controller
             if (isset($player))
             {
                 $playerImages = PlayerImage::model()->findAllByAttributes(array('player_id' => $player->id));
+
+                //means we just created a signature, show last used values (id+images unset)
+                if (isset($_SESSION['signature']))
+                {
+                    $model->attributes = $_SESSION['signature'];
+                }
+
                 $this->render('signature', array(
                     'player' => $player,
                     'playerImages' => $playerImages,
@@ -492,32 +501,34 @@ class PlayerController extends Controller
 
     public function actionCreateSignature()
     {
+
         if (isset(Yii::app()->user->id))
         {
             $player = Player::model()->findByPk(Yii::app()->user->id);
             if (isset($player))
             {
                 $playerImages = PlayerImage::model()->findAllByAttributes(array('player_id' => $player->id));
-                if (isset($playerImages) && count($playerImages) > 22)
+                if (isset($playerImages) && count($playerImages) > 2)
                     throw new CHttpException(500, 'You have maxium of 3 images created. Remove previous images to make new.');
                 if (!isset($_SESSION['signature']))
                     throw new CHttpException(404, 'Signature data not available. Unable to continue.');
 
                 $signature = new SignatureForm();
                 $signature->attributes = $_SESSION['signature'];
+                //currently fixed width/height or by background 
 
+                if ($signature->width > 900)
+                    $signature->width = 900;
+                if ($signature->height > 300)
+                    $signature->height = 300;
+                $signatureWidthLimit = $signature->width;
+                $signatureHeightLimit = $signature->height;
 
-
-                //(w x h)
-//Call in another picture
-                
                 $playerImage = new PlayerImage();
                 if (isset($_SESSION['signature']['background_image_meta'])) //custom background?
                 {
-                    $ext = pathinfo($_SESSION['signature']['background_image_meta'], PATHINFO_EXTENSION);
-                    echo $ext;
+                    $ext = strtolower(pathinfo($_SESSION['signature']['background_image_meta'], PATHINFO_EXTENSION));
 
-                    $dbimage = file_get_contents($_SESSION['signature']['background_image']);
                     if ($ext == 'png')
                         $image = imagecreatefrompng($_SESSION['signature']['background_image']);
                     else if ($ext == 'jpg')
@@ -526,87 +537,55 @@ class PlayerController extends Controller
                         throw new CHttpException(500, 'Image type not supported. Jpg and png are supported.');
 
                     @unlink($signature->background_image);
-                    //$image = imagecreatefromstring($signature->background_image);
-                    $playerImage->background_image = $dbimage;
-                    //$image = imagecreatefrompng();    
                 }
                 else//use predefined background
                 {
-                    //choises
-                    echo 'using predefined background';
-                    $image = imagecreatetruecolor($signature->width, $signature->height);
+                    if ($signature->background_number == 1)
+                        $image = imagecreatefromjpeg('images/signature/marine_tab_background.jpg');
+                    else if ($signature->background_number == 2)
+                        $image = imagecreatefromjpeg('images/signature/alien_tab_background.jpg');
+                    else if ($signature->background_number == 3)
+                        $image = imagecreatefromjpeg('images/signature/overview_tab_background.jpg');
                 }
 
 
-                /*
-                 * Steam image
-                 */
-
-                $steam_image = imagecreatefromjpeg($player->steam_image);
-                // get current width/height
-                $steam_image_width = imagesx($steam_image);
-                $steam_image_height = imagesy($steam_image);
-
-                $background_image_width = imagesx($steam_image);
+                $background_image_width = imagesx($image);
                 $background_image_height = imagesy($image);
-
-
-
-
-                imagecopy($image, $steam_image, 10, $background_image_height - 10 - $steam_image_height, 0, 0, $steam_image_width, $steam_image_height);
-
-
-                $white = imagecolorallocate($image, 255, 255, 255);
-                $font = 'css/OptimusPrincepsSemiBold.ttf';
-
-                //make explodeable if not.
-                if (strpos($signature->data, PHP_EOL) === false)
-                    $signature->data .=' ' . PHP_EOL . ' ';
-
-                $rows = explode(PHP_EOL, $this->findValues($signature->data, $player));
-                if (is_array($rows))
+                //attempt to resize
+                if ($background_image_height > $signatureHeightLimit || $background_image_width > $signatureWidthLimit)
                 {
-                    $x = 0;
-                    $size = 10;
-                    foreach ($rows as $row)
-                    {
-                        $x+=$size + intval($size / 5) + 1;
-                        imagettftext($image, $size, 0, 0, $x, $white, $font, str_replace(' ', '  ', $row));
-                    }
-                    
-                    imagettftext($image, $size, 0, $background_image_width-300, $background_image_height-20, $white, $font, 'ns2stats.com');
-                    
+                    $image = SignatureHelper::resizeImage($image, $background_image_width, $background_image_height, $signatureWidthLimit, $signatureHeightLimit);
+                    $background_image_width = imagesx($image);
+                    $background_image_height = imagesy($image);
                 }
+
+                if (isset($signature->steam_image) && $signature->steam_image == true)
+                    SignatureHelper::addSteamImage($image, $player, $signature);
+
+                //add logo with text
+                if (isset($signature->logo) && $signature->logo == true)
+                    SignatureHelper::addLogo($image);
+
+                //save background before dynamic values
+                $tmpBgFilePath = '/tmp/signature_bg_' . $player->id . '.png';
+                imagepng($image, $tmpBgFilePath);
+                $imageBgData = file_get_contents($tmpBgFilePath);
+                $playerImage->background_image = $imageBgData;
+                unlink($tmpBgFilePath);
+
+                $playerImage->data = $signature->data;
+
+                //set default is user does not have signatures
+                if (!isset($playerImages) || (isset($playerImages) && count($playerImages) == 0))
+                    $playerImage->default = 1;
                 else
-                    throw new CHttpException(500, 'Values field failed to parse-');
+                    $playerImage->default = 0;
 
+                //add dynamic values && save $playerImage
+                SignatureHelper::updateDynamicValues($playerImage, $player);
 
-
-
-
-                $tmpFilePath = '/tmp/signature_' . $player->id . '.png';
-                imagepng($image, $tmpFilePath);
-                $imageData = file_get_contents($tmpFilePath);
-
-                $playerImage->image = $imageData;
-                $playerImage->player_id = $player->id;
-
-                $playerImage->save();
-
-                unlink($tmpFilePath);
-                unset($tmpFilePath);
-                unset($imageData);
                 unset($image);
-                unset($_SESSION['signature']);
                 $this->redirect(array('player/signature'));
-
-//                header("Content-type: image/png");
-////tells the browser it is a png picture
-//                imagepng($image);
-////displays the png image "image"
-//                imagedestroy($image);
-//removes the image from memory
-//                
             }
             else
                 throw new CHttpException(404, 'Player not found');
@@ -617,14 +596,50 @@ class PlayerController extends Controller
 
     public function actionGetSignature($id)
     {
-        header("Content-type: image/png");
-        $playerImage = PlayerImage::model()->findByPk($id);
+        SignatureHelper::displaySignature($id);
+    }
+
+    public function actionGetPlayerSignature($id)
+    {
+        $playerImage = PlayerImage::model()->findByAttributes(array('player_id' => $id, 'default' => 1));
         if (isset($playerImage))
         {
-
-            echo $playerImage->image;
-            unset($playerImage);
+            SignatureHelper::displaySignature($playerImage->id);
         }
+        //TODO add ns2stats logo if not found
+    }
+
+    public function actionSetDefaultSignature($id)
+    {
+        if (isset(Yii::app()->user->id))
+        {
+            $player = Player::model()->findByPk(Yii::app()->user->id);
+            if (isset($player))
+            {
+                $playerImages = PlayerImage::model()->findAllByAttributes(array('player_id' => $player->id));
+                if (is_array($playerImages))
+                {
+                    foreach ($playerImages as $pi)
+                    {
+                        if ($id == $pi->id)
+                            $pi->default = 1;
+                        else
+                            $pi->default = 0;
+
+                        if (!$pi->update())
+                            throw new CHttpException(500, 'Unable to save signature: ' . print_r($pi->getErrors(), true));
+                    }
+                }
+                else
+                    throw new CHttpException(404, 'Signatures not found');
+            }
+            else
+                throw new CHttpException(404, 'Player not found');
+        }
+        else
+            throw new CHttpException(401, 'You need to login to access this page.');
+
+        $this->redirect(array('player/signature'));
     }
 
     public function actionDeleteSignature($id)
@@ -639,7 +654,27 @@ class PlayerController extends Controller
                 $playerImage = PlayerImage::model()->findByAttributes(array('id' => $id, 'player_id' => $player->id));
                 if (isset($playerImage))
                 {
+                    //if current default, change other image to default
+                    if ($playerImage->default == 1)
+                        $wasDefault = true;
+                    else
+                        $wasDefault = false;
+
                     $playerImage->delete();
+
+                    if ($wasDefault)
+                    {
+                        $playerImages = PlayerImage::model()->findAllByAttributes(array('player_id' => $player->id));
+                        if (isset($playerImages) && count($playerImages) > 0)
+                        {
+                            foreach ($playerImages as $pi)
+                            {
+                                $pi->default = 1;
+                                $pi->update();
+                                break;
+                            }
+                        }
+                    }
                     $this->render('signature_deleted');
                 }
                 else
@@ -650,24 +685,6 @@ class PlayerController extends Controller
         }
         else
             throw new CHttpException(401, 'You need to login to access this page.');
-    }
-
-    private function findValues($text, $player)
-    {
-
-        $searchFor = array();
-        $replaceWith = array();
-
-        foreach ($player->attributes as $key => $value)
-        {
-            if ($key != 'code' && $key != 'ip')
-            {
-                $searchFor[] = '[' . strtolower($key) . ']';
-                $replaceWith[] = $value;
-            }
-        }
-
-        return str_replace($searchFor, $replaceWith, $text);
     }
 
 }
