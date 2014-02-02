@@ -36,6 +36,7 @@ Class SignatureHelper
         $background_image_height = imagesy($image);
 
         $steam_image = imagecreatefromjpeg($player->steam_image);
+
         if (isset($signature->border) && $signature->border == true)
             self::addBorder($steam_image, 184, 184);
 
@@ -65,6 +66,53 @@ Class SignatureHelper
                 $sImageNewHeight, // destination image new height
                 $steam_image_width, //source image width
                 $steam_image_height //source image heigth
+        );
+        
+        //add flag if set
+        if (isset($signature->flag) && $signature->flag == true)
+            self::addFlag($image, $sImageNewWidth, $sImageNewHeight, $player, $signature);
+    }
+
+    /*
+     * @pointer $image
+     */
+
+    public static function addFlag(&$image, $steam_image_width, $steam_image_height, $player, $signature)
+    {
+        if (!isset($player->country) || $player->country == '')
+            return;
+
+        $background_image_width = imagesx($image);
+        $background_image_height = imagesy($image);
+
+        $flag_image = imagecreatefrompng('images/flags/' . strtolower($player->country) . '.png');
+
+        // get current width/height
+        $flag_image_width = imagesx($flag_image);
+        $flag_image_height = imagesy($flag_image);
+
+
+        $flagImageRatio = 0.6875;
+        $sImageNewHeight = $background_image_height * 0.15;
+        if ($sImageNewHeight > 11)
+            $sImageNewHeight = 11;
+
+        $sImageNewWidth = $sImageNewHeight / $flagImageRatio;
+
+        $sDestX = $background_image_width * 0.02 + $steam_image_width - $sImageNewWidth - 1;
+
+        $sDestY = (($background_image_height - $steam_image_height) / 2) + $steam_image_height - $sImageNewHeight - 1;
+
+        imagecopyresampled($image, //destination image
+                $flag_image, //source image
+                $sDestX, //destination image x
+                $sDestY, // destination image y
+                0, //source image x
+                0, //source image y
+                $sImageNewWidth, //destination image new width
+                $sImageNewHeight, // destination image new height
+                $flag_image_width, //source image width
+                $flag_image_height //source image heigth
         );
     }
 
@@ -186,7 +234,11 @@ Class SignatureHelper
         );
 
         //add ns2stats.com text
-        $size = 10;
+        //calculate new size compared to how much logo was resized
+        //original size 100, if 50 then font 5. add +1
+        $size = 10 * ($sImageNewHeight / 100) + 1;
+        if ($size > 9)
+            $size = 9;
         $white = imagecolorallocate($image, 255, 255, 255);
         $font = 'css/OptimusPrincepsSemiBold.ttf';
         $text = 'ns2stats.com';
@@ -255,10 +307,16 @@ Class SignatureHelper
             $data .=' ' . PHP_EOL . ' ';
 
         $rows = explode(PHP_EOL, self::findValues($data, $player));
+
+
+        $image_height = imagesy($image);
+        $size = intval($image_height * 0.1) + 2;
+        if ($size > 9)
+            $size = 9;
+
         if (is_array($rows))
         {
             $y = 7;
-            $size = 9;
             foreach ($rows as $row)
             {
                 $y+=$size + intval($size / 5) + 1;
@@ -384,11 +442,44 @@ Class SignatureHelper
             $searchFor[] = '[marine_ranking]';
             $replaceWith[] = $player->getRanking('marine_win_elo');
         }
+        /*
+         * Server specific         
+         */
+
+        if (strpos($text, '[last_server]') !== false)
+        {
+            $searchFor[] = '[last_server]';
+            $lastServerName = 'None';
+            //TODO optimize by creatcommand
+            $livePlayer = LivePlayer::model()->findByAttributes(array('player_id' => $player->id));
+            if (isset($livePlayer))
+                $liveRound = LiveRound::model()->findByPk($livePlayer->live_round_id);
+
+            if (isset($liveRound))
+                $lastServer = Server::model()->findByPk($liveRound->server_id);
+
+            if (isset($lastServer))
+                $lastServerName = $lastServer->name;
+
+            if (strlen($lastServerName) > 19)
+                $replaceWith[] = substr($lastServerName, 0, 18) . '..';
+            else
+                $replaceWith[] = $lastServerName;
+        }
+
+        /*
+         * Specials
+         */
         if (strpos($text, '[ns2stats.com_time]') !== false)
         {
             $searchFor[] = '[ns2stats.com_time]';
             $replaceWith[] = date('Y-M-d H:i:s');
         }
+
+        /*
+         * Weapon specific
+         * 
+         */
         //filled when first used
         $marine_kills = null;
         if (strpos($text, '[kills_by_rifle]') !== false)

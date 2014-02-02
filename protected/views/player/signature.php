@@ -33,7 +33,7 @@
             </div>
             <p>Embedding as Unknown worlds forum signature</p>
             <pre style="padding:0;margin: 0;">
-    [url=<?php echo Yii::app()->params['siteurl'] . Yii::app()->createUrl('player/player/' . $player->id) ?>][img]<?php echo ($pi['default'] == 1) ? Yii::app()->params['siteurl'] . Yii::app()->createUrl('player/getPlayerSignature/' . $player->id) : Yii::app()->params['siteurl'] . Yii::app()->createUrl('player/getSignature/' . $pi['id']) ?>[/img][/url]</pre>
+            [url=<?php echo Yii::app()->params['siteurl'] . Yii::app()->createUrl('player/player/' . $player->id) ?>][img]<?php echo ($pi['default'] == 1) ? Yii::app()->params['siteurl'] . Yii::app()->createUrl('player/getPlayerSignature/' . $player->id) : Yii::app()->params['siteurl'] . Yii::app()->createUrl('player/getSignature/' . $pi['id']) ?>[/img][/url]</pre>
             <a href="<?php echo Yii::app()->createUrl('player/deleteSignature/' . $pi['id']) ?>">Delete signature</a>
 
 
@@ -81,6 +81,14 @@ if (isset($playerImages) && count($playerImages) < 3)
             ?>
             <?php echo CHtml::activeLabel($model, 'border'); ?>
             <?php echo CHtml::activeCheckBox($model, 'border') ?>
+        </div>            
+        <div class="row">
+            <?php
+            if (!isset($model->flag))
+                $model->flag = true;
+            ?>
+            <?php echo CHtml::activeLabel($model, 'flag'); ?>
+            <?php echo CHtml::activeCheckBox($model, 'flag') ?>
         </div>            
         <div class="row">
             <?php
@@ -134,29 +142,30 @@ if (isset($playerImages) && count($playerImages) < 3)
             echo CHtml::activeTextArea($model, 'data');
             ?>                
             <pre>             
-Your calculated values: (more later)
-[rank] [ranked_players] [rounds_played] [score_per_minute] [score_per_death] [score]
-[kpd] [best_kill_streak] [kills] [deaths] [longest_survival] [time_played] [rounds_played]
-[alien_ranking] [marine_ranking]  [marine_commander_ranking] [alien_commander_ranking]
-[kills_by_rifle] [kills_by_shotgun] [kills_by_pistol] [kills_by_bite] [kills_by_swipe] [kills_by_spit]
+    Your calculated values: (more later)
+    [rank] [ranked_players] [rounds_played] [score_per_minute] [score_per_death] [score]
+    [kpd] [best_kill_streak] [kills] [deaths] [longest_survival] [time_played] [rounds_played]
+    [alien_ranking] [marine_ranking]  [marine_commander_ranking] [alien_commander_ranking]
+    [kills_by_rifle] [kills_by_shotgun] [kills_by_pistol] [kills_by_bite] [kills_by_swipe] [kills_by_spit]
+    [last_server]
 
-Your raw values:   
-[id] [rating] [marine_commander_elo] [steam_id] [steam_name] [steam_url] [steam_image]
-[country] [rating] [kill_elo_rating] [win_elo_rating] [commander_elo_rating] [marine_win_elo] 
-[alien_win_elo] [marine_commander_elo] [alien_commander_elo] [last_seen] [last_server_id]
+    Your raw values:   
+    [id] [rating] [marine_commander_elo] [steam_id] [steam_name] [steam_url] [steam_image]
+    [country] [rating] [kill_elo_rating] [win_elo_rating] [commander_elo_rating] [marine_win_elo] 
+    [alien_win_elo] [marine_commander_elo] [alien_commander_elo] [last_seen] [last_server_id]
 
-Specials:
-[ns2stats.com_time] 
-Easier placement of texts: (you can use each once per row. Row means line before line break)
-[SKIP100] = Skip 100 pixels on beginning of row
-[SKIPSTEAM] = Skip 161 pixels on beginning of row
-[SKIP200] = Skip 100 pixels on beginning of row
-[SKIP300] = Skip 100 pixels on beginning of row
-[SKIP400] = Skip 100 pixels on beginning of row
-[SKIP500] = Skip 100 pixels on beginning of row
-[SKIP600] = Skip 100 pixels on beginning of row
+    Specials:
+    [ns2stats.com_time] 
+    Easier placement of texts: (you can use each once per row. Row means line before line break)
+    [SKIP100] = Skip 100 pixels on beginning of row
+    [SKIPSTEAM] = Skip 161 pixels on beginning of row
+    [SKIP200] = Skip 100 pixels on beginning of row
+    [SKIP300] = Skip 100 pixels on beginning of row
+    [SKIP400] = Skip 100 pixels on beginning of row
+    [SKIP500] = Skip 100 pixels on beginning of row
+    [SKIP600] = Skip 100 pixels on beginning of row
 
-Your server statistics: (to come later)
+    Your server statistics: (to come later)
             </pre>
         </div>
 

@@ -16,6 +16,7 @@ class SignatureForm extends CFormModel
     public $border;
     public $logo;
     public $steam_image;
+    public $flag;
     public $steam_align;
     public $background_number;
 
@@ -29,7 +30,7 @@ class SignatureForm extends CFormModel
         return array(
             // username and password are required
             //array('background_image', 'file', 'types'=>'jpg, png'),
-            array('data,logo,steam_image,border,background_number,height,width', 'required'),
+            array('data,logo,steam_image,border,background_number,height,width,flag', 'required'),
             array('height', 'numerical',
                 'integerOnly' => true,
                 'min' => 1,
@@ -51,16 +52,16 @@ class SignatureForm extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'height' => 'Height (max 300)',
-            'width' => 'Width (max 900)',
-            'data' => 'Dynamic values',
+            'height' => 'Max height (limit 300) (image ratio will persist)',
+            'width' => 'Max width (limit 900) (width or height might become lower)',
+            'data' => 'Dynamic values (logging out resets to default)',
             'background_image' => 'Background image (optional)',
             'background_number' => 'Select background image (ignored if you select custom bg): ',
             'logo' => 'NS2Stats.com logo',
             'border' => 'Steam image border',
             'steam_image' => 'Your steam image',
-            'steam_align' => 'Start dynamic values after steam image (instead of staring from 0x0)'
-            
+            'steam_align' => 'Start dynamic values after steam image (instead of staring from 0x0)',
+            'flag' => 'Country flag (requires steam image)'
         );
     }
 

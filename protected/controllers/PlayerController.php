@@ -496,7 +496,7 @@ class PlayerController extends Controller
                 throw new CHttpException(404, 'Player not found');
         }
         else
-            throw new CHttpException(401, 'You need to login to access this page.');
+            throw new CHttpException(401, 'You need to login to access this page. Press "Sign in through STEAM to login" (upper right).');
     }
 
     public function actionCreateSignature()
