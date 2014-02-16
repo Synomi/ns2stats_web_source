@@ -12,6 +12,7 @@ class Filter extends CModel
     public $private;
     public $team;
     public $mod;
+    public $alltime;
 
     public function attributeNames()
     {
@@ -28,6 +29,8 @@ class Filter extends CModel
 
     public function loadDefaults()
     {
+
+
         if (!$this->private)
             $this->private = array(0);
 //        if (!$this->build)
@@ -36,11 +39,26 @@ class Filter extends CModel
             $this->startDate = date('d.m.Y', strtotime('-14 days'));
         if (!$this->endDate)
             $this->endDate = date('d.m.Y', strtotime('now'));
+
+
+        if (isset($_GET['alltime']))
+        {
+            $this->alltime = 1;
+            $this->saveToSession();
+        }
+        if (isset(Yii::app()->controller->action->id) && strpos(Yii::app()->controller->action->id, 'general') !== false && !isset($_GET['alltime']))
+        {
+            $this->alltime = 0;
+            $this->saveToSession();
+        }
     }
 
     public function loadFromSession()
     {
         $filters = Yii::app()->user->getState('filter');
+
+        if (isset($filters['alltime']) && $filters['alltime'])
+            $this->alltime = $filters['alltime'];
         if ($filters['build'])
             $this->build = $filters['build'];
         if ($filters['startDate'])
@@ -67,6 +85,7 @@ class Filter extends CModel
     public function saveToSession()
     {
         Yii::app()->user->setState('filter', array(
+            'alltime' => $this->alltime,
             'build' => $this->build,
             'startDate' => $this->startDate,
             'endDate' => $this->endDate,
@@ -88,21 +107,30 @@ class Filter extends CModel
 
     public static function addFilterConditions($teamFilterEnabled = false, $buildFilterEnabled = true)
     {
-        if (isset($_GET['alltime']) && Yii::app()->controller->id == 'player' )
-        {            
-            echo '<span style="color:gold">';
-            return ' AND 1=1';       
+//        if (isset($_GET['alltime']) && Yii::app()->controller->id == 'player')
+//        {
+//            echo '<span style="color:gold">';
+//            return ' AND 1=1';
+//        }
+        if (isset($_GET['alltime_signature']) && Yii::app()->controller->id == 'player')
+        {
+            return ' AND 1=1';
         }
-        if (isset($_GET['alltime_signature']) && Yii::app()->controller->id == 'player' )
-        {                  
-            return ' AND 1=1';       
-        }
-        
+
         if (Yii::app()->controller->id != 'api')
         {
             $filter = new Filter();
             $filter->loadFromSession();
             $filter->loadDefaults();
+            //alltime
+            if (isset($filter->alltime) && $filter->alltime == 1 && Yii::app()->controller->id == 'player')
+            {
+                if (strpos(Yii::app()->controller->action->id, 'general') !== false)
+                    echo '<span style="color:gold">';
+
+                return ' AND 1=1';
+            }
+
             $filterInput = Yii::app()->request->getPost('Filter');
             if (isset($filterInput))
             {

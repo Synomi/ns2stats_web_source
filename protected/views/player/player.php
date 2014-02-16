@@ -12,6 +12,7 @@ if (!$hidden)
 
 echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('href' => $player->steam_url), $player->steam_name));
 ?>
+
 <div class="span-5">
     <div class="box">
         <?php

@@ -50,8 +50,18 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
 
 </script>
 <div style="padding:30px;">
-    <p style="font-size: 12px;"><span style="color:gold;font-weight: bold;">NS2Stats.com dynamic signatures are now available!</span> To create yourself a signature login and go to <a href="http://ns2stats.com/player/signature">Signature page</a> and press create signature. More info at <a href="http://forums.unknownworlds.com/discussion/comment/2182858/#Comment_2182858">UWE forums</a>.<br />Example:</p>
-    <a href="http://ns2stats.com/player/signature"><img style="width: 300px;height: auto;" src="http://ns2stats.com/player/getPlayerSignature/55" /></a>
+    <p style="font-size: 12px;"><span style="color:gold;font-weight: bold;">NS2Stats.com dynamic signatures are now available!</span> To create yourself a signature login and go to <a href="http://ns2stats.com/player/signature">Signature page</a> and press create signature. More info at <a href="http://forums.unknownworlds.com/discussion/comment/2182858/#Comment_2182858">UWE forums</a>.<br />Latest (default) signatures:</p>
+    <?php
+    $criteria = new CDbCriteria();
+    $criteria->condition = '`default` = 1';
+    $criteria->order = 'id desc';
+    $criteria->limit = '3';
+    $latestSignatures = PlayerImage::model()->findAll($criteria);
+    foreach ($latestSignatures as $signature)
+    {
+        echo '<a style="padding-right:10px;" href="' . Yii::app()->params['siteurl'] . '/player/player/' . $signature->player_id . '"><img style="max-height:110px;width:auto;" src="' . Yii::app()->params['siteurl'] . '/player/getPlayerSignature/' . $signature->player_id . '" /></a>';
+    }
+    ?>  
 </div>
 <!--
 <div id="featuredserverscontainer" style="clear:both;width:1200px;margin-left:auto;margin-right:auto;">
