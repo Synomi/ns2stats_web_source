@@ -23,6 +23,7 @@
  * @property integer $alien_win_elo
  * @property integer $marine_commander_elo
  * @property integer $alien_commander_elo
+ * @property integer $donator
  * 
  * The followings are the available model relations:
  * @property PlayerRound[] $playerRounds
@@ -75,7 +76,7 @@ class Player extends CActiveRecord
             array('rating', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
 // Please remove those attributes that should not be searched.
-            array('id, steam_id, steam_name, steam_url, steam_image, group, bio, hidden, code, ranking, rating', 'safe', 'on' => 'search'),
+            array('id, steam_id, steam_name, steam_url, steam_image, group, bio, hidden, code, ranking, rating, donator', 'safe', 'on' => 'search'),
         );
     }
 

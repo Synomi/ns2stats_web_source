@@ -1,6 +1,17 @@
 <?php
 /* @var $this Controller */
 $showAds = true;
+if (isset(Yii::app()->user->id))
+{    
+    //check if adds need to be shown
+    $player = Player::model()->findByPk(Yii::app()->user->id);    
+    if (isset($player))
+        $donation = Donation::model()->findByAttributes(array('custom' => $player->steam_id));
+    
+    if (isset($donation))
+        $showAds = false;
+}
+
 Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statistics,games,stats,rounds,wins,weapons,loses,lifeforms,maps', 'keywords');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -87,7 +98,12 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                 </div>
             </div>
             <div style=" background: #0A0D17; width: 1230px; z-index: 99999999999">
-                <div id="header">
+                <div id="header" style="position: relative">
+                    <div style="position: absolute;top:59px;right:82px;z-index: 9999;width: 147px;height: 27px">
+                        <a href="<?php echo Yii::app()->baseUrl ?>/site/donate">
+                            <img alt="donate" title="NS2Stats is accepting donations to keep ns2stats.com running on powerful server!" src="<?php echo Yii::app()->baseUrl ?>/images/donate-paypal.png"/>
+                        </a>
+                    </div>
                     <img id="header-animation" src="<?php echo Yii::app()->baseUrl ?>/images/header.gif" alt="header" />
 
                     <div class="menu" id="mainmenu">
@@ -95,7 +111,9 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                         if (Yii::app()->user->isGuest)
                             echo CHtml::tag('a', array('id' => 'steam-login', 'class' => 'right', 'href' => $this->createUrl('/site/steamlogin')), CHtml::tag('img', array('src' => Yii::app()->baseUrl . '/images/steam_login.png', 'alt' => 'login')));
                         else
+                        {
                             echo CHtml::tag('a', array('id' => 'steam-login', 'class' => 'right', 'href' => $this->createUrl('/site/logout')), CHtml::tag('div', array('class' => 'header-button header-button1', 'alt' => ''), 'Logout'));
+                        }
 
                         $this->widget('zii.widgets.CMenu', array(
                             'encodeLabel' => false,
