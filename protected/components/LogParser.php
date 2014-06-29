@@ -370,17 +370,17 @@ END;
                 if ($started)
                 {
                     //Weapon hit
-                    if ($logRow['action'] == 'hit_player')// || $logRow['action'] == 'structure')
-                        $this->hit($logRow);
-                    //Drop Pickable
-                    if ($logRow['action'] == 'pickable_ability_dropped' || $logRow['action'] == 'pickable_item_dropped')
-                        $this->dropPickable($logRow);
-                    //Pick Pickable
-                    if ($logRow['action'] == 'pickable_ability_picked' || $logRow['action'] == 'pickable_item_picked')
-                        $this->pickPickable($logRow);
-                    //Destroy Pickable
-                    if ($logRow['action'] == 'pickable_ability_destroyed' || $logRow['action'] == 'pickable_item_destroyed')
-                        $this->destroyPickable($logRow);
+//                    if ($logRow['action'] == 'hit_player')// || $logRow['action'] == 'structure')
+//                        $this->hit($logRow);
+//                    //Drop Pickable
+//                    if ($logRow['action'] == 'pickable_ability_dropped' || $logRow['action'] == 'pickable_item_dropped')
+//                        $this->dropPickable($logRow);
+//                    //Pick Pickable
+//                    if ($logRow['action'] == 'pickable_ability_picked' || $logRow['action'] == 'pickable_item_picked')
+//                        $this->pickPickable($logRow);
+//                    //Destroy Pickable
+//                    if ($logRow['action'] == 'pickable_ability_destroyed' || $logRow['action'] == 'pickable_item_destroyed')
+//                        $this->destroyPickable($logRow);
 
                     //End round
                     if ($logRow['action'] == 'player_list_end')

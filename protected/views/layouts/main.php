@@ -1,6 +1,6 @@
 <?php
 /* @var $this Controller */
-$showAds = true;
+$showAds = false;
 if (isset(Yii::app()->user->id))
 {    
     //check if adds need to be shown
@@ -28,7 +28,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
         <![endif]-->
 
-        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css?v8" />
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css?v9" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css?v1" />
         <meta name="msvalidate.01" content="FAE0564012F14A34B72316472197A245" />
         <link rel="icon" type="image/png" href="<?php echo Yii::app()->request->baseUrl; ?>/favicon.png" />

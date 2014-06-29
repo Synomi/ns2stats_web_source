@@ -25,6 +25,7 @@ class Controller extends CController
      */
     public $breadcrumbs = array();
     public $description = '';
+    public $loadNow = null;
 
     public function beforeAction($action)
     {
@@ -42,9 +43,21 @@ class Controller extends CController
     {
         if (strpos($_SERVER['HTTP_HOST'], 'ingame.') !== false)
             $this->layout = 'ingame';
-        
+
         if (strpos($_SERVER['HTTP_HOST'], 'ingamedev.') !== false)
             $this->layout = 'ingame';
+
+        $cacheId = "loadNow";
+        $loadNow = Yii::app()->cache->get($cacheId);
+        if ($loadNow === false)
+        {
+            $loadNow = sys_getloadavg();
+            Yii::app()->cache->set($cacheId, $loadNow, 10);
+            if ($loadNow[0] > 5)
+                die('Server too busy, try again later');
+        }
+
+        $this->loadNow = $loadNow;
     }
 
 }

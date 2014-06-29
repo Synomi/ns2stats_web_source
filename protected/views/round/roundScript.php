@@ -155,9 +155,10 @@
                 if (!isNaN(parseInt($($(this).find("td")[4]).html())))
                     totals.alien.kills += parseInt($($(this).find("td")[4]).html())
                 if (!isNaN(parseInt($($(this).find("td")[5]).html())))
-                    totals.alien.deaths += parseInt($($(this).find("td")[5]).html())
+                    totals.alien.assists += parseInt($($(this).find("td")[5]).html())
                 if (!isNaN(parseInt($($(this).find("td")[6]).html())))
-                    totals.alien.assists += parseInt($($(this).find("td")[6]).html())
+                    totals.alien.deaths += parseInt($($(this).find("td")[6]).html())
+                
                 if (!isNaN(parseInt($($(this).find("td")[7]).html())))
                     totals.alien.pdmg += parseInt($($(this).find("td")[7]).html())
                 if (!isNaN(parseInt($($(this).find("td")[8]).html())))

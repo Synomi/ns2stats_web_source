@@ -145,6 +145,12 @@ class ApiController extends Controller
 
     public function actionSendstatus()
     {
+
+        if ($this->loadNow[0] > 3.4)
+        {
+            die('SERVER_TOO_BUSY');
+        }
+
         $playerCount = 0;
         if (isset($_POST['key']))
         {
@@ -276,6 +282,10 @@ class ApiController extends Controller
 
     public function actionUpdatemapdata()
     {
+        if ($this->loadNow[0] > 2.7)
+        {
+            die('SERVER_TOO_BUSY');
+        }
         print_r($_POST);
         if (!isset($_POST['secret']) || !isset($_POST['mapName']) || !isset($_POST['jsonvalues']) || $_POST['secret'] != "jokukovasalasana")
             throw new CHttpException(401, "Invalid data");
@@ -660,6 +670,11 @@ class ApiController extends Controller
 
     public function actionPlayer()
     {
+        if ($this->loadNow[0] > 2.8)
+        {
+            Json::printJSON(array('error' => 'Server too busy. Please try again later.'), 503);
+            die();
+        }
         if (isset($_GET['steam_id']))
         {
             $steamId = $_GET['steam_id'];
@@ -757,6 +772,12 @@ class ApiController extends Controller
 
     public function actionOnePlayer()
     {
+        if ($this->loadNow[0] > 2.8)
+        {
+            Json::printJSON(array('error' => 'Server too busy. Please try again later.'), 503);
+            die();
+        }
+
         if (isset($_GET['steam_id']))
         {
             $steamId = SteamApi::PublicIdToSteamId($_GET['steam_id']);
@@ -805,6 +826,11 @@ class ApiController extends Controller
 
     public function actionGetDeathsForMapAndBuildJSON($mapName, $build, $offset = 0)
     {
+        if ($this->loadNow[0] > 2.8)
+        {
+            Json::printJSON(array('error' => 'Server too busy. Please try again later.'), 503);
+            die();
+        }
 
         if (!isset($mapName) || !isset($build) || !is_numeric($build))
             throw new CHttpException(401, "Invalid data");
@@ -858,6 +884,11 @@ class ApiController extends Controller
 
     public function actionPlayers()
     {
+        if ($this->loadNow[0] > 2.8)
+        {
+            Json::printJSON(array('error' => 'Server too busy. Please try again later.'), 503);
+            die();
+        }
 
         $response = array();
         if (isset($_REQUEST['players']))

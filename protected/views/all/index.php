@@ -50,19 +50,23 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
 
 </script>
 <div style="padding:30px;">
-    <p style="font-size: 12px;"><span style="color:gold;font-weight: bold;">NS2Stats.com dynamic signatures are now available!</span> To create yourself a signature login and go to <a href="http://ns2stats.com/player/signature">Signature page</a> and press create signature. More info at <a href="http://forums.unknownworlds.com/discussion/comment/2182858/#Comment_2182858">UWE forums</a>.<br />Latest (default) signatures:</p>
-    <?php
-    $criteria = new CDbCriteria();
-    $criteria->condition = '`default` = 1';
-    $criteria->order = 'id desc';
-    $criteria->limit = '3';
-    $latestSignatures = PlayerImage::model()->findAll($criteria);
-    foreach ($latestSignatures as $signature)
-    {
-        echo '<a style="padding-right:10px;" href="' . Yii::app()->params['siteurl'] . '/player/player/' . $signature->player_id . '"><img style="max-height:110px;width:auto;" src="' . Yii::app()->params['siteurl'] . '/player/getPlayerSignature/' . $signature->player_id . '" /></a>';
-    }
-    ?>  
+    <p>Sorry for those who liked their all time stats, there has been database wipe :( It was not intentional and it happened due of mysql database dump failure (which I should have tested earlier, before new server expired, so my fault). Database did not get dumped fully from new server back to the old one.
+        Thus its unusable. We would have 7 month old database to use, but thats too old. Backing up over 100gb db is not daily task. Sorry for any inconvenience this has caused. On other hand this will make site work lot faster and gets rid loads of (now) useless data. - Synomi    </p>
 </div>
+<!--<div style="padding:30px;">
+
+    <p>There is currently issue with site, which is causing some downtime. We are looking into it.</p>
+    <?php
+//    $criteria->condition = '`default` = 1';
+//    $criteria->order = 'id desc';
+//    $criteria->limit = '3';
+//    $latestSignatures = PlayerImage::model()->findAll($criteria);
+//    foreach ($latestSignatures as $signature)
+//    {
+//        echo '<a style="padding-right:10px;" href="' . Yii::app()->params['siteurl'] . '/player/player/' . $signature->player_id . '"><img style="max-height:110px;width:auto;" src="' . Yii::app()->params['siteurl'] . '/player/getPlayerSignature/' . $signature->player_id . '" /></a>';
+//    }
+    ?>  
+</div>-->
 <!--
 <div id="featuredserverscontainer" style="clear:both;width:1200px;margin-left:auto;margin-right:auto;">
 
@@ -317,7 +321,7 @@ $this->widget('FilterForm', array(
     $widget->renderContent();
     ?>
 </div>
-<div style="clear:both;width:980px;margin-left:auto;margin-right:auto;">
+<!--<div style="clear:both;width:980px;margin-left:auto;margin-right:auto;">
     <p style="color:white;font-size:11px;padding-top:20px;padding-left:10px;">
         Currently along with other data we have
         <?php
@@ -374,5 +378,5 @@ $this->widget('FilterForm', array(
         ?>
         in our database. 
     </p>
-</div>
+</div>-->
 

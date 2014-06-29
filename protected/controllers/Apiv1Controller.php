@@ -32,6 +32,16 @@ class Apiv1Controller extends Controller
     public function init()
     {
         Yii::app()->errorHandler->errorAction = 'apiv1/error';
+        return parent::init();
+    }
+
+    public function beforeAction($action)
+    {
+        if ($this->loadNow[0] > 3)
+        {
+            Json::printJSON(array('error' => 'Server too busy. Please try again later.'), 503);
+            die();
+        }
     }
 
     public function actionError()
@@ -74,7 +84,7 @@ class Apiv1Controller extends Controller
             {
                 if ($_GET['field'] == $key)
                 {
-                    $data = $model::model()->cache(60*30)->findByAttributes(array($_GET['field'] => $_GET['value']));
+                    $data = $model::model()->cache(60 * 30)->findByAttributes(array($_GET['field'] => $_GET['value']));
                     if (isset($data))
                     {
                         if (isset($data->ip) && $model != 'Server')
@@ -83,7 +93,7 @@ class Apiv1Controller extends Controller
                             $data->code = null;
                         if (isset($data->server_key))
                             $data->server_key = null;
-                        
+
                         Json::printJSON($data->attributes, 200);
                     }
                     else
@@ -98,7 +108,7 @@ class Apiv1Controller extends Controller
         }
         else if (isset($_GET['id']))
         {
-            $data = $model::model()->cache(60*30)->findByPk($_GET['id']);
+            $data = $model::model()->cache(60 * 30)->findByPk($_GET['id']);
 
             if (isset($data))
             {
@@ -145,7 +155,7 @@ class Apiv1Controller extends Controller
 
             try
             {
-                $rows = $model::model()->cache(60*30)->findAll($criteria);
+                $rows = $model::model()->cache(60 * 30)->findAll($criteria);
             }
             catch (Exception $ex)
             {

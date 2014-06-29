@@ -20,7 +20,7 @@ echo CHtml::tag('h1', array('class' => 'steam-name'), CHtml::tag('a', array('hre
 
         echo CHtml::tag('div', array('style' => 'padding-top:18px;'), CHtml::tag('a', array('target' => '_blank', 'href' => 'http://hive.naturalselection2.com/profile/' . $player->steam_id), 'Check HIVE stats'));
         
-        if ($player->donator == 1)
+        if ($player->donator == 1 && $player->hidden == 0)
             echo CHtml::tag('p', array('style' => 'color:gold;font-size:14px;font-weight:bold;padding-top:14px;'), 'Donator');
         
         ?>

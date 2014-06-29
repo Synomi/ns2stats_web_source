@@ -387,17 +387,17 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
             ?>
         </div>
         <?php
-        if (isset($map) && isset($map->jsonvalues))
-        {
-            $minimap = $this->widget('Minimap', array(
-                'map' => $map,
-                'round' => $round,
-            ));
-        }
-        else
-        {
-            echo "<p>Minimap for $mapname is not yet available.</p>";
-        }
+//        if (isset($map) && isset($map->jsonvalues))
+//        {
+//            $minimap = $this->widget('Minimap', array(
+//                'map' => $map,
+//                'round' => $round,
+//            ));
+//        }
+//        else
+//        {
+//            echo "<p>Minimap for $mapname is not yet available.</p>";
+//        }
         $this->renderPartial('roundScript');
 
         /*
@@ -408,7 +408,7 @@ if ($round->parse_status >= 4 || $round->parse_status == 0)
         if (isset($chatMessages) && count($chatMessages) > 0)
         {
             ?>
-            <div id="chatbox">
+            <div id="chatbox" style="clear: both;display: block;margin-top:20px;">
                 <h3>Chat</h3>
                 <ul>
                     <?php

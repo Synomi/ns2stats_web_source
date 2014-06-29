@@ -8,15 +8,15 @@
 <div class="wide">
     <h1 style="font-size:24px;">Donations for NS2Stats</h1>
     <p>
-        NS2Stats is accepting donations. Donations will help keep ns2stats.com running on more powerful server with all features.<br />
-        Server cost is 52 &euro; montly. If we can't pay monthly fee then we will move to less powerful server and remove cpu/memory intensive features like live scoreboard and
-        round page maps. If you have hidden your stats, donation wont be shown here. Also if you donate without login, your donation will be anonymous.
+        NS2Stats is accepting donations. <br />
+        Since we did not receive enough donations to keep NS2Stats running on more powerful server we will move to less powerful server before 14th June 2014 and remove cpu/memory intensive features like live scoreboard(if must) and
+        round page maps + other unused features and stuff. Thank you for your donations!
+        If you have hidden your stats, donation wont be shown here. Also if you donate without login, your donation will be anonymous. All donations will be used for ns2stats. If you run into issues contact synomi66 at gmail.com.
     </p>
 
     If you donate any amount you will:
-    <ul>
-        <li>Help to keep ns2stats.com running on powerful server</li>
-        <li>Not see adds anymore, ever</li>
+    <ul>        
+        <li>Not see ads anymore, ever</li>
         <li>Motivate us to keep making ns2stats better :)</li>
     </ul>
     If you donate at least 5 euros you will:
@@ -50,7 +50,7 @@
     <br />
     <hr />
     <div id="history">
-        <h3>Latest donations</h3>
+        <h3>Latest transactions</h3>
         <ul>
             <?php
             $criteria = new CDbCriteria;
@@ -60,7 +60,7 @@
             $donations = Donation::model()->findAll($criteria);
             foreach ($donations as $donation)
             {
-                if (isset($donation->custom) && strlen($donation->custom) > 3)
+                if (isset($donation->custom) && strlen($donation->custom) > 3 && $donation->custom != 'server_rent')
                     $player = Player::model()->findByAttributes(array('steam_id' => $donation['custom']));
                 else
                     $player = null;
@@ -69,6 +69,14 @@
                     ?>
                     <li>
                         <?php echo $donation->added ?>: <a href="<?php echo Yii::app()->baseUrl . '/player/player/' . $player->id ?>"><?php echo $player->steam_name ?></a> donated <?php echo $donation->mc_gross ?> euros.
+                    </li>
+                    <?php
+                }
+                if ($donation->custom == 'server_rent')
+                {
+                    ?>
+                    <li>
+                        <?php echo $donation->added ?>: Server rent paid, balance <?php echo $donation->mc_gross ?> euros.
                     </li>
                     <?php
                 }

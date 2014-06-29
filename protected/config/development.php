@@ -94,7 +94,7 @@ return array(
         //Light open id for steam login
         'loid' => array(
             'class' => 'application.extensions.lightopenid.loid',
-        ),
+        ),        
         'widgetFactory' => array(
             'widgets' => array(
                 'CGridView' => array(
