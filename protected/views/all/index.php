@@ -49,10 +49,8 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
     });
 
 </script>
-<div style="padding:30px;">
-    <p>Sorry for those who liked their all time stats, there has been database wipe :( It was not intentional and it happened due of mysql database dump failure (which I should have tested earlier, before new server expired, so my fault). Database did not get dumped fully from new server back to the old one.
-        Thus its unusable. We would have 7 month old database to use, but thats too old. Backing up over 100gb db is not daily task. Sorry for any inconvenience this has caused. On other hand this will make site work lot faster and gets rid loads of (now) useless data. - Synomi    </p>
-</div>
+<!--<div style="padding:30px;">
+</div>-->
 <!--<div style="padding:30px;">
 
     <p>There is currently issue with site, which is causing some downtime. We are looking into it.</p>

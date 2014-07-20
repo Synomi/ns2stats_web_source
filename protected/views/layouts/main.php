@@ -2,12 +2,12 @@
 /* @var $this Controller */
 $showAds = false;
 if (isset(Yii::app()->user->id))
-{    
+{
     //check if adds need to be shown
-    $player = Player::model()->findByPk(Yii::app()->user->id);    
+    $player = Player::model()->findByPk(Yii::app()->user->id);
     if (isset($player))
         $donation = Donation::model()->findByAttributes(array('custom' => $player->steam_id));
-    
+
     if (isset($donation))
         $showAds = false;
 }
@@ -147,37 +147,40 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
             <div id="footer">
                 <div>
                     <?php
-                    $cacheId = "playingCache";
-                    if ($this->beginCache($cacheId, array('duration' => 200)))
+                    if (false)
                     {
-                        $players = Player::getCurrentActivePlayers();
-                        ?>
-                        <p> Currently <?php echo count($players) ?> players are playing in ns2stats enabled servers:
-                            <?php
-                            foreach ($players as $player)
-                            {
-                                if (isset($player->last_server_id) && is_numeric($player->last_server_id))
-                                    $currentServer = Server::model()->findByAttributes(array('id' => $player->last_server_id));
-
-
-                                if (isset($currentServer))
+                        $cacheId = "playingCache";
+                        if ($this->beginCache($cacheId, array('duration' => 200)))
+                        {
+                            $players = Player::getCurrentActivePlayers();
+                            ?>
+                            <p> Currently <?php echo count($players) ?> players are playing in ns2stats enabled servers:
+                                <?php
+                                foreach ($players as $player)
                                 {
-                                    if (!isset($currentServer->ip))
-                                        $currentServer->ip = "n/a";
+                                    if (isset($player->last_server_id) && is_numeric($player->last_server_id))
+                                        $currentServer = Server::model()->findByAttributes(array('id' => $player->last_server_id));
 
-                                    echo "[<a style='text-decoration:none;color:gold' href='" . Yii::app()->baseUrl . '/player/player/' . $player->id . "' title='View profile'" .
-                                    ">" . htmlspecialchars($player->steam_name) . "</a> " .
-                                    CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//-connect "
-                                        . $currentServer->ip
-                                        . ":" . $currentServer->port,
-                                        "title" => "Join where "
-                                        . htmlspecialchars($player->steam_name)
-                                        . " is playing. ("
-                                        . htmlspecialchars($currentServer->name)
-                                        . ")"), "(join)") . "] ";
+
+                                    if (isset($currentServer))
+                                    {
+                                        if (!isset($currentServer->ip))
+                                            $currentServer->ip = "n/a";
+
+                                        echo "[<a style='text-decoration:none;color:gold' href='" . Yii::app()->baseUrl . '/player/player/' . $player->id . "' title='View profile'" .
+                                        ">" . htmlspecialchars($player->steam_name) . "</a> " .
+                                        CHtml::tag("a", array("style" => "text-decoration:none;", "href" => "steam://run/4920//-connect "
+                                            . $currentServer->ip
+                                            . ":" . $currentServer->port,
+                                            "title" => "Join where "
+                                            . htmlspecialchars($player->steam_name)
+                                            . " is playing. ("
+                                            . htmlspecialchars($currentServer->name)
+                                            . ")"), "(join)") . "] ";
+                                    }
                                 }
+                                $this->endCache();
                             }
-                            $this->endCache();
                         }
                         ?>
                     </p>
@@ -203,9 +206,11 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                     <?php
                 }
                 ?>
-
-                <?php echo CHtml::tag('p', array(), 'Many bots have been harmed during the development of this site.'); ?>
-                <?php echo CHtml::tag('a', array('href' => 'http://steampowered.com'), 'Powered by Steam'); ?>
+                
+                <?php echo CHtml::tag('a', array('href' => 'http://www.naturalselection2.com/'), 'Natural Selection 2'); ?>
+                <?php echo CHtml::tag('a', array('href' => 'http://hive.naturalselection2.com/'), 'HIVE'); ?>
+                <?php echo CHtml::tag('a', array('href' => 'http://www.ensl.org/'), 'NSL'); ?>
+                <?php echo CHtml::tag('a', array('href' => 'http://steamcommunity.com/app/4920'), 'NS2 Steam community'); ?>
             </div><!-- footer -->
 
 

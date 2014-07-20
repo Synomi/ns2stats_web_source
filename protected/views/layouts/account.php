@@ -13,7 +13,7 @@
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Administation'), 'url' => array('/admin')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'My Teams'), 'url' => array('/team/admin')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'My Servers'), 'url' => array('/server/admin')),
-                array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Signature <span style="color:gold">new!</span>'), 'url' => array('/player/signature')),
+                array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Signature'), 'url' => array('/player/signature')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button-bottom', 'alt' => ''), 'My Stats'), 'url' => array('/player/player', 'id' => Yii::app()->user->id)),                
 
                 ),
@@ -27,7 +27,7 @@
                 array('label' => CHtml::tag('div', array('class' => 'menu-button-top', 'alt' => ''), 'My Account'), 'url' => array('/player/account')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'My Teams'), 'url' => array('/team/admin')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'My Servers'), 'url' => array('/server/admin')),
-                array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Signature <span style="color:gold">new!</span>'), 'url' => array('/player/signature')),
+                array('label' => CHtml::tag('div', array('class' => 'menu-button', 'alt' => ''), 'Signature'), 'url' => array('/player/signature')),
                 array('label' => CHtml::tag('div', array('class' => 'menu-button-bottom', 'alt' => ''), 'My Stats'), 'url' => array('/player/player', 'id' => Yii::app()->user->id)),
                 
                 ),

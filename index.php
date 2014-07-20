@@ -10,8 +10,10 @@ $yii = dirname(__FILE__) . '/../framework/yii.php';
 $config = dirname(__FILE__) . '/protected/config/production.php';
 
 // remove the following lines when in production mode
-
-defined('YII_DEBUG') or define('YII_DEBUG', false);
+if ($_SERVER['REMOTE_ADDR'] == '195.165.182.19')
+    defined('YII_DEBUG') or define('YII_DEBUG', true);
+else
+    defined('YII_DEBUG') or define('YII_DEBUG', false);
 // specify how many levels of call stack should be shown in each log message
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', 3);
 
