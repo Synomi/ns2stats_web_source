@@ -13,6 +13,7 @@ class Filter extends CModel
     public $team;
     public $mod;
     public $alltime;
+    public $gamemode;
 
     public function attributeNames()
     {
@@ -24,6 +25,7 @@ class Filter extends CModel
             'server' => 'Server',
             'round' => 'Round',
             'mod' => 'Mod',
+            'gamemode' => 'Gamemode',
         );
     }
 
@@ -35,6 +37,8 @@ class Filter extends CModel
             $this->private = array(0);
 //        if (!$this->build)
 //            $this->build = array(229);
+        if (!$this->gamemode)
+            $this->gamemode = 'ns2';
         if (!$this->startDate)
             $this->startDate = date('d.m.Y', strtotime('-14 days'));
         if (!$this->endDate)
@@ -61,6 +65,8 @@ class Filter extends CModel
             $this->alltime = $filters['alltime'];
         if ($filters['build'])
             $this->build = $filters['build'];
+        if ($filters['gamemode'])
+            $this->gamemode = $filters['gamemode'];
         if ($filters['startDate'])
             $this->startDate = $filters['startDate'];
         if ($filters['endDate'])
@@ -87,6 +93,7 @@ class Filter extends CModel
         Yii::app()->user->setState('filter', array(
             'alltime' => $this->alltime,
             'build' => $this->build,
+            'gamemode' => $this->gamemode,
             'startDate' => $this->startDate,
             'endDate' => $this->endDate,
             'list' => $this->list,
@@ -140,6 +147,9 @@ class Filter extends CModel
 //            if (!isset($_POST['Filter_build_all']))
                 if (isset($filterInput['build']))
                     $filter->build = $filterInput['build'];
+                if (isset($filterInput['gamemode']))
+                    $filter->gamemode = $filterInput['gamemode'];
+
 //            if (!isset($_POST['Filter_private_all']))
                 if (isset($filterInput['private']))
                     $filter->private = $filterInput['private'];
@@ -169,6 +179,12 @@ class Filter extends CModel
                         $sql .= ' AND round.build IN (' . implode(', ', $filter->build) . ') ';
                     else
                         $sql .= ' AND 1 = 2';
+
+            if (isset($filter->gamemode))
+                if (is_array($filter->gamemode))
+                    $sql .= ' AND round.gamemode LIKE "' . addcslashes($filter->gamemode) . '"';
+                else
+                    $sql .= ' AND 1 = 2';
             //Start Date
             $sql .= ' AND round.end >= ' . strtotime($filter->startDate);
             //End Date

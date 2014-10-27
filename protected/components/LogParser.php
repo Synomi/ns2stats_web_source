@@ -148,6 +148,7 @@ END;
                 $round->team_1_start = $logRow['start_location1'];
                 $round->team_2_start = $logRow['start_location2'];
                 $round->build = $logRow['version'];
+                $round->gamemode = $logRow['gamemode'];                
                 $round->log_file = $logFile;
                 break;
             }
@@ -381,7 +382,6 @@ END;
 //                    //Destroy Pickable
 //                    if ($logRow['action'] == 'pickable_ability_destroyed' || $logRow['action'] == 'pickable_item_destroyed')
 //                        $this->destroyPickable($logRow);
-
                     //End round
                     if ($logRow['action'] == 'player_list_end')
                     {
