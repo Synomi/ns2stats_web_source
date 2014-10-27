@@ -64,7 +64,7 @@ class UpdateController extends Controller {
 
     protected function startParse($roundId) {
         $round = Round::model()->findByPk($roundId);
-        $command = 'elinks "' . Yii::app()->createAbsoluteUrl('api/parselog', array('logPath' => Yii::app()->params['logDirectory'] . 'failed' . '/' . $round->log_file, 'roundId' => $round->id, 'serverId' => $round->server_id)) . '"  --config-file ' . Yii::app()->basePath . '/config/elinks.conf &> /dev/null';
+	$command = 'elinks "' . Yii::app()->createAbsoluteUrl('api/parselog', array('logPath' => Yii::app()->params['logDirectory'] . 'failed' . '/' . $round->log_file, 'roundId' => $round->id, 'serverId' => $round->server_id)) . '"  --config-file ' . Yii::app()->basePath . '/config/elinks.conf &> /dev/null';
 //        var_dump($command);
        
         exec($command);

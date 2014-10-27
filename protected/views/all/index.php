@@ -49,52 +49,7 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
     });
 
 </script>
-<!--<div style="padding:30px;">
-</div>-->
-<!--<div style="padding:30px;">
-
-    <p>There is currently issue with site, which is causing some downtime. We are looking into it.</p>
-    <?php
-//    $criteria->condition = '`default` = 1';
-//    $criteria->order = 'id desc';
-//    $criteria->limit = '3';
-//    $latestSignatures = PlayerImage::model()->findAll($criteria);
-//    foreach ($latestSignatures as $signature)
-//    {
-//        echo '<a style="padding-right:10px;" href="' . Yii::app()->params['siteurl'] . '/player/player/' . $signature->player_id . '"><img style="max-height:110px;width:auto;" src="' . Yii::app()->params['siteurl'] . '/player/getPlayerSignature/' . $signature->player_id . '" /></a>';
-//    }
-    ?>  
-</div>-->
-<!--
-<div id="featuredserverscontainer" style="clear:both;width:1200px;margin-left:auto;margin-right:auto;">
-
-    <h2 style="padding-left:40px;color:gold;"> <a href="http://www.ensl.org">ENSL</a> custom map cup, featured servers</h2>
-<?php
-/*
-  echo '<div class="featuredservers">';
-  $server = Server::model()->findByPk(2303);
-  $widget = $this->widget('Livestats', array(
-  'server' => $server,
-  ));
-  echo "</div>";
-  echo '<div class="featuredservers">';
-  $server = Server::model()->findByPk(3248);
-  $widget = $this->widget('Livestats', array(
-  'server' => $server,
-  ));
-  echo "</div>";
-  echo '<div class="featuredservers">';
-  $server = Server::model()->findByPk(552);
-  $widget = $this->widget('Livestats', array(
-  'server' => $server,
-  ));
-  echo "</div>";
- */
-?>
-
-</div>-->
-
-
+ 
 <div class="content-box">
     <?php
     echo CHtml::beginForm('', 'post', array(
@@ -114,7 +69,7 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
         ?>
     </div>
 </div>
-<?
+<?php
 $this->widget('FilterForm', array(
     'servers' => All::getServers(),
     'builds' => All::getBuilds(),

@@ -1,4 +1,5 @@
 <?php
+
 $chatMessages = All::getLatestChatMessages();
 if (isset($chatMessages) && count($chatMessages) > 0)
 {

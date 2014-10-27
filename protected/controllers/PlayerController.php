@@ -80,26 +80,28 @@ class PlayerController extends Controller
     {
 
         $player = Player::model()->findByPk($id);
-        $hidden = false;
-        if (isset(Yii::app()->user->id))
-        {
-            if ($player->id != Yii::app()->user->id && $player->hidden)
-                $hidden = true;
-        }
-        else if ($player->hidden)
-            $hidden = true;
-
-
+        
         if (isset($player))
         {
-            Highchart::load();
-            $this->render('player', array(
-                'player' => $player,
-                'hidden' => $hidden,
-            ));
+            
+            $hidden = false;
+            if (isset(Yii::app()->user->id))
+            {
+                if ($player->id != Yii::app()->user->id && $player->hidden)
+                    $hidden = true;
+            }
+            else if ($player->hidden)
+                $hidden = true;
+
+
+                Highchart::load();
+                $this->render('player', array(
+                    'player' => $player,
+                    'hidden' => $hidden,
+                ));
         }
         else
-            throw new CHttpException(404, 'Unable to fing requested player.');
+            throw new CHttpException(404, 'Unable to find requested player.');
     }
 
     public function actionLifeforms($id)

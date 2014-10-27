@@ -1,11 +1,11 @@
 <?php
 
-error_reporting(E_WARNING);
+error_reporting(E_ALL);
 ini_set('display_errors', '1');
 ini_set('memory_limit', '256M');
 
 // change the following paths if necessary
-$yii = dirname(__FILE__) . '/../framework/yii.php';
+$yii = dirname(__FILE__) . '/../../frameworks/yii-1.1.15.022a51/framework/yii.php';
 
 $config = dirname(__FILE__) . '/protected/config/production.php';
 
