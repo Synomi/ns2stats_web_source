@@ -182,7 +182,7 @@ class Filter extends CModel
 
             if (isset($filter->gamemode))
                 if (is_array($filter->gamemode))
-                    $sql .= ' AND round.gamemode LIKE "' . addcslashes($filter->gamemode) . '"';
+                    $sql .= ' AND round.gamemode LIKE "' . addslashes($filter->gamemode) . '"';
                 else
                     $sql .= ' AND 1 = 2';
             //Start Date

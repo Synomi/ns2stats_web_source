@@ -305,8 +305,10 @@ class ApiController extends Controller
 
     public function actionSendLog()
     {
+        
+       // error_log('POST data: ' . print_r($_POST,true) . ' GET data: ' . print_r($_GET,true));
         echo " "; //<< important space (prob) for lua timeout
-        if (isset($_POST['last_part']) && $_POST['last_part'] != 1)
+        if (isset($_POST['last_part']) && intval($_POST['last_part']) != 1)
             echo '{"info":"LOG_RECEIVED_OK"}';
         ob_flush();
 
@@ -331,6 +333,7 @@ class ApiController extends Controller
         $server = Server::model()->findByAttributes(array('server_key' => $_POST['key']));
 
         $server->ip = $_SERVER['REMOTE_ADDR'];
+        $server->last_updated = date('Y-m-d H:i:s');
         $server->save();
         if (!isset($server))
             throw new CHttpException(401, 'Invalid Server Key');
@@ -395,7 +398,7 @@ class ApiController extends Controller
         unset($log);
 
         //Parse log
-        if ($_POST['last_part'] == 1)
+        if (intval($_POST['last_part']) == 1)
         {
             $logDirectory = Yii::app()->params['logDirectory'] . 'failed/';
             $logPath = $logName;

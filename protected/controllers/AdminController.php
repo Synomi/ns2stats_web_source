@@ -81,6 +81,7 @@ class AdminController extends Controller
     {
         if (Yii::app()->user->isSuperAdmin())
         {
+            defined('YII_DEBUG') or define('YII_DEBUG', true);
             ini_set('memory_limit', '512M');
             $log = array();
             $logDirectory = Yii::app()->params['logDirectory'] . $directory . '/';

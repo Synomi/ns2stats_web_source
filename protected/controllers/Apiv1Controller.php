@@ -42,6 +42,7 @@ class Apiv1Controller extends Controller
             Json::printJSON(array('error' => 'Server too busy. Please try again later.'), 503);
             die();
         }
+        $this->handleRequest();
     }
 
     public function actionError()
@@ -63,14 +64,19 @@ class Apiv1Controller extends Controller
 
     private function handleRequest()
     {
-        $model = null;
+           $model = null;
         foreach ($this->models as $allowed_model)
         {
             if (strtolower(Yii::app()->controller->action->id) == strtolower($allowed_model))
                 $model = $allowed_model;
         }
 
-        if ($model == null)
+        if ($model == null && Yii::app()->controller->action->id == 'list')
+        {
+                Json::printJSON($this->models, 200);
+                return;
+        }
+        else if ($model == null)
         {
             Json::printJSON(array('error' => 'Model not found'), 404);
             return;

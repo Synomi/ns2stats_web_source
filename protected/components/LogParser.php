@@ -148,7 +148,9 @@ END;
                 $round->team_1_start = $logRow['start_location1'];
                 $round->team_2_start = $logRow['start_location2'];
                 $round->build = $logRow['version'];
-                $round->gamemode = $logRow['gamemode'];                
+                if (isset($logRow['gamemode']))
+                    $round->gamemode = $logRow['gamemode'];
+                
                 $round->log_file = $logFile;
                 break;
             }
@@ -442,6 +444,10 @@ END;
                 //Set starting lifeform
                 $playerRound->id = Yii::app()->db->getLastInsertID();
                 $this->playerRounds[$player['steamId']] = $playerRound;
+                
+                //lifeform fix 2014-11-1
+                if (!isset($player['lifeform']) && isset($player['Lifeform']))
+                    $player['lifeform'] = $player['Lifeform'];
                 $startingLifeFormData = array(
                     'steamId' => $player['steamId'],
                     'gametime' => 0,

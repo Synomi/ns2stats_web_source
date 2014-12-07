@@ -49,7 +49,9 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
     });
 
 </script>
- 
+    <div style="padding:20px;">
+        <p style="color:yellow">Due updates there is currently issue with game data we receive. We will fix it asap.</p>
+    </div>
 <div class="content-box">
     <?php
     echo CHtml::beginForm('', 'post', array(

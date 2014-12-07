@@ -3,6 +3,8 @@
 class PlayerController extends Controller
 {
 
+    public $defaultAction = 'Ns2Id';
+
     /**
      * Declares class-based actions.
      */
@@ -11,8 +13,38 @@ class PlayerController extends Controller
         
     }
 
+    /*
+     * @param $id ns2id/steam_id
+     */
+
+    public function actionNs2Id($id)
+    {
+        $player = Player::model()->findByAttributes(array('steam_id' => $id));
+
+        if (isset($player))
+        {
+            $this->redirect(array('player/player', 'id' => $player->id));
+        }
+        else
+            throw new CHttpException(404, 'Unable to find requested player.');
+    }
+
+    //default action (using config urlrules):
+    public function actionView($id)
+    {       
+       $player = Player::model()->findByAttributes(array('steam_id' => $id));
+
+        if (isset($player))
+        {
+            $this->redirect(array('player/player', 'id' => $player->id));
+        }
+        else
+            throw new CHttpException(404, 'Unable to find requested player.');
+    }
+
     public function actionIndex()
     {
+
         $player = new Player();
         $player->attributes = Yii::app()->request->getQuery('Player');
         $this->render('index', array(
@@ -80,10 +112,10 @@ class PlayerController extends Controller
     {
 
         $player = Player::model()->findByPk($id);
-        
+
         if (isset($player))
         {
-            
+
             $hidden = false;
             if (isset(Yii::app()->user->id))
             {
@@ -94,11 +126,11 @@ class PlayerController extends Controller
                 $hidden = true;
 
 
-                Highchart::load();
-                $this->render('player', array(
-                    'player' => $player,
-                    'hidden' => $hidden,
-                ));
+            Highchart::load();
+            $this->render('player', array(
+                'player' => $player,
+                'hidden' => $hidden,
+            ));
         }
         else
             throw new CHttpException(404, 'Unable to find requested player.');
