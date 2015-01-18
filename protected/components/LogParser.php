@@ -438,7 +438,10 @@ END;
                 $playerRound->round_id = $this->roundId;
                 $playerRound->team = $player['teamnumber'];
                 $playerRound->score = 0;
-                $playerRound->name = $player['name'];
+                if (!isset($player['name']))
+                    $player['name'] = 'n/a';
+                
+                $playerRound->name = $player['name'];                
                 $playerRound->start = 0;
                 $playerRound->save();
                 //Set starting lifeform

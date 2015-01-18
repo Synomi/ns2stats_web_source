@@ -8,22 +8,25 @@
 <div class="wide">
     <h1 style="font-size:24px;">Donations for NS2Stats</h1>
     <p>
-        NS2Stats is accepting donations. <br />
-        Since we did not receive enough donations to keep NS2Stats running on more powerful server we will move to less powerful server before 14th June 2014 and remove cpu/memory intensive features like live scoreboard(if must) and
-        round page maps + other unused features and stuff. Thank you for your donations!
-        If you have hidden your stats, donation wont be shown here. Also if you donate without login, your donation will be anonymous. All donations will be used for ns2stats. If you run into issues contact synomi66 at gmail.com.
+        NS2Stats has been running on good server for about half year now. And its been running without bigger issues for last few months. <br />
+        And I would like to keep it that way. So I ask you to help with the server costs. <br /><br />
+        NS2Stats is accepting donations to fund yearly server cost (38 &euro; * 12 months). <br /><br />
+        Currently funding stands at: <b>0 &euro; of 456 &euro;</b><br /><br />
+        
+        Thank you for your donations!
+        If you have hidden your stats, donation wont be shown here. Also if you donate without login, your donation will be anonymous. All donations will be used for ns2stats. If you run into issues contact synomi66@gmail.com.<br />
+        You can also directly send any donation to synomi66@gmail.com via paypal, if you want donator status, then please include your ns2id.
     </p>
 
     If you donate any amount you will:
-    <ul>        
-        <li>Not see ads anymore, ever</li>
-        <li>Motivate us to keep making ns2stats better :)</li>
+    <ul>            
+        <li>Keep the server running for sure.</li>
+        <li>Motivate us to keep making NS2Stats better.</li>
+        <li>Get donator status in profile.</li>                
     </ul>
-    If you donate at least 5 euros you will:
-    <ul>        
-        <li>Get donator status in profile for few months (at least 2)</li>        
-        <li>You might get special treatment on ns2stats enabled servers :) (Mods can see you are donator)</li>
-    </ul>
+    
+    <p>Thanks<br />
+        - Synomi (aka Sint)</p>
     <?php
     if (isset(Yii::app()->user->id))
     {
