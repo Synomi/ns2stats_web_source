@@ -1,5 +1,13 @@
 <?php
 $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
+$criteria = new CDbCriteria;
+$criteria->order = 'added desc';
+$criteria->condition = 'payment_status LIKE "Completed" AND added > "2015-01-01"';
+$criteria->limit = 1000;
+$donations = Donation::model()->findAll($criteria);
+$totalEuros = 0;
+foreach ($donations as $donation)
+    $totalEuros += ($donation->mc_gross - $donation->mc_fee);
 ?>
 <script type="text/javascript" >
     var filterpanels = new Array();
@@ -54,8 +62,8 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
     <p style="font-size: 12px;">             
         NS2Stats has been running on good server for about half year now. And its been running without bigger issues for last few months. <br />
         And I would like to keep it that way. So I ask you to help with the server costs. <br />
-        NS2Stats is accepting donations to fund yearly server cost (38 &euro; * 12 months). <br />
-        Currently funding stands at: <b>0 &euro; of 456 &euro;</b><br />
+        NS2Stats is accepting donations to fund yearly server cost (39.60 &euro; * 11 months). <br />
+        Currently funding stands at: <b><?php echo round($totalEuros,2) ?> &euro; of 435.60 &euro;</b>.<br />
         ... <a href="<?php echo Yii::app()->baseUrl ?>/site/donate">more info</a>.
     </p>
     <hr />

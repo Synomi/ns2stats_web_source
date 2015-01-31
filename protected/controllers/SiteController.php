@@ -198,7 +198,7 @@ class SiteController extends Controller
                 error_log('Donation failed to save:' . print_r($donation->getErrors(), true));
             }
 
-            if ($donation->mc_gross >= 5 && $status['custom'] != 'not_available')
+            if ($donation->mc_gross >= 0 && $status['custom'] != 'not_available')
             {
                 $player = Player::model()->findByAttributes(array('steam_id' => $status['custom']));
                 if (isset($player))
