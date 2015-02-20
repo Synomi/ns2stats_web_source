@@ -564,10 +564,10 @@ Class SignatureHelper
 
     public static function displaySignature($id)
     {
-//        header("Content-type: image/png");
-//        header("Cache-Control: private, max-age=10800, pre-check=10800");
-//        header("Pragma: private");
-//        header("Expires: " . date(DATE_RFC822, strtotime("30 minute")));
+        header("Content-type: image/png");
+        header("Cache-Control: private, max-age=10800, pre-check=10800");
+        header("Pragma: private");
+        header("Expires: " . date(DATE_RFC822, strtotime("30 minute")));
 
         $playerImage = PlayerImage::model()->findByPk($id);
         if (isset($playerImage))
