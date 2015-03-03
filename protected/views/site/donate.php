@@ -14,7 +14,7 @@ foreach ($donations as $donation)
     <p>
         NS2Stats has been running on good server for about half year now. And its been running without bigger issues for last few months. <br />
         And I would like to keep it that way. So I ask you to help with the server costs. <br /><br />
-        NS2Stats is accepting donations to fund yearly server cost (39.60 &euro; * 11 months). Server is i7-2600, 16 GB RAM and 3 TB HDD in raid. Rented from http://www.hetzner.de/.<br /><br />
+        NS2Stats is accepting donations to fund yearly server cost (39.60 &euro; * 11 months).<br /><br />
         Currently funding stands at: <b><?php echo round($totalEuros, 2) ?>&euro; of 435.60 &euro;.</b><br /><br />
 
         Thank you for your donations!
