@@ -12,16 +12,7 @@ class SiteController extends Controller
     {
         return array(
         );
-    }
-
-    /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
-     */
-    public function actionIndex()
-    {
-        
-    }
+    }   
 
     public function actionChangelog()
     {
@@ -82,6 +73,7 @@ class SiteController extends Controller
                 }
                 catch (Exception $e)
                 {
+                    error_log('steamLogin error:' . $e->getMessage());
                     $err = Yii::t('core', $e->getMessage());
                 }
             }
@@ -102,6 +94,7 @@ class SiteController extends Controller
                 }
                 catch (Exception $e)
                 {
+                      error_log('steamLogin error:' . $e->getMessage());
                     $err = Yii::t('core', $e->getMessage());
                 }
             }
@@ -115,12 +108,7 @@ class SiteController extends Controller
     {
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
-    }
-
-    public function actionLogs()
-    {
-        $this->render('logs');
-    }
+    } 
 
     public function actionLog($filename)
     {
@@ -154,62 +142,4 @@ class SiteController extends Controller
         $player->getSteamApiData();
         $player->save();
     }
-
-    public function actionDonationSuccess()
-    {
-        $this->render('donation_success');
-    }
-
-    public function actionDonationFail()
-    {
-        $this->render('donation_fail');
-    }
-
-    public function actionDonate()
-    {
-        $this->render('donate');
-    }
-
-    public function actionProcessPaypalPayment()
-    {
-        $status = Paypal::processIPNrequest();
-        error_log('(NON ERROR) IPN STATUS: ' . print_r($status, true));
-        if (isset($status) && $status['verified'])
-        {
-            $donation = new Donation();
-
-            $status['verified'] = true;
-            $donation->item_number = $status['item_number'];
-            $donation->custom = $status['custom'];
-            $donation->first_name = $status['first_name'];
-            $donation->ipn_track_id = $status['ipn_track_id'];
-            $donation->last_name = $status['last_name'];
-            $donation->mc_currency = $status['mc_currency'];
-            $donation->mc_fee = $status['mc_fee'];
-            $donation->mc_gross = $status['mc_gross'];
-            $donation->payer_email = $status['payer_email'];
-            $donation->payer_status = $status['payer_status'];
-            $donation->payment_status = $status['payment_status'];
-            $donation->receiver_email = $status['receiver_email'];
-            $donation->residence_country = $status['residence_country'];
-            $donation->txn_id = $status['txn_id'];
-            if (!$donation->save())
-            {
-                error_log('Donation failed to save:' . print_r($donation->getErrors(), true));
-            }
-
-            if ($donation->mc_gross >= 0 && $status['custom'] != 'not_available')
-            {
-                $player = Player::model()->findByAttributes(array('steam_id' => $status['custom']));
-                if (isset($player))
-                {
-                    $player->donator = 1;
-
-                    if (!$player->update())
-                        error_log('Player donator status fail: ' . print_r($player->getErrors(), true));
-                }
-            }
-        }
-    }
-
 }

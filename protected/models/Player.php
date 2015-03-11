@@ -505,7 +505,7 @@ class Player extends CActiveRecord
             LEFT JOIN player_round ON player_lifeform.player_round_id = player_round.id    
             LEFT JOIN player ON player_round.player_id = player.id
             LEFT JOIN round ON round.id = player_round.round_id
-            WHERE player.id = :id AND round.winner = player_round.team AND 
+            WHERE player_lifeform.end> player_lifeform.start AND player.id = :id AND round.winner = player_round.team AND 
             lifeform.name = :lifeform' . Filter::addFilterConditions(true) . '
             GROUP BY round.id) AS wins
             WHERE lifeformtime > 0.5 * roundtime
@@ -518,7 +518,7 @@ class Player extends CActiveRecord
             LEFT JOIN player_round ON player_lifeform.player_round_id = player_round.id    
             LEFT JOIN player ON player_round.player_id = player.id
             LEFT JOIN round ON round.id = player_round.round_id
-            WHERE player.id = :id AND round.winner != player_round.team AND 
+            WHERE player_lifeform.end> player_lifeform.start AND player.id = :id AND round.winner != player_round.team AND 
             lifeform.name = :lifeform' . Filter::addFilterConditions(true) . '
             GROUP BY round.id) AS losses
             WHERE lifeformtime > 0.5 * roundtime';

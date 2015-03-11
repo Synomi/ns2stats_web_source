@@ -142,7 +142,7 @@ class Server extends CActiveRecord {
             LEFT JOIN player_round ON round.id = player_round.round_id
             WHERE parse_status IN(0,1,3,4) AND server.id = :id ' . Filter::addFilterConditions() . '
             ORDER BY round.added DESC,round.id DESC
-            LIMIT 10';
+            LIMIT 10';        
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         $command->bindParam(':id', $id);

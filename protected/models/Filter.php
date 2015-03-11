@@ -171,20 +171,20 @@ class Filter extends CModel
                 if (is_array($filter->server))
                     $sql .= ' AND round.server_id IN (' . implode(', ', $filter->server) . ') ';
                 else
-                    $sql .= ' AND 1 = 2';
+                    $sql .= ' AND 1 = 1';
             //Build
             if ($buildFilterEnabled)
                 if (isset($filter->build))
                     if (is_array($filter->build))
                         $sql .= ' AND round.build IN (' . implode(', ', $filter->build) . ') ';
                     else
-                        $sql .= ' AND 1 = 2';
+                        $sql .= ' AND 1 = 1';
 
             if (isset($filter->gamemode))
                 if (is_array($filter->gamemode))
                     $sql .= ' AND round.gamemode LIKE "' . addslashes($filter->gamemode) . '"';
                 else
-                    $sql .= ' AND 1 = 2';
+                    $sql .= ' AND 1 = 1';
             //Start Date
             $sql .= ' AND round.end >= ' . strtotime($filter->startDate);
             //End Date
@@ -194,7 +194,7 @@ class Filter extends CModel
                 if (is_array($filter->private))
                     $sql .= ' AND round.private IN (' . implode(', ', $filter->private) . ') ';
                 else
-                    $sql .= ' AND 1 = 2';
+                    $sql .= ' AND 1 = 1';
             //Teams
 //        if ($teamFilterEnabled)
 //            if (isset($filter->team)) {
@@ -214,7 +214,7 @@ class Filter extends CModel
                     if (is_array($filter->mod))
                         $sql .= ' AND COALESCE(mod_round.mod_id, 0) IN (' . implode(', ', $filter->mod) . ') ';
                     else
-                        $sql .= ' AND 1 = 2';
+                        $sql .= ' AND 1 = 1';
             return $sql;
         }
     }

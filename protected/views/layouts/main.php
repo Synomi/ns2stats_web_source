@@ -62,10 +62,11 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
     </head>
 
     <body style="background-color: black; ">
-
+        
         <img style="overflow: hidden; position: absolute;  left: 0px; top: 0px; z-index: -10" class="left" src="<?php echo Yii::app()->baseUrl; ?>/images/left.jpg" />
 
         <div class="container" id="page">
+           
             <div class="border-relative">
                 <div class="border-absolute border-left">
                     <img src="<?php echo Yii::app()->baseUrl ?>/images/border_left.png" alt="border" />
@@ -98,12 +99,8 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                 </div>
             </div>
             <div style=" background: #0A0D17; width: 1230px; z-index: 99999999999">
-                <div id="header" style="position: relative">
-                     <div style="position: absolute;top:59px;right:82px;z-index: 9999;width: 147px;height: 27px">
-                        <a href="<?php echo Yii::app()->baseUrl ?>/site/donate">
-                            <img alt="donate" title="NS2Stats is accepting donations to fund yearly cost of server!" src="<?php echo Yii::app()->baseUrl ?>/images/donate-paypal.png"/>
-                        </a>
-                    </div>
+                
+                <div id="header" style="position: relative">                     
                     
                     <img id="header-animation" src="<?php echo Yii::app()->baseUrl ?>/images/header.gif" alt="header" />
 
@@ -131,7 +128,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                         ));
                         ?>
                     </div><!-- mainmenu -->
-                </div><!-- header -->
+                </div><!-- header -->            
             </div>
             <?php if (isset($this->breadcrumbs)): ?>
                 <?php

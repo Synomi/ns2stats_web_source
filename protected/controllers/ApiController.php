@@ -78,70 +78,70 @@ class ApiController extends Controller
         }
     }
 
-    public function actionTestSave()
-    {
-        $liveRound = new LiveRound();
-        $liveRound->server_id = 1;
-        $sDate = date("Y-m-d H:i:s");
-        $liveRound->last_updated = $sDate;
-        $liveRound->save();
-        echo "saved;";
-    }
+//    public function actionTestSave()
+//    {
+//        $liveRound = new LiveRound();
+//        $liveRound->server_id = 1;
+//        $sDate = date("Y-m-d H:i:s");
+//        $liveRound->last_updated = $sDate;
+//        $liveRound->save();
+//        echo "saved;";
+//    }
 
-    public function actionTeststatus()
-    {
-        $playerCount = 0;
-        $dir = Yii::app()->params['logDirectory'] . "status/";
-        $_POST = $this->print_r_reverse(file_get_contents($dir . "test/028b5de10bdac44ce739d067a3ca8f81-poststatus-1360171403-41610.txt"));
-        $players = json_decode($_POST['players']);
-        $server = Server::model()->findByAttributes(array('server_key' => $_POST['key']));
-        $sDate = date("Y-m-d H:i:s");
-        $server->last_updated = $sDate;
-        $server->last_state = intval($_POST['state']);
+//    public function actionTeststatus()
+//    {
+//        $playerCount = 0;
+//        $dir = Yii::app()->params['logDirectory'] . "status/";
+//        $_POST = $this->print_r_reverse(file_get_contents($dir . "test/028b5de10bdac44ce739d067a3ca8f81-poststatus-1360171403-41610.txt"));
+//        $players = json_decode($_POST['players']);
+//        $server = Server::model()->findByAttributes(array('server_key' => $_POST['key']));
+//        $sDate = date("Y-m-d H:i:s");
+//        $server->last_updated = $sDate;
+//        $server->last_state = intval($_POST['state']);
+//
+//        if (isset($_POST['map']))
+//            $map = Map::model()->findByAttributes(array('name' => trim($_POST['map'])));
+//
+//        if (isset($map))
+//            $server->last_map = $map->id;
+//        else
+//            $server->last_map = null;
+//
+//
+//        if (isset($server) && isset($players) && is_array($players))
+//        {
+//            foreach ($players as $player)
+//            {
+//                $dbplayer = Player::model()->findByAttributes(array('steam_id' => '' . $player->steamId));
+//                if (isset($dbplayer) && $player->dc == false)
+//                {
+//                    $playerCount++;
+//                    echo $dbplayer->steam_name;
+//                    echo "steam: " . $dbplayer->steam_id;
+//                    $dbplayer->last_server_id = $server->id;
+//                    $dbplayer->last_seen = $sDate;
+//                    $dbplayer->update();
+//                }
+//            }
+//        }
+//        $server->last_player_count = $playerCount;
+//        $server->gametime = intval($_POST['gametime']);
+//        $server->update();
+//    }
 
-        if (isset($_POST['map']))
-            $map = Map::model()->findByAttributes(array('name' => trim($_POST['map'])));
-
-        if (isset($map))
-            $server->last_map = $map->id;
-        else
-            $server->last_map = null;
-
-
-        if (isset($server) && isset($players) && is_array($players))
-        {
-            foreach ($players as $player)
-            {
-                $dbplayer = Player::model()->findByAttributes(array('steam_id' => '' . $player->steamId));
-                if (isset($dbplayer) && $player->dc == false)
-                {
-                    $playerCount++;
-                    echo $dbplayer->steam_name;
-                    echo "steam: " . $dbplayer->steam_id;
-                    $dbplayer->last_server_id = $server->id;
-                    $dbplayer->last_seen = $sDate;
-                    $dbplayer->update();
-                }
-            }
-        }
-        $server->last_player_count = $playerCount;
-        $server->gametime = intval($_POST['gametime']);
-        $server->update();
-    }
-
-    public function actionGetDevour()
-    {
-        $dir = Yii::app()->params['logDirectory'] . "status/devourtest.txt";
-        $data = file_get_contents($dir);
-        echo $data;
-    }
-
-    public function actionSendstatusDevour()
-    {
-        $dir = Yii::app()->params['logDirectory'] . "status/devourtest.txt";
-        file_put_contents($dir, $_POST['data']);
-        print_r($_POST);
-    }
+//    public function actionGetDevour()
+//    {
+//        $dir = Yii::app()->params['logDirectory'] . "status/devourtest.txt";
+//        $data = file_get_contents($dir);
+//        echo $data;
+//    }
+//
+//    public function actionSendstatusDevour()
+//    {
+//        $dir = Yii::app()->params['logDirectory'] . "status/devourtest.txt";
+//        file_put_contents($dir, $_POST['data']);
+//        print_r($_POST);
+//    }
 
     public function actionSendstatus()
     {
