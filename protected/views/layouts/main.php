@@ -209,6 +209,7 @@ Yii::app()->clientScript->registerMetaTag('natural,selection,ns2,player,statisti
                 <?php echo CHtml::tag('a', array('href' => 'http://hive.naturalselection2.com/'), 'HIVE'); ?>
                 <?php echo CHtml::tag('a', array('href' => 'http://www.ensl.org/'), 'NSL'); ?>
                 <?php echo CHtml::tag('a', array('href' => 'http://steamcommunity.com/app/4920'), 'NS2 Steam community'); ?>
+                <?php echo CHtml::tag('a', array('href' => 'http://steampowered.com'), 'Powered by Steam'); ?>
             </div><!-- footer -->
 
 

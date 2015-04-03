@@ -53,7 +53,9 @@ $this->pageTitle = 'NS2Stats - Statistics for Natural Selection 2 PC Game';
 
 <div class="content-box">
          <div style="padding:30px;">
-            <span style="color:orange;text-align: center;">NS2Stats has moved to a new server. Steamlogin is currently unavailable. Sorry for the inconvenience.</span>
+            <span style="color:orange;text-align: center;">Steamlogin is not working on current server due IP block (unknown reason). There is also out of memory issue which causes all rounds to fail parsing. Sorry for the inconvenience.</span>
+            <br /><span style="color:orange;text-align: center;">We are looking for new server for ns2stats. If you happen to have decent spare server available and would like to host ns2stats, we would be very interested (min requirements 8Gig ram, quad core). You can contact by mail <a href="mailto:synomi66@gmail.com">synomi66 at gmail.com</a>. </span>
+            
         </div>
     <?php
     echo CHtml::beginForm('', 'post', array(
